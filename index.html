@@ -128,7 +128,29 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-card .sheet-err{font-size:13px;font-weight:700;color:var(--amber);min-height:16px}
 #app-card .sheet-err:empty{display:none}
 #app-card .sheet-btns{display:flex;justify-content:flex-end;align-items:center;gap:14px}
-#app-card .sheet-btns .sticker{min-height:44px;font-size:17px}
+#app-card .sheet-btns .sticker{min-height:44px;font-size:17px}/* v7: 스티커 고치기 시트 (기존 시트 스타일 재사용, 아래쪽에 붙음) */
+#app-card .sheet.esheet{top:auto;bottom:14px;max-height:calc(100% - 64px);padding-bottom:12px}
+#app-card .esheet .elist{list-style:none;display:flex;flex-direction:column;gap:8px;overflow:auto;margin:2px -6px 0;padding:4px 6px 6px;min-height:0;flex:1}
+#app-card .erow{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:6px;background:var(--card);border:2px solid #cfc8b8;border-radius:14px;padding:8px 8px 2px 12px}
+#app-card .emain{display:contents}
+#app-card .emain .sticker.mini{display:inline-flex;align-items:center;grid-column:1;grid-row:1;justify-self:start;align-self:center}
+#app-card .erow > .earrows{grid-column:2;grid-row:1}
+#app-card .eline,#app-card .ehint{grid-column:1 / -1}
+#app-card .eline{display:flex;align-items:center;gap:2px 10px;flex-wrap:wrap;min-height:44px}
+#app-card .eline .txtbtn{min-height:40px;font-size:14px}
+#app-card .eline .txtbtn.sub{font-size:14px;color:var(--grey);text-decoration-thickness:1px}
+#app-card .eline .txtbtn.edel{color:var(--amber);text-decoration-color:var(--amber);font-weight:900}
+#app-card .eask{font-size:13.5px;font-weight:800;color:var(--amber)}
+#app-card .sheet .einput{font:inherit;width:auto;flex:1;min-width:0;border:2.5px solid var(--ink);border-radius:12px;background:#fff;padding:6px 10px;font-size:16px;font-weight:600;color:var(--ink);outline:none}
+#app-card .sheet .einput:focus{box-shadow:3px 3px 0 var(--ink)}
+#app-card .ehint{font-size:12.5px;color:var(--grey);font-weight:700;margin:-4px 0 6px}
+#app-card .earrows{display:flex;gap:6px}
+#app-card .arw{font:inherit;width:44px;height:44px;background:none;border:2.5px solid var(--ink);border-radius:12px;font-size:18px;font-weight:900;color:var(--ink);
+  cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+#app-card .arw:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+#app-card .arw:disabled{opacity:.25;cursor:default;box-shadow:none}
+#app-card .arw:focus-visible{outline:3px solid var(--stampblue);outline-offset:2px}
+#app-card .esheet .sheet-btns{margin-top:2px}
 
 /* ===== 말풍선 · 내 사전 (#app-bubble) ===== */
 
@@ -250,11 +272,17 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
 
   <div class="footer">
     <button class="txtbtn" id="skip">나중에 할게요</button>
-    <button class="txtbtn">스티커 고치기</button>
+    <button class="txtbtn" id="c-edit" aria-haspopup="dialog">스티커 고치기</button>
   </div>
 
   <div class="dim" id="dim"></div>
   <div class="sheet-dim" id="c-sdim"></div>
+  <section class="sheet esheet" id="c-esheet" role="dialog" aria-modal="true" aria-labelledby="c-etitle" hidden>
+    <h3 id="c-etitle">스티커 고치기</h3>
+    <p class="sheet-sub" id="c-ekind"></p>
+    <ul class="elist" id="c-elist"></ul>
+    <div class="sheet-btns"><button class="sticker" id="c-edone" style="background:var(--mint);--r:-2deg">다 했어요</button></div>
+  </section>
   <section class="sheet" id="c-sheet" role="dialog" aria-modal="true" aria-labelledby="c-stitle" hidden>
     <h3 id="c-stitle">카드결제 내역 붙이기</h3>
     <p class="sheet-sub" id="c-ssub">결제 문자를 그대로 붙여 넣어 주세요</p>
@@ -351,7 +379,7 @@ function cardHTML(c){return `
 function renderStickers(){
   if(i>=CARDS.length) return; const income=CARDS[i].amt>0, set=income?IN:OUT;
   $("pkind").textContent=income?"들어온 돈 스티커":"나간 돈 스티커";
-  $("stickers").innerHTML=set.map(([n,col,r])=>`<button class="sticker" style="background:var(${col});--r:${r}deg" data-n="${n}">${n}</button>`).join("")
+  $("stickers").innerHTML=set.map(([n,col,r])=>`<button class="sticker" style="background:var(${col});--r:${r}deg" data-n="${esc(n)}">${esc(n)}</button>`).join("")
     +`<button class="sticker new" style="--r:${income?3:-3}deg" data-n="new">+ 새 이름</button>`;
 }
 function renderGauge(){ $("gtext").textContent=`${done} / 82`; $("gfill").style.width=(done/82*100)+"%"; $("gbar").setAttribute("aria-valuenow",done); }
@@ -373,7 +401,7 @@ function stick(name,hold){
   if(busy||i>=CARDS.length) return; busy=true;
   const c=CARDS[i]; if(!name||name==="new") { busy=false; return; }
   const top=$("top"), s=top.querySelector(".stuck"); const sl=top.querySelector(".slot"); if(sl) sl.classList.add("hide");
-  s.innerHTML=`<span class="sticker mini" style="background:var(${COLOR[name]||"--yellow"})">${name}</span>`;
+  c.stuck=name; s.innerHTML=`<span class="sticker mini" style="background:var(${COLOR[name]||"--yellow"})">${esc(name)}</span>`;
   requestAnimationFrame(()=>s.classList.add("on"));
   setTimeout(()=>top.querySelector(".stamp").classList.add("on"),180);
   done+=c.count;
@@ -443,6 +471,53 @@ $("again").onclick=()=>{i=0;done=41;busy=false;$("clear").classList.remove("on")
 render();
 // 스크린샷용 훅
 window.__cardDemo=s=>{ if(s&&s.startsWith("card")){i=+s.slice(4);render();} if(s==="mid"){stick("지쿠",true);} if(s==="clear"){i=CARDS.length;done=82;render();$("stickers").innerHTML=OUT.map(([n,col,r])=>`<button class="sticker" style="background:var(${col});--r:${r}deg">${n}</button>`).join("");finish();} };
+
+// ---- v7: 스티커 고치기 시트 (이름 바꾸기 / 지우기 / 순서 바꾸기)
+function esc(v){ return String(v).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
+let ed=null; // {k, mode:"rename"|"delete", hint}
+const curSet=()=> (i<CARDS.length && CARDS[i].amt>0) ? IN : OUT;
+function renderEdit(){
+  const set=curSet();
+  $("c-ekind").textContent=(set===IN?"들어온 돈 스티커":"나간 돈 스티커")+" · "+set.length+"개";
+  $("c-elist").innerHTML=set.map(([n,col,r],k)=>{
+    let line2;
+    if(ed&&ed.k===k&&ed.mode==="rename") line2=`<div class="eline"><input class="einput" id="c-einput" type="text" maxlength="12" value="${esc(n)}" aria-label="새 이름" autocomplete="off"><button class="txtbtn sub" data-act="rcancel">취소</button><button class="txtbtn" data-act="rok">확인</button></div>${ed.hint?`<p class="ehint" aria-live="polite">${esc(ed.hint)}</p>`:""}`;
+    else if(ed&&ed.k===k&&ed.mode==="delete") line2=`<div class="eline"><span class="eask">정말 지울까요?</span><button class="txtbtn edel" data-act="dok">지우기</button><button class="txtbtn sub" data-act="dcancel">취소</button></div>`;
+    else line2=`<div class="eline"><button class="txtbtn" data-act="rename">이름 바꾸기</button><button class="txtbtn sub" data-act="delete">지우기</button></div>`;
+    return `<li class="erow" data-k="${k}"><div class="emain"><span class="sticker mini" style="background:var(${col});--r:${r}deg">${esc(n)}</span>${line2}</div>
+      <div class="earrows"><button class="arw" data-act="up" aria-label="${esc(n)} 위로" ${k===0?"disabled":""}>↑</button><button class="arw" data-act="down" aria-label="${esc(n)} 아래로" ${k===set.length-1?"disabled":""}>↓</button></div></li>`;
+  }).join("");
+  const inp=$("c-einput"); if(inp){ inp.focus(); inp.setSelectionRange(inp.value.length,inp.value.length); }
+}
+function renameSticker(set,k,v){
+  const old=set[k][0]; set[k][0]=v; COLOR[v]=COLOR[old];
+  CARDS.forEach(c=>{ if(c.stuck===old) c.stuck=v; if(c.answer===old) c.answer=v; });
+  document.querySelectorAll("#app-card .stuck .sticker").forEach(e=>{ if(e.textContent===old) e.textContent=v; });
+  document.querySelectorAll("#app-card .top3 .sticker").forEach(e=>{ const m=e.textContent.match(/^(.*) (\d+)$/); if(m&&m[1]===old) e.textContent=v+" "+m[2]; });
+}
+$("c-elist").addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]"); if(!b||b.disabled) return;
+  const k=+b.closest(".erow").dataset.k, set=curSet(), act=b.dataset.act;
+  if(act==="up"&&k>0){ [set[k-1],set[k]]=[set[k],set[k-1]]; ed=null; }
+  else if(act==="down"&&k<set.length-1){ [set[k+1],set[k]]=[set[k],set[k+1]]; ed=null; }
+  else if(act==="rename") ed={k,mode:"rename"};
+  else if(act==="delete") ed={k,mode:"delete"};
+  else if(act==="rcancel"||act==="dcancel") ed=null;
+  else if(act==="dok"){ set.splice(k,1); ed=null; }
+  else if(act==="rok"){
+    const v=$("c-einput").value.trim();
+    if(!v){ ed={k,mode:"rename",hint:"이름을 적어 주세요"}; }
+    else if(v===set[k][0]){ ed=null; }
+    else if(set.some((s,j)=>j!==k&&s[0]===v)){ ed={k,mode:"rename",hint:"이미 있는 이름이에요"}; }
+    else { renameSticker(set,k,v); ed=null; }
+  }
+  renderEdit(); renderStickers();
+});
+$("c-elist").addEventListener("keydown",e=>{ if(e.target.id==="c-einput"){ if(e.key==="Enter"){e.preventDefault(); $("c-elist").querySelector('[data-act="rok"]').click();} if(e.key==="Escape"){ ed=null; renderEdit(); } } });
+function openEdit(){ ed=null; renderEdit(); $("c-esheet").hidden=false; $("c-sdim").classList.add("on"); sheetMode="edit"; }
+function closeEdit(){ ed=null; $("c-esheet").hidden=true; $("c-sdim").classList.remove("on"); sheetMode=null; renderStickers(); }
+$("c-edit").onclick=openEdit; $("c-edone").onclick=closeEdit;
+$("c-sdim").addEventListener("click",()=>{ if(!$("c-esheet").hidden) closeEdit(); });
 })();
 </script>
 <script>
