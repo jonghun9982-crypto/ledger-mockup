@@ -115,8 +115,6 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-card .toast{pointer-events:none}/* 숨은 토스트가 스티커 탭을 가로채지 않게 */
 #app-card .clear{pointer-events:none}
 #app-card .clear.on{pointer-events:auto}/* 숨은 클리어 카드가 슬롯 탭을 가로채지 않게 */
-#app-card .slot{cursor:pointer;-webkit-tap-highlight-color:transparent}
-#app-card .slot:focus-visible{outline:3px solid var(--stampblue);outline-offset:3px}
 #app-card .sheet-dim{position:absolute;inset:0;background:rgba(244,239,227,.85);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
 #app-card .sheet-dim.on{opacity:1;pointer-events:auto}
 #app-card .sheet{position:absolute;left:22px;right:22px;top:190px;z-index:41;background:var(--card);border:3px solid var(--ink);border-radius:22px;
@@ -345,7 +343,7 @@ function cardHTML(c){return `
   <div class="kicker num"><span>통장에 찍힌 글자</span><span>${i+1} / ${CARDS.length}</span></div>
   <div class="raw upright">${c.raw}</div>
   <div class="chip upright">${c.chip}</div>
-  <div class="slot" data-paste="1" role="button" tabindex="0" aria-haspopup="dialog">카드결제 내역 붙이기</div>
+  <div class="slot">이건 뭐였더라?</div>
   <div class="amt num upright ${c.amt>0?'in':''}">${c.amt==null?'':won(c.amt)}</div>
   <div class="hints upright num">${c.when?`<span>🕘 ${c.when}</span>`:''}${c.ctx?`<span>💡 ${c.ctx}</span>`:''}</div>
   <div class="stuck"></div><div class="stamp">기억했어요</div>`}
@@ -390,10 +388,7 @@ function next(){
 }
 function finish(){ $("dim").classList.add("on"); setTimeout(()=>$("clear").classList.add("on"),50); }
 $("stickers").addEventListener("click",e=>{const b=e.target.closest(".sticker");if(!b)return; if(b.dataset.n==="new") return openSheet("name"); stick(b.dataset.n)});
-// 빈 슬롯 전체가 붙이기 버튼 (스티커가 붙은 뒤엔 열지 않음)
-const slotOpen=e=>{ const sl=e.target.closest("[data-paste]"); if(!sl||sl.classList.contains("hide")) return false; const t=$("top"); if(t&&t.querySelector(".stuck.on")) return false; openSheet("paste"); return true; };
-$("stage").addEventListener("click",slotOpen);
-$("stage").addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&e.target.closest("[data-paste]")){ e.preventDefault(); slotOpen(e); } });
+// (붙이기 시트는 openSheet("paste")로 언제든 다시 연결 가능 — 지금은 연결된 곳 없음)
 
 // ---- 결제 문자 읽기 (간단한 정규식, 못 읽은 칸은 비워 둠)
 const WD="일월화수목금토";
