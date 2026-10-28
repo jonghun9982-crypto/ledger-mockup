@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>통장 번역기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --paper:#f4efe3; --ink:#1b1b1f; --grey:#6b6a66; --card:#fffdf7;
+  --yellow:#ffd23f; --mint:#7fd8ad; --sky:#8cc4ff; --pink:#ffaed0; --lilac:#c3b2ff; --peach:#ffbd7a;
+  --green:#1f8a5b; --amber:#c98a12; --stampblue:#2f55c9;
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#d9d3c4}
+body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto Sans KR",system-ui,sans-serif;color:var(--ink);
+  -webkit-font-smoothing:antialiased;word-break:keep-all}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.phone{width:390px;height:844px;margin:0 auto;background:var(--paper);position:relative;overflow:hidden;
+  padding:54px 20px 24px;display:flex;flex-direction:column}
+
+/* header */
+header{display:flex;flex-direction:column;gap:10px}
+.titlerow{display:flex;align-items:center;justify-content:space-between}
+h1{font-size:28px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+h1 .badge{font-size:13px;font-weight:800;background:var(--yellow);border:2.5px solid var(--ink);border-radius:8px;padding:2px 8px;
+  box-shadow:2px 2px 0 var(--ink);transform:rotate(-4deg);display:inline-block}
+.month{font-size:14px;font-weight:700;color:var(--grey)}
+.gauge-label{display:flex;justify-content:space-between;font-size:15px;font-weight:700}
+.gauge-label b{font-size:17px;font-weight:900}
+.gauge{height:18px;border:2.5px solid var(--ink);border-radius:10px;background:var(--card);overflow:hidden;box-shadow:3px 3px 0 var(--ink)}
+.gauge i{display:block;height:100%;width:50%;background:var(--mint);border-right:2.5px solid var(--ink);transition:width .5s var(--spring)}
+
+/* stack */
+.stage{position:relative;height:318px;margin:26px 4px 0}
+.card{position:absolute;inset:0;background:var(--card);border:3px solid var(--ink);border-radius:22px;
+  box-shadow:5px 6px 0 var(--ink);padding:20px 20px 18px;display:flex;flex-direction:column;
+  transition:transform .45s var(--spring),opacity .35s}
+.card.back1{transform:rotate(3deg) translate(6px,10px);background:#fff4cf}
+.card.back2{transform:rotate(-4deg) translate(-6px,18px);background:#e3f2ff}
+.card.back3{transform:rotate(2deg) translate(4px,26px);background:#ffe6f1}
+.card.top{transform:rotate(-2deg);z-index:5}
+.card.back1{z-index:4}.card.back2{z-index:3}.card.back3{z-index:2}
+.card.back1 *, .card.back2 *, .card.back3 *{visibility:hidden}
+.card.fly{transform:translate(460px,-80px) rotate(24deg)!important;opacity:0;transition:transform .55s ease-in,opacity .5s ease-in}
+.upright{transform:rotate(2deg);transform-origin:left center} /* counter-rotate top card */
+.kicker{font-size:13px;font-weight:700;color:var(--grey);display:flex;justify-content:space-between}
+.raw{font-size:31px;font-weight:900;line-height:1.2;letter-spacing:-.5px;margin-top:10px}
+.chip{align-self:flex-start;margin-top:10px;font-size:13px;font-weight:700;background:#efeae0;border:2px dashed #8a877f;color:#45443f;
+  border-radius:999px;padding:5px 11px;line-height:1.3}
+.chip:empty{display:none}
+.amt{font-size:30px;font-weight:900;margin-top:auto}
+.amt.in{color:var(--green)}
+.hints{display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--grey);font-weight:600;margin-top:6px}
+.slot{margin:14px 0 4px;align-self:stretch;flex:1;min-height:56px;border:2.5px dashed #c9c3b5;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#9b978d}
+.stuck.on ~ .slot, .slot.hide{visibility:hidden}
+
+/* stuck sticker + stamp */
+.stuck{position:absolute;right:14px;bottom:62px;transform:rotate(8deg) scale(0);transition:transform .35s var(--spring);z-index:3}
+.stuck.on{transform:rotate(8deg) scale(1)}
+.stamp{position:absolute;left:50%;top:44%;z-index:4;pointer-events:none;
+  border:4px solid var(--stampblue);color:var(--stampblue);border-radius:12px;padding:6px 14px;font-size:24px;font-weight:900;
+  letter-spacing:2px;background:rgba(255,253,247,.0);transform:translate(-50%,-50%) rotate(-12deg) scale(2.2);opacity:0;
+  box-shadow:inset 0 0 0 2px var(--card), inset 0 0 0 4px var(--stampblue);white-space:nowrap}
+.stamp.on{animation:stamp .4s var(--spring) forwards}
+@keyframes stamp{to{opacity:.92;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
+
+/* toast */
+.toast{position:absolute;left:50%;top:690px;z-index:20;transform:translate(-50%,-20px) rotate(-3deg);opacity:0;
+  background:var(--ink);color:#fff;border:3px solid var(--ink);border-radius:14px;padding:9px 16px;font-size:17px;font-weight:900;
+  box-shadow:4px 4px 0 var(--yellow);white-space:nowrap;transition:transform .35s var(--spring),opacity .25s}
+.toast.on{opacity:1;transform:translate(-50%,0) rotate(-3deg)}
+.toast em{font-style:normal;color:var(--yellow)}
+
+/* stickers */
+.prompt{margin:34px 2px 4px;font-size:15px;font-weight:800;display:flex;justify-content:space-between;align-items:baseline}
+.prompt span{font-size:12.5px;color:var(--grey);font-weight:600}
+.stickers{display:flex;flex-wrap:wrap;gap:14px 12px;justify-content:center;padding:12px 2px 0}
+.sticker{font:inherit;min-height:48px;min-width:72px;padding:0 18px;border:3px solid var(--ink);border-radius:16px;
+  font-size:18px;font-weight:900;color:var(--ink);box-shadow:3px 4px 0 var(--ink);cursor:pointer;
+  transform:rotate(var(--r,0deg));transition:transform .15s,box-shadow .15s}
+.sticker:active{transform:rotate(var(--r,0deg)) translate(3px,4px);box-shadow:0 0 0 var(--ink)}
+.sticker:focus-visible{outline:3px solid var(--stampblue);outline-offset:3px}
+.sticker.new{background:var(--card);border-style:dashed;font-size:16px}
+.sticker.mini{min-height:40px;min-width:0;font-size:17px;padding:0 14px;pointer-events:none}
+
+.footer{margin-top:auto;display:flex;justify-content:center;gap:22px}
+.txtbtn{font:inherit;background:none;border:0;font-size:14.5px;font-weight:700;color:var(--grey);text-decoration:underline;
+  text-underline-offset:4px;min-height:44px;padding:0 6px;cursor:pointer}
+
+/* clear card */
+.clear{position:absolute;left:24px;right:24px;top:236px;z-index:30;background:var(--card);border:3px solid var(--ink);border-radius:24px;
+  box-shadow:6px 7px 0 var(--ink);padding:26px 22px 22px;transform:perspective(900px) rotateY(90deg) rotate(-2deg);opacity:0;
+  transition:transform .7s var(--spring),opacity .2s}
+.clear.on{transform:perspective(900px) rotateY(0) rotate(-2deg);opacity:1}
+.clear h2{font-size:24px;font-weight:900}
+.clear .sub{font-size:14px;color:var(--grey);font-weight:600;margin-top:4px}
+.clear .bigstamp{position:absolute;right:-12px;top:-58px;border:4px solid var(--stampblue);color:var(--stampblue);background:var(--card);
+  border-radius:50%;width:104px;height:104px;display:flex;align-items:center;justify-content:center;text-align:center;
+  font-weight:900;font-size:20px;line-height:1.1;transform:rotate(14deg);box-shadow:inset 0 0 0 3px var(--card),inset 0 0 0 5px var(--stampblue)}
+.rows{margin-top:18px;display:flex;flex-direction:column;gap:9px;font-size:16px;font-weight:700}
+.rows div{display:flex;justify-content:space-between}
+.rows .in{color:var(--green)}
+.match{margin-top:16px;border-top:2.5px dashed var(--ink);padding-top:14px;font-size:18px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.match .ok{background:var(--mint);border:2.5px solid var(--ink);border-radius:10px;padding:3px 10px;box-shadow:2px 2px 0 var(--ink)}
+.top3{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.dim{position:absolute;inset:0;background:rgba(244,239,227,.85);z-index:25;opacity:0;pointer-events:none;transition:opacity .3s}
+.dim.on{opacity:1;pointer-events:auto}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  .card.fly{transform:none!important;opacity:0}
+  .clear{transform:rotate(-2deg)}
+}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <header>
+    <div class="titlerow">
+      <h1>통장 번역기 <span class="badge">게임</span></h1>
+      <span class="month">2026년 8월</span>
+    </div>
+    <div class="gauge-label"><span>이번 달 해독</span><b class="num" id="gtext">41 / 82</b></div>
+    <div class="gauge" role="progressbar" aria-valuemin="0" aria-valuemax="82" aria-valuenow="41" id="gbar"><i id="gfill"></i></div>
+  </header>
+
+  <div class="stage" id="stage" aria-live="polite"></div>
+  <div class="toast" id="toast"></div>
+
+  <div class="prompt"><span style="font-size:15px;color:var(--ink);font-weight:800" id="ptext">이건 뭐였죠? 스티커를 붙여주세요</span><span id="pkind">지출 스티커</span></div>
+  <div class="stickers" id="stickers"></div>
+
+  <div class="footer">
+    <button class="txtbtn" id="skip">나중에 할게요</button>
+    <button class="txtbtn">스티커 고치기</button>
+  </div>
+
+  <div class="dim" id="dim"></div>
+  <section class="clear" id="clear" aria-live="polite">
+    <div class="bigstamp">8월<br>클리어</div>
+    <h2>8월 통장, 다 읽었어요</h2>
+    <p class="sub">82장 모두 내 말로 바꿨어요</p>
+    <div class="rows num">
+      <div><span>들어온 돈</span><span class="in">+2,184,320원</span></div>
+      <div><span>나간 돈</span><span>−1,476,900원</span></div>
+    </div>
+    <div class="match"><span>통장 잔액과 일치 ✓</span><span class="ok num">707,420원</span></div>
+    <div class="top3">
+      <span class="sticker mini" style="background:var(--yellow);--r:-4deg">지쿠 12</span>
+      <span class="sticker mini" style="background:var(--lilac);--r:3deg">버카충 9</span>
+      <span class="sticker mini" style="background:var(--mint);--r:-2deg">간식 7</span>
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:14px"><button class="txtbtn" id="again">처음부터 다시 보기</button></div>
+  </section>
+</div>
+
+<script>
+// 예시 데이터 (실제 거래 아님)
+const CARDS=[
+ {raw:"주식회사 지바이",short:"지바이",when:"8/25 (월) 21:14",amt:-2040,ctx:"같은 날: 편의점 4,500원 뒤",chip:"",count:12,answer:"지쿠"},
+ {raw:"이스턴웰스자판기",short:"자판기",when:"8/26 (화) 15:02",amt:-1500,ctx:"평일 오후에 자주 나와요",chip:"",count:7,answer:"간식"},
+ {raw:"타행대량",short:"타행대량",when:"8/25 (월) 09:30",amt:2010000,ctx:"매달 25일 즈음 들어와요",chip:"통로: 여러 명에게 한꺼번에 보낸 돈(급여 등)",count:1,answer:"월급"},
+ {raw:"토스페이먼츠",short:"토스페이먼츠",when:"8/23 (토) 23:48",amt:-5000,ctx:"밤 시간대, 1~2시간 간격으로 반복",chip:"통로: 결제대행사",count:6,answer:"피시방"},
+ {raw:"예금결산",short:"예금결산",when:"8/31 (일) 00:05",amt:320,ctx:"분기 말에 한 번씩",chip:"",count:1,answer:"통장 이자"},
+ {raw:"오픈뱅킹 내통장결제",short:"내통장결제",when:"8/28 (목) 08:11",amt:-10000,ctx:"같은 날: 지하철 승차 직전",chip:"통로: 다른 앱이 끌어간 돈",count:9,answer:"버카충"},
+ {raw:"CMS 공동",short:"CMS",when:"8/20 (수) 06:00",amt:-48900,ctx:"매달 20일 같은 금액",chip:"통로: 자동출금",count:1,answer:"대출이자"},
+ {raw:"국고이체",short:"국고이체",when:"8/29 (금) 14:20",amt:174000,ctx:"올해 처음 보는 이름이에요",chip:"",count:4,answer:"정부 지원금"},
+];
+const OUT=[["지쿠","--yellow",-5],["피시방","--sky",4],["담배","--peach",-2],["간식","--mint",6],["버카충","--lilac",-4],["대출이자","--pink",3]];
+const IN=[["월급","--mint",-4],["통장 이자","--yellow",5],["정부 지원금","--sky",-3],["용돈","--pink",4],["환불","--lilac",-6]];
+const COLOR=Object.fromEntries([...OUT,...IN].map(s=>[s[0],s[1]]));
+let i=0, done=41, busy=false;
+const $=id=>document.getElementById(id);
+const won=n=>(n<0?"−":"+")+Math.abs(n).toLocaleString("ko-KR")+"원";
+
+function cardHTML(c){return `
+  <div class="kicker num"><span>통장에 찍힌 글자</span><span>${i+1} / ${CARDS.length}</span></div>
+  <div class="raw upright">${c.raw}</div>
+  <div class="chip upright">${c.chip}</div>
+  <div class="slot">여기에 내 말 스티커가 붙어요</div>
+  <div class="amt num upright ${c.amt>0?'in':''}">${won(c.amt)}</div>
+  <div class="hints upright num"><span>🕘 ${c.when}</span><span>💡 ${c.ctx}</span></div>
+  <div class="stuck"></div><div class="stamp">기억했어요</div>`}
+
+function render(){
+  const st=$("stage"); st.innerHTML="";
+  const left=CARDS.length-i;
+  ["back3","back2","back1"].forEach((cls,k)=>{ if(left>3-k){const d=document.createElement("div");d.className="card "+cls;st.appendChild(d);} });
+  if(i<CARDS.length){
+    const c=CARDS[i]; const d=document.createElement("div"); d.className="card top"+(c.chip?" has-chip":""); d.id="top"; d.innerHTML=cardHTML(c); st.appendChild(d);
+    const income=c.amt>0, set=income?IN:OUT;
+    $("pkind").textContent=income?"들어온 돈 스티커":"나간 돈 스티커";
+    $("stickers").innerHTML=set.map(([n,col,r])=>`<button class="sticker" style="background:var(${col});--r:${r}deg" data-n="${n}">${n}</button>`).join("")
+      +`<button class="sticker new" style="--r:${income?3:-3}deg" data-n="new">+ 새 이름</button>`;
+  }
+  $("gtext").textContent=`${done} / 82`; $("gfill").style.width=(done/82*100)+"%"; $("gbar").setAttribute("aria-valuenow",done);
+}
+function stick(name,hold){
+  if(busy||i>=CARDS.length) return; busy=true;
+  const c=CARDS[i]; if(name==="new") name=c.answer; // 목업: 새 이름 = 예시 답
+  const top=$("top"), s=top.querySelector(".stuck"); const sl=top.querySelector(".slot"); if(sl) sl.classList.add("hide");
+  s.innerHTML=`<span class="sticker mini" style="background:var(${COLOR[name]||"--yellow"})">${name}</span>`;
+  requestAnimationFrame(()=>s.classList.add("on"));
+  setTimeout(()=>top.querySelector(".stamp").classList.add("on"),180);
+  done+=c.count;
+  $("toast").innerHTML=`${c.short} <em class="num">${c.count}장</em> 정리!`;
+  setTimeout(()=>{$("toast").classList.add("on");$("gtext").textContent=`${done} / 82`;$("gfill").style.width=(done/82*100)+"%";},300);
+  if(hold) return;
+  setTimeout(next,1300);
+}
+function next(){
+  $("toast").classList.remove("on"); $("top").classList.add("fly");
+  setTimeout(()=>{i++;busy=false;render();if(i>=CARDS.length)finish();},450);
+}
+function finish(){ $("dim").classList.add("on"); setTimeout(()=>$("clear").classList.add("on"),50); }
+$("stickers").addEventListener("click",e=>{const b=e.target.closest(".sticker");if(b)stick(b.dataset.n)});
+$("skip").onclick=()=>{ if(!busy){CARDS.push(CARDS.splice(i,1)[0]);render();} };
+$("again").onclick=()=>{i=0;done=41;busy=false;$("clear").classList.remove("on");$("dim").classList.remove("on");render();};
+render();
+// 스크린샷용 훅
+window.__demo=s=>{ if(s&&s.startsWith("card")){i=+s.slice(4);render();} if(s==="mid"){stick("지쿠",true);} if(s==="clear"){i=CARDS.length;done=82;render();$("stickers").innerHTML=OUT.map(([n,col,r])=>`<button class="sticker" style="background:var(${col});--r:${r}deg">${n}</button>`).join("");finish();} };
+</script>
+<a href="bubble.html" style="position:fixed;top:10px;right:10px;z-index:9999;font:600 12px/1 Pretendard,system-ui,sans-serif;padding:7px 11px;border-radius:999px;background:rgba(0,0,0,.65);color:#fff;text-decoration:none">말풍선 시안 보기 →</a>
+</body>
+</html>
