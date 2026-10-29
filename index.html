@@ -432,7 +432,28 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-bubble .pno{font-size:14px;font-weight:900;background:var(--card);border:2.5px solid var(--ink);border-radius:999px;padding:4px 14px;box-shadow:2px 2px 0 var(--ink);transform:rotate(-1.5deg)}
 @media (prefers-reduced-motion: reduce){
 #app-bubble .leaf.go,#app-bubble .cast.go,#app-bubble .leaf.go .face::after{animation:none}
-#app-bubble .pbtn{transition:none}}
+#app-bubble .pbtn{transition:none}}/* v19: 단어 고치기 시트 · 지우기 확인 */
+#app-bubble .dsheet .dnow{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:700;color:var(--grey);margin:2px 0 2px}
+#app-bubble .dsheet .dnow .stk{font-size:15px;color:var(--ink);overflow-wrap:anywhere}
+#app-bubble .dsheet .dadd{border-top:2px dashed #d6d0c2;padding-top:10px}
+#app-bubble .dpick-t{font-size:12.5px;font-weight:800;color:var(--grey);margin-top:2px}
+#app-bubble .dpick-t[hidden]{display:none}
+#app-bubble .dpick{display:flex;flex-wrap:wrap;gap:8px 10px;padding:2px 0 6px}
+#app-bubble .dchip{font:inherit;min-height:44px;padding:0 16px;font-size:15px;font-weight:900;color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;box-shadow:2px 2px 0 var(--ink);
+  transform:rotate(var(--r,0deg));cursor:pointer;-webkit-tap-highlight-color:transparent;max-width:100%;overflow-wrap:anywhere}
+#app-bubble .dchip[aria-pressed="true"]{outline:3px solid var(--amber);outline-offset:3px}
+#app-bubble .dchip:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+#app-bubble .dsheet .pbtns .txtbtn{min-height:44px}
+#app-bubble .book .w .dask{display:flex;flex-direction:column;padding-top:8px}
+#app-bubble .book .w .dask .eask{font-size:13.5px;font-weight:900;color:var(--amber)}
+#app-bubble .book .w .dask .dbtns{display:flex;gap:16px}
+#app-bubble .book .w .dask .txtbtn{min-height:44px;font-size:14px;padding:0 2px}
+#app-bubble .book .w .dask .edel{color:var(--amber);text-decoration-color:var(--amber);font-weight:900}
+#app-bubble .book .w.open.asking{border-color:var(--amber);box-shadow:3px 3px 0 var(--amber)}
+#app-bubble .book .w.just .stk{animation:wjust .55s var(--spring)}
+@keyframes wjust{0%{transform:rotate(var(--r)) scale(.6)}60%{transform:rotate(var(--r)) scale(1.15)}100%{transform:rotate(var(--r)) scale(1)}}
+@media (prefers-reduced-motion: reduce){
+#app-bubble .book .w.just .stk{animation:none}}
 
 
 /* ===== 앱 하단 탭 바 (통합용으로 추가) ===== */
@@ -553,6 +574,16 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
 </div>
 
 
+<section class="psheet dsheet" id="b-dsheet" role="dialog" aria-modal="true" aria-labelledby="b-dtitle" hidden>
+  <h3 id="b-dtitle">단어 고치기</h3>
+  <p class="psub" id="b-dsub"></p>
+  <div class="dnow"><span>지금 단어</span><span class="stk" id="b-dnow"></span></div>
+  <div class="wadd dadd"><input class="wnew" id="b-dword" type="text" maxlength="12" placeholder="새 단어 (예: 커피)" autocomplete="off" enterkeyhint="done" aria-label="새 단어"></div>
+  <p class="perr" id="b-derr" aria-live="polite"></p>
+  <p class="dpick-t" id="b-dpickt">내 버튼에서 고르기</p>
+  <div class="dpick" id="b-dpick"></div>
+  <div class="pbtns"><button class="txtbtn sub" id="b-dcancel">취소</button><span class="pgap"></span><button class="cbtn yes" id="b-dsave" style="--r:-2deg">바꾸기</button></div>
+</section>
 <div class="psdim" id="b-pdim"></div>
 <section class="psheet" id="b-psheet" role="dialog" aria-modal="true" aria-labelledby="b-ptitle" hidden>
   <h3 id="b-ptitle">결제 내역 붙이기</h3>
@@ -835,11 +866,11 @@ const DICT={
   {raw:"국고이체",word:"정부 지원금",n:1,bg:"var(--pink)",r:-2},
  ]};
 function wordHTML(w,i,k){
-  return `<li class="w ${w.fixed?'fixed':''} ${w.open?'open':''}" data-k="${k}:${i}" role="button" tabindex="0" aria-expanded="${!!w.open}">
+  return `<li class="w ${w.fixed?'fixed':''} ${w.open?'open':''} ${w.ask?'asking':''} ${w.just?'just':''}" data-k="${k}:${i}" role="button" tabindex="0" aria-expanded="${!!w.open}">
    <div class="row"><div class="raw">${esc(w.raw)}</div>
    <div class="lead"><i aria-hidden="true"></i><span class="stk" style="--r:${w.r}deg;background:${w.bg}">${esc(w.word)}</span></div>
-   <div class="meta num"><span class="cnt">${esc(w.n)}번 맞힘</span>${w.chip?`<span class="chip">${esc(w.chip)}</span>`:''}${w.fixed?`<span class="badge">아니에요로 고친 단어</span>`:''}</div></div>
-   <div class="more">${w.fixed?`<p>${esc(w.fixed)}</p>`:''}<button class="txtbtn">단어 고치기</button><button class="txtbtn sub">지우기</button></div></li>`;
+   <div class="meta num"><span class="cnt">${esc(w.n)}번 맞힘</span>${w.chip?`<span class="chip">${esc(w.chip)}</span>`:''}${w.fixed?`<span class="badge">${w.how==="edit"?"직접 고친 단어":"아니에요로 고친 단어"}</span>`:''}</div></div>
+   <div class="more">${w.fixed?`<p>${esc(w.fixed)}</p>`:''}${w.ask?`<div class="dask" role="group" aria-label="지우기 확인"><span class="eask">정말 지울까요?</span><div class="dbtns"><button class="txtbtn edel" data-dact="dok">지우기</button><button class="txtbtn sub" data-dact="dno">취소</button></div></div>`:`<button class="txtbtn" data-dact="edit" aria-haspopup="dialog">단어 고치기</button><button class="txtbtn sub" data-dact="del">지우기</button>`}</div></li>`;
 }
 let dictOpen=true; // v17: 책은 스크롤로 훑어보므로 전부 보여 줌 (더 보기 버튼 없앰)
 function renderDict(){
@@ -1242,6 +1273,56 @@ function commitGroup(together){
     if((ev.key==="Enter"||ev.key===" ")&&ev.target.classList&&ev.target.classList.contains("w")){ ev.preventDefault(); ev.target.click(); }
     else if(ev.key==="ArrowRight"&&!/INPUT|TEXTAREA/.test(ev.target.tagName)) go(SP+1);
     else if(ev.key==="ArrowLeft"&&!/INPUT|TEXTAREA/.test(ev.target.tagName)) go(SP-1);
+  });
+}
+// ---- v19: 쪽지 안 「단어 고치기」 · 「지우기」
+{
+  let dt=null; // {k,w}
+  const sheet=$("b-dsheet"), inp=$("b-dword");
+  const findK=key=>{ const [k,i]=String(key).split(":"); const w=DICT[k]&&DICT[k][+i]; return w?{k,i:+i,w}:null; };
+  function pickHTML(){
+    const words=MYW.filter(([n])=>n!==dt.w.word);
+    $("b-dpickt").hidden=!words.length;
+    $("b-dpick").innerHTML=words.map(([n,col,r])=>`<button class="dchip" type="button" data-w="${esc(n)}" aria-pressed="${inp.value.trim()===n}" style="background:${col};--r:${r}deg">${esc(n)}</button>`).join("");
+  }
+  function openD(t){
+    dt=t; $("b-dsub").textContent=`${t.w.raw}에서 쓴 돈을 뭐라고 부를까요?`;
+    const now=$("b-dnow"); now.textContent=t.w.word; now.style.background=t.w.bg; now.style.setProperty("--r",t.w.r+"deg");
+    inp.value=t.w.word; $("b-derr").textContent=""; pickHTML();
+    sheet.hidden=false; $("b-pdim").classList.add("on"); setKB3(); inp.focus(); inp.setSelectionRange(inp.value.length,inp.value.length);
+  }
+  function closeD(){ dt=null; sheet.hidden=true; $("b-pdim").classList.remove("on"); inp.blur(); }
+  function saveD(){
+    if(!dt) return; const v=inp.value.trim(), w=dt.w;
+    if(!v){ $("b-derr").textContent="단어를 적어 주세요"; inp.focus(); return; }
+    if(v!==w.word){
+      const old=w.word, my=MYW.find(x=>x[0]===v);
+      w.fixed=`처음엔 ${old}${hasJong(old)?"이었는데":"였는데"} 직접 고쳐서 ${v}${hasJong(v)?"이":"가"} 됐어요.`; w.how="edit"; w.word=v;
+      if(my) w.bg=my[1];
+      w.just=true; setTimeout(()=>{ w.just=false; },700);
+    }
+    w.open=true; closeD(); renderDict();
+  }
+  $("b-dsave").onclick=saveD; $("b-dcancel").onclick=closeD;
+  inp.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); saveD(); } if(e.key==="Escape") closeD(); });
+  inp.addEventListener("input",()=>{ $("b-derr").textContent=""; $("b-dpick").querySelectorAll(".dchip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.w===inp.value.trim())); });
+  $("b-dpick").addEventListener("click",e=>{ const b=e.target.closest(".dchip"); if(!b) return; inp.value=b.dataset.w; $("b-derr").textContent=""; pickHTML(); });
+  $("b-pdim").addEventListener("click",()=>{ if(!sheet.hidden) closeD(); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!sheet.hidden&&e.target!==inp) closeD(); });
+  function setKB3(){ const vv=window.visualViewport; const kb=vv?Math.max(0,window.innerHeight-vv.height-vv.offsetTop):0; sheet.style.setProperty("--kb",kb+"px"); }
+  if(window.visualViewport){ visualViewport.addEventListener("resize",setKB3); visualViewport.addEventListener("scroll",setKB3); }
+  $("d-spread").addEventListener("click",ev=>{
+    const b=ev.target.closest("[data-dact]"); if(!b) return; ev.stopPropagation();
+    const t=findK(b.closest(".w").dataset.k); if(!t) return; const act=b.dataset.dact;
+    if(act==="edit") return openD(t);
+    if(act==="del"){ DICT.shop.concat(DICT.bank).forEach(x=>x.ask=false); t.w.ask=true; }
+    else if(act==="dno") t.w.ask=false;
+    else if(act==="dok"){
+      DICT[t.k].splice(t.i,1);
+      if(cur&&cur.known&&cur.known.w===t.w&&!cur.done){ cur.known=null; cur.step="ask"; cur.note=""; } // 말풍선에서 기다리던 질문도 처음 보는 가게로
+    }
+    renderDict();
+    if(act!=="dok"){ const o=document.querySelector(`#d-spread .page:not(.face) .w[data-k="${t.k}:${t.i}"] [data-dact]`); if(o) o.focus(); }
   });
 }
 })();
