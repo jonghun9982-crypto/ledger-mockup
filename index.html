@@ -427,13 +427,13 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
 
   <!-- 내 사전: 아래 숫자(단어 24개, 87%, n번 맞힘)는 전부 목업용 예시 숫자이며 실제 데이터 아님 -->
   <section class="view" id="v-dict" hidden>
-    <p class="dict-fact num">단어 <b>24개</b> · 이번 달 자동으로 맞힌 비율 <b>87%</b></p>
+    <p class="dict-fact num">단어 <b id="d-total">24개</b> · 이번 달 자동으로 맞힌 비율 <b>87%</b></p>
     <div class="dict-scroll">
-      <div class="sec"><span>가게</span><small class="num">3개</small></div>
+      <div class="sec"><span>가게</span><small class="num" id="d-nshop">3개</small></div>
       <ul class="words" id="d-shop"></ul>
-      <div class="sec"><span>은행 말</span><small class="num">6개</small></div>
+      <div class="sec"><span>은행 말</span><small class="num" id="d-nbank">6개</small></div>
       <ul class="words" id="d-bank"></ul>
-      <button class="txtbtn sub num" style="margin-top:2px;min-height:34px">단어 15개 더 보기</button>
+      <button class="txtbtn sub num" id="d-more" aria-expanded="false" style="margin:-3px 0 -5px;min-height:44px">단어 15개 더 보기</button>
     </div>
   </section>
 
@@ -727,12 +727,27 @@ function wordHTML(w,i,k){
    <span class="stk" style="--r:${w.r}deg;background:${w.bg}">${esc(w.word)}</span><span class="cnt num">${w.n}번 맞힘</span></div>
    <div class="more">${w.fixed?`<p>${esc(w.fixed)}</p>`:''}<button class="txtbtn">단어 고치기</button><button class="txtbtn sub">지우기</button></div></li>`;
 }
+let dictOpen=false; // v16: 「단어 n개 더 보기」로 펼친 상태
 function renderDict(){
-  $("d-shop").innerHTML=DICT.shop.map((w,i)=>wordHTML(w,i,"shop")).join("");
-  $("d-bank").innerHTML=DICT.bank.map((w,i)=>wordHTML(w,i,"bank")).join("");
+  const show=w=>dictOpen||!w.more;
+  const list=k=>DICT[k].map((w,i)=>show(w)?wordHTML(w,i,k):"").join("");
+  $("d-shop").innerHTML=list("shop"); $("d-bank").innerHTML=list("bank");
+  $("d-nshop").textContent=DICT.shop.filter(show).length+"개"; $("d-nbank").textContent=DICT.bank.filter(show).length+"개";
+  $("d-total").textContent=(DICT.shop.length+DICT.bank.length)+"개";
+  const hidden=DICT.shop.concat(DICT.bank).filter(w=>w.more).length, mb=$("d-more");
+  mb.hidden=!hidden; mb.textContent=dictOpen?"접기":`단어 ${hidden}개 더 보기`; mb.setAttribute("aria-expanded",dictOpen);
 }
 $("v-dict").addEventListener("click",ev=>{if(ev.target.closest(".txtbtn"))return;const li=ev.target.closest(".w");if(!li)return;const [k,i]=li.dataset.k.split(":");DICT[k][+i].open=!DICT[k][+i].open;renderDict();});
 DICT.shop[1].open=true;
+// v16: 펼치면 보이는 단어 15개 (예시 데이터, 숫자는 목업용)
+const PAL=["var(--peach)","var(--yellow)","var(--sky)","var(--mint)","var(--lilac)","var(--pink)"];
+[["메가MGC커피 선릉역점","커피",7],["맘스터치 역삼역점","밥",4],["카카오모빌리티","택시",6],["쿠팡이츠","배달",5],["세븐일레븐 선릉점","간식",3],
+ ["코인노래연습장","노래방",2],["올댓메디약국","약",1],["NETFLIX.COM","넷플릭스",1],["티머니 교통","교통비",8]]
+ .forEach(([raw,word,n],i)=>DICT.shop.push({raw,word,n,bg:PAL[(i+3)%6],r:[-3,2,-2,3][i%4],more:true}));
+[["카카오페이 충전","페이 충전",3,"다른 앱이 끌어간 돈"],["SKT 통신요금","휴대폰 요금",1,"자동출금"],["삼성화재 보험료","보험료",1,"자동출금"],
+ ["ATM 출금","현금 뽑음",2],["타행이체 엄마","용돈",2],["아파트관리비","관리비",1,"자동출금"]]
+ .forEach(([raw,word,n,chip],i)=>DICT.bank.push({raw,word,n,chip,bg:PAL[(i+1)%6],r:[2,-3,3,-2][i%4],more:true}));
+$("d-more").onclick=()=>{ const sc=document.querySelector("#v-dict .dict-scroll"), y=sc.scrollTop; dictOpen=!dictOpen; renderDict(); if(!dictOpen) sc.scrollTop=Math.min(y,sc.scrollHeight); };
 function setMode(m){
   mode=m; if(window.__onBubbleMode) window.__onBubbleMode(m);
   document.querySelectorAll(".demo .txtbtn").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));
@@ -841,7 +856,7 @@ function commitPaste(word){
     else if(p.known){ const w=p.known.w; w.fixed=`처음엔 ${w.word}였는데 아니에요로 고쳐서 ${word}${hasJong(word)?"이":"가"} 됐어요.`; w.word=word; w.n=1;
       msg=`알겠어요! ${esc(word)}${ro(word)} 고쳐서<br>내 사전에 적어 둘게요`; }
     else if(p.shop){ DICT.shop.push({raw:p.shop,word,n:1,bg:COLS[DICT.shop.length%COLS.length],r:[-3,2,-2,3][DICT.shop.length%4]});
-      const sm=document.querySelector("#v-dict .sec small"); if(sm) sm.textContent=DICT.shop.length+"개";
+      renderDict();
       msg=`좋아요! ${esc(word)}${ro(word)} 적고,<br>내 사전에도 넣어 둘게요`; }
     else msg=`좋아요! ${esc(word)}${ro(word)} 적어 둘게요`;
   }
