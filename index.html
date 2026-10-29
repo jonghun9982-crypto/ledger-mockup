@@ -331,13 +331,8 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-bubble .sky.tight{top:100px}
 #app-bubble .sky.dense .replies{gap:8px 6px;margin-top:10px}
 #app-bubble .sky.dense .cbtn{min-height:44px;padding:0 14px;font-size:15px}
-#app-bubble .sky .replies.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 0 6px}/* v12/v13: 시연 버튼 — 큰 점선 칸과 '오늘 적어 둔 것' 사이 빈 공간 가운데, 카드 게임의 「나중에 할게요」 같은 글자 링크 */
-#app-bubble .demozone{display:none}
-#app-bubble #v-main.st-empty .demozone{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0}
-#app-bubble .demozone .demo{display:flex;flex-wrap:wrap;justify-content:center;gap:0 22px;margin:0;border:0;padding:0}
-#app-bubble .dbtn{font:inherit;background:none;border:0;font-size:14.5px;font-weight:700;color:var(--grey);text-decoration:underline;
-  text-underline-offset:4px;min-height:44px;padding:0 6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-#app-bubble .dbtn:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+#app-bubble .sky .replies.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 0 6px}/* v15: 시연 링크를 없앤 뒤, 큰 점선 칸을 위·아래 빈 공간 가운데에 */
+#app-bubble #v-main.st-empty #b-big{margin-top:auto}
 
 
 /* ===== 앱 하단 탭 바 (통합용으로 추가) ===== */
@@ -426,12 +421,6 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
 
   <div class="sky" id="sky" aria-live="polite"></div>
 
-  <div class="demozone">
-    <nav class="demo" aria-label="시연해 보기">
-      <button class="dbtn" data-m="ask">처음 보는 가게</button>
-      <button class="dbtn" data-m="guess">아는 가게</button>
-      <button class="dbtn" data-m="group">여러 번 결제</button>
-    </nav></div>
   <div class="tl-title"><span>오늘 적어 둔 것</span><span class="num" id="total" style="font-size:12.5px;font-weight:700">3건 · 1만 원대</span></div>
   <ul class="timeline" id="tl"></ul>
   </section>
@@ -757,7 +746,7 @@ function setMode(m){
   if(window.__demoOn){ ({ask,guess,group})[m](); return; }
   mode="paste"; showPaste();
 }
-document.querySelector(".demo").addEventListener("click",ev=>{const b=ev.target.closest("[data-m]");if(b)runDemo(b.dataset.m)});
+
 
 window.__bubbleSetMode=setMode; window.__bubbleGetMode=()=>mode;
 setMode("ask");
