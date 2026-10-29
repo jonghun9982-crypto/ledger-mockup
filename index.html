@@ -1325,44 +1325,51 @@ function commitGroup(together){
     if(act!=="dok"){ const o=document.querySelector(`#d-spread .page:not(.face) .w[data-k="${t.k}:${t.i}"] [data-dact]`); if(o) o.focus(); }
   });
 }
-// ---- v21: 부드러운 종이 넘기는 소리 (작게 · 높은 바스락/딸깍 없앰) · 소리 버튼 없음 (무음 스위치로 끔)
+// ---- v22: v20 종이 소리 그대로 (쓸림 + 높은 결 + 바스락 + 착) · 크기만 40% · 소리 버튼 없음
 {
-  try{ localStorage.removeItem("ledger-flip-sound"); }catch(_){} // v20 때 꺼 둔 설정이 남지 않게
+  try{ localStorage.removeItem("ledger-flip-sound"); }catch(_){} // 예전에 꺼 둔 설정이 남지 않게
+  const on=true;
   let ctx=null, noise=null, master=null;
   const AC=window.AudioContext||window.webkitAudioContext;
   function ensure(){
     if(!AC) return null;
     try{
-      if(!ctx){ ctx=new AC(); master=ctx.createGain(); master.gain.value=1.65; master.connect(ctx.destination);
+      if(!ctx){ ctx=new AC(); master=ctx.createGain(); master.gain.value=0.6; /* v20의 40% */ master.connect(ctx.destination);
         const n=Math.floor(ctx.sampleRate*1.2); noise=ctx.createBuffer(1,n,ctx.sampleRate); const d=noise.getChannelData(0);
-        let b=0; for(let i=0;i<n;i++){ const w=Math.random()*2-1; b=0.96*b+0.04*w; d[i]=w*0.5+b*2.2; } } // 낮은 결이 많은 잡음
+        let b=0; for(let i=0;i<n;i++){ const w=Math.random()*2-1; b=0.97*b+0.03*w; d[i]=w*0.75+b*1.6; } } // 흰 잡음 + 살짝 낮은 결
       if(ctx.state==="suspended") ctx.resume();
     }catch(_){ ctx=null; }
     return ctx;
   }
-  const unlock=()=>{ const c=ensure(); if(!c) return;
+  // iPhone Safari: 손가락을 뗄 때(touchend/click/keydown) 소리 장치를 깨워 둠
+  const unlock=()=>{ if(!on) return; const c=ensure(); if(!c) return;
     try{ const s=c.createBufferSource(); s.buffer=c.createBuffer(1,1,c.sampleRate); s.connect(c.destination); s.start(0); }catch(_){} };
   ["touchend","click","keydown"].forEach(t=>document.addEventListener(t,unlock,{capture:true,passive:true}));
   const R=(a,b)=>a+Math.random()*(b-a);
-  function swish(c,t0,dur,f0,f1,q,lp,peak,curve){
-    const src=c.createBufferSource(); src.buffer=noise; src.playbackRate.value=R(.9,1.1);
-    const bp=c.createBiquadFilter(); bp.type="bandpass"; bp.Q.value=q; bp.frequency.setValueAtTime(f0,t0); bp.frequency.exponentialRampToValueAtTime(f1,t0+dur*.6); bp.frequency.exponentialRampToValueAtTime(f0*1.1,t0+dur);
-    const lo=c.createBiquadFilter(); lo.type="lowpass"; lo.frequency.value=lp; lo.Q.value=.5;
-    const g=c.createGain(); g.gain.setValueAtTime(0.0001,t0); curve(g.gain,t0,dur,peak);
-    src.connect(bp); bp.connect(lo); lo.connect(g); g.connect(master);
-    src.start(t0,R(0,noise.duration-dur-0.05)); src.stop(t0+dur+0.03);
+  function burst(c,t0,dur,type,f0,f1,q,peak,shape){
+    const src=c.createBufferSource(); src.buffer=noise; src.playbackRate.value=R(.85,1.15);
+    const f=c.createBiquadFilter(); f.type=type; f.Q.value=q; f.frequency.setValueAtTime(f0,t0); f.frequency.exponentialRampToValueAtTime(f1,t0+dur);
+    const g=c.createGain(); g.gain.setValueAtTime(0.0001,t0);
+    if(shape){ shape(g.gain,t0,dur,peak); } else { g.gain.exponentialRampToValueAtTime(peak,t0+dur*0.15); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur); }
+    src.connect(f); f.connect(g); g.connect(master);
+    src.start(t0,R(0,noise.duration-dur-0.05)); src.stop(t0+dur+0.02);
   }
-  // 천천히 커졌다가 부드럽게 사라짐 (울퉁불퉁 결은 아주 조금만)
-  const soft=(gp,t0,d,pk)=>{ const top=R(.38,.46); gp.linearRampToValueAtTime(pk*.35,t0+d*.12);
-    for(let x=.12;x<.9;x+=R(.06,.09)){ const e=x<top?.35+.65*(x-.12)/(top-.12):Math.max(.05,1-(x-top)/(.95-top)); gp.linearRampToValueAtTime(pk*e*R(.88,1),t0+d*x); }
-    gp.exponentialRampToValueAtTime(0.0001,t0+d); };
-  function play(){
-    const c=ensure(); if(!c||!noise) return;
+  function play(steps){
+    if(!on) return; const c=ensure(); if(!c||!noise) return;
     try{
-      const t=c.currentTime+0.01, len=R(.52,.6), vol=R(.85,1);
-      swish(c,t,len,R(420,560),R(1100,1500),R(.5,.7),R(2000,2600),.11*vol,soft);      // 쓸려 넘어가는 '스으-'
-      swish(c,t+.03,len*.8,R(180,240),R(380,460),.6,900,.05*vol,soft);               // 아래 깔리는 바람 소리
-      swish(c,t+R(.48,.54),.09,R(200,260),R(150,190),.8,600,.035*vol,(gp,t0,d,pk)=>{ gp.linearRampToValueAtTime(pk,t0+.015); gp.exponentialRampToValueAtTime(0.0001,t0+d); }); // 아주 작은 '툭'
+      const t=c.currentTime+0.01, len=R(.5,.6), vol=R(.8,1)*(steps>1?1.08:1);
+      // 1) 쓸려 넘어가는 '샤아-' : 띠 거르개가 위로 쓸려 올라감, 결이 거칠게 떨림
+      burst(c,t,len,"bandpass",R(700,1000),R(2600,3800),R(.6,.9),.34*vol,(gp,t0,d,pk)=>{
+        gp.exponentialRampToValueAtTime(pk*.55,t0+.05);
+        for(let x=.05;x<d*.8;x+=R(.018,.032)) gp.linearRampToValueAtTime(pk*R(.45,1)*(x<d*.45?1:1-(x-d*.45)/(d*.5)),t0+x);
+        gp.exponentialRampToValueAtTime(0.0001,t0+d); });
+      // 2) 높은 바스락 (종이 결)
+      burst(c,t+.02,len*.85,"highpass",R(3500,4500),R(5500,7000),.7,.08*vol);
+      // 3) 바스락 조각 4~8개
+      const k=Math.floor(R(4,9)); for(let i=0;i<k;i++) burst(c,t+R(.04,len*.8),R(.006,.018),"bandpass",R(2500,6000),R(2500,6000),R(1.5,4),R(.08,.2)*vol);
+      // 4) 쪽이 내려앉는 '착' (넘기는 모양이 끝나는 0.6초 무렵)
+      burst(c,t+R(.5,.56),R(.06,.09),"bandpass",R(380,520),R(220,300),1.1,.32*vol);
+      burst(c,t+R(.5,.56),.03,"highpass",2000,2400,.7,.07*vol);
     }catch(_){}
   }
   window.__flipSound=play; window.__flipSoundState=()=>({ctx:ctx?ctx.state:null});
