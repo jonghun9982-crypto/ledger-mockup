@@ -1334,7 +1334,7 @@ function commitGroup(together){
   function ensure(){
     if(!AC) return null;
     try{
-      if(!ctx){ ctx=new AC(); master=ctx.createGain(); master.gain.value=0.36; /* v23: v22의 60% */ master.connect(ctx.destination);
+      if(!ctx){ ctx=new AC(); master=ctx.createGain(); master.gain.value=0.216; /* v24: v23의 60% */ master.connect(ctx.destination);
         const n=Math.floor(ctx.sampleRate*1.2); noise=ctx.createBuffer(1,n,ctx.sampleRate); const d=noise.getChannelData(0);
         let b=0; for(let i=0;i<n;i++){ const w=Math.random()*2-1; b=0.97*b+0.03*w; d[i]=w*0.75+b*1.6; } } // 흰 잡음 + 살짝 낮은 결
       if(ctx.state==="suspended") ctx.resume();
