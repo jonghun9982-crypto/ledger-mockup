@@ -266,7 +266,42 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-bubble .pwrite .cbtn{min-width:64px;padding:0 14px;animation:none}
 #app-bubble .pwrite + .txtbtn{margin-top:4px;font-size:13.5px;color:var(--grey);text-decoration-thickness:1px;font-weight:700}
 #app-bubble .pnote{display:block;margin-top:6px;font-size:12.5px;color:var(--amber);font-weight:800}/* 붙여 넣은 항목이 늘어도 말풍선을 가리지 않게: 3줄까지 보이고 나머지는 스크롤 */
-#app-bubble .timeline{max-height:182px;overflow-y:auto;padding-right:4px;margin-right:-4px;padding-bottom:4px;margin-bottom:-4px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#app-bubble .timeline{max-height:182px;overflow-y:auto;padding-right:4px;margin-right:-4px;padding-bottom:4px;margin-bottom:-4px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}/* v9: 결제 내역 붙이기 = 카드 게임 빈칸과 같은 점선 칸 */
+#app-bubble .pslot{font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;min-height:56px;margin-top:10px;padding:8px 14px;
+  background:none;border:2.5px dashed #c9c3b5;border-radius:14px;color:#9b978d;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s}
+#app-bubble .pslot:active{background:rgba(201,138,18,.08);border-color:var(--amber)}
+#app-bubble .pslot:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+#app-bubble .pslot .sms{display:block;max-width:100%;margin-top:0;font-size:12px;color:#a8a397}
+#app-bubble .pslot.has{border-color:#d9b46a}
+#app-bubble .pslot.has .pmain{color:var(--amber)}
+#app-bubble .pmain{display:block}/* 말풍선 밑 단어 버튼 고치기 */
+#app-bubble .replies .wedit{align-self:center;min-height:44px;padding:0 4px;font-size:13.5px;color:var(--grey);text-decoration-thickness:1px;font-weight:700;animation:rise .5s var(--spring) both}
+#app-bubble .psheet.wsheet{max-height:calc(100% - var(--kb,0px) - 40px)}
+#app-bubble .wsheet .elist{list-style:none;display:flex;flex-direction:column;gap:8px;overflow:auto;margin:2px -6px 0;padding:4px 6px 6px;min-height:0;flex:1}
+#app-bubble .erow{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:6px;background:var(--card);border:2px solid #cfc8b8;border-radius:14px;padding:8px 8px 2px 12px}
+#app-bubble .erow.shown{border-color:#d9b46a}
+#app-bubble .emain{display:contents}
+#app-bubble .emain .stk{grid-column:1;grid-row:1;justify-self:start;align-self:center}
+#app-bubble .erow > .earrows{grid-column:2;grid-row:1}
+#app-bubble .eline,#app-bubble .ehint{grid-column:1 / -1}
+#app-bubble .eline{display:flex;align-items:center;gap:2px 10px;flex-wrap:wrap;min-height:44px}
+#app-bubble .eline .txtbtn{min-height:44px;font-size:14px}
+#app-bubble .eline .txtbtn.sub{font-size:14px;color:var(--grey);text-decoration-thickness:1px}
+#app-bubble .eline .txtbtn.edel{color:var(--amber);text-decoration-color:var(--amber);font-weight:900}
+#app-bubble .eask{font-size:13.5px;font-weight:800;color:var(--amber)}
+#app-bubble .einput,#app-bubble .wnew{font:inherit;flex:1;min-width:0;border:2.5px solid var(--ink);border-radius:12px;background:#fff;padding:6px 10px;font-size:16px;font-weight:600;color:var(--ink);outline:none}
+#app-bubble .einput:focus,#app-bubble .wnew:focus{box-shadow:3px 3px 0 var(--amber)}
+#app-bubble .ehint{font-size:12.5px;color:var(--grey);font-weight:700;margin:-4px 0 6px}
+#app-bubble .eempty{font-size:13.5px;color:var(--grey);font-weight:700;padding:10px 4px}
+#app-bubble .earrows{display:flex;gap:6px}
+#app-bubble .arw{font:inherit;width:44px;height:44px;background:none;border:2.5px solid var(--ink);border-radius:12px;font-size:18px;font-weight:900;color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+#app-bubble .arw:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+#app-bubble .arw:disabled{opacity:.25;cursor:default;box-shadow:none}
+#app-bubble .arw:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+#app-bubble .wadd{display:flex;gap:8px;align-items:center;border-top:2px dashed #d6d0c2;padding-top:10px}
+#app-bubble .wadd .wnew{min-height:44px}
+#app-bubble .wadd .txtbtn{min-height:44px;white-space:nowrap}
+#app-bubble .wfix{font-size:12.5px;color:var(--grey);font-weight:700}
 
 
 /* ===== 앱 하단 탭 바 (통합용으로 추가) ===== */
@@ -346,8 +381,7 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
   <header><h1 id="title">통장 번역기</h1><span class="today num">10월 28일 (수)</span></header>
 
   <section class="view" id="v-main">
-  <button class="pastebtn" id="paste" aria-haspopup="dialog"><span class="pplus" aria-hidden="true">+</span>결제 내역 붙이기</button>
-  <p class="sms num" id="sms">[Web발신] 우리 10/28 21:14 출금 4,500원 CU강남점</p>
+  <button class="pslot" id="paste" aria-haspopup="dialog"><span class="pmain" id="b-pmain">여기를 눌러 결제 내역을 붙여요</span><span class="sms num" id="sms">[Web발신] 우리 10/28 21:14 출금 4,500원 CU강남점</span></button>
 
   <div class="sky" id="sky" aria-live="polite"></div>
 
@@ -384,6 +418,15 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
   <p class="perr" id="b-perr" aria-live="polite"></p>
   <div class="pbtns"><button class="txtbtn sub" id="b-psample">예시 넣어 보기</button><span class="pgap"></span>
     <button class="txtbtn" id="b-pcancel">취소</button><button class="cbtn yes" id="b-pok" style="--r:-2deg">읽어 줘요</button></div>
+</section>
+<section class="psheet wsheet" id="b-wsheet" role="dialog" aria-modal="true" aria-labelledby="b-wtitle" hidden>
+  <h3 id="b-wtitle">버튼 고치기</h3>
+  <p class="psub" id="b-wkind"></p>
+  <ul class="elist" id="b-wlist"></ul>
+  <div class="wadd"><input class="wnew" id="b-wnew" type="text" maxlength="12" placeholder="새 단어 (예: 택시비)" autocomplete="off" enterkeyhint="done" aria-label="새 단어"><button class="txtbtn" id="b-wadd">넣기</button></div>
+  <p class="perr" id="b-wadderr" aria-live="polite"></p>
+  <p class="wfix">「기억 안 나요」·「직접 쓰기」는 늘 보여요</p>
+  <div class="pbtns"><span class="pgap"></span><button class="cbtn yes" id="b-wdone" style="--r:-2deg">다 했어요</button></div>
 </section>
 </main>
 <nav class="tabbar" aria-label="화면 바꾸기"><div class="tabs" role="tablist">
@@ -630,7 +673,7 @@ function answer(a){
   renderTL();
   setTimeout(()=>{ const c=document.querySelector(".cloud.reply"); if(c){c.style.transition="opacity .4s";c.style.opacity="0";} },2600);
 }
-$("sky").addEventListener("click",ev=>{const g=ev.target.closest("[data-go]");if(g)return setMode(g.dataset.go);const b=ev.target.closest(".cbtn");if(b&&b.dataset.p!=null)return pasteAnswer(b.dataset.p,b);if(b)answer(b.dataset.a)});
+$("sky").addEventListener("click",ev=>{const g=ev.target.closest("[data-go]");if(g)return setMode(g.dataset.go);const pb=ev.target.closest("[data-p]");if(pb)return pasteAnswer(pb.dataset.p,pb);const b=ev.target.closest(".cbtn");if(b)answer(b.dataset.a)});
 
 // 내 사전 (예시 단어, 숫자는 목업용)
 const DICT={
@@ -667,6 +710,7 @@ function setMode(m){
   if(isDict){ $("sky").innerHTML=""; renderDict(); return; }
   entries=BASE.map(e=>({...e})).concat(PASTED.map(e=>({...e,isNew:false,open:false}))); renderTL();
   $("sms").textContent = m==="group" ? "[Web발신] 우리 10/28 22:05 출금 3,000원 토스페이먼츠 외 2건" : "[Web발신] 우리 10/28 21:14 출금 4,500원 CU강남점";
+  if(typeof slotState==="function") slotState();
   if(m==="paste"){ showPaste(); return; }
   ({ask,guess,group})[m]();
 }
@@ -728,11 +772,11 @@ const shopName=p=>p.shop||"어딘가";
 function askPaste(note){
   const p=cur; const amt=approx(p.amt), place=esc(shopName(p));
   const q=p.income?`${esc(p.when)} ${place}에서<br><span class="num">${amt}</span> 들어왔어요.<br>무슨 돈이에요?`:`${esc(p.when)} ${place}에서<br><span class="num">${amt}</span> 썼죠? 뭐였어요?`;
-  const words=p.income?["월급","용돈","돌려받은 돈"]:pickWords(p.shop);
+  const words=p.income?["월급","용돈","돌려받은 돈"]:myWords(p.shop).map(x=>x[0]);
   sky(`<div class="cloud"><span class="hint">${p.known?"그럼 다시 알려 주세요":p.shop?"처음 보는 가게예요":"가게 이름은 못 읽었어요"}</span>${q}${note?`<span class="pnote">${note}</span>`:""}</div>${puffs}
-   <div class="replies">${words.map((w,k)=>`<button class="cbtn" style="--r:${[-4,3,-2][k]}deg;background:${COLS[k]}" data-p="w:${esc(w)}">${esc(w)}</button>`).join("")}
+   <div class="replies">${words.map((w,k)=>{ const my=MYW.find(x=>x[0]===w); return `<button class="cbtn" style="--r:${my?my[2]:[-4,3,-2][k]}deg;background:${my?my[1]:COLS[k]}" data-p="w:${esc(w)}">${esc(w)}</button>`; }).join("")}
     <button class="cbtn soft" style="--r:2deg" data-p="?">기억 안 나요</button>
-    <button class="cbtn write" style="--r:-3deg" data-p="write">직접 쓰기</button>
+    <button class="cbtn write" style="--r:-3deg" data-p="write">직접 쓰기</button>${p.income?"":`<button class="txtbtn wedit" data-p="wedit" aria-haspopup="dialog">버튼 고치기</button>`}
    </div>`);
 }
 function guessPaste(){
@@ -751,7 +795,7 @@ function writePaste(){
   $("b-pword").focus();
 }
 function submitWrite(){ const v=$("b-pword").value.trim();
-  if(!v){ $("b-pword").placeholder="한 글자 이상 적어 주세요"; $("b-pword").focus(); return; } commitPaste(v); }
+  if(!v){ $("b-pword").placeholder="한 글자 이상 적어 주세요"; $("b-pword").focus(); return; } if(!cur.income) addMyWord(v); commitPaste(v); }
 const hasJong=w=>{ const c=String(w).slice(-1).charCodeAt(0)-0xAC00; return c>=0&&c<=11171&&c%28!==0; };
 function showPaste(){ if(!cur) return ask(); $("sms").textContent=cur.text; if(cur.done) return sky(cur.done); cur.step==="write"?writePaste():cur.step==="ask"?askPaste(cur.note):guessPaste(); }
 function commitPaste(word){
@@ -776,6 +820,7 @@ function pasteAnswer(a){
   if(!cur) return;
   if(a==="yes") return commitPaste(cur.known.w.word);
   if(a==="no"){ cur.step="ask"; cur.note="고르면 내 사전도 고쳐 둘게요"; return askPaste(cur.note); }
+  if(a==="wedit") return openWEdit();
   if(a==="submit") return submitWrite();
   if(a==="write"){ cur.step="write"; return writePaste(); }
   if(a==="back"){ cur.step=cur.known&&!cur.note?"guess":"ask"; return showPaste(); }
@@ -788,18 +833,126 @@ if(window.visualViewport){ visualViewport.addEventListener("resize",setKB); visu
 function openPSheet(){ $("b-parea").value=""; $("b-perr").innerHTML=""; $("b-psheet").hidden=false; $("b-pdim").classList.add("on"); setKB(); $("b-parea").focus(); }
 function closePSheet(){ $("b-psheet").hidden=true; $("b-pdim").classList.remove("on"); $("b-parea").blur(); }
 function okPSheet(){
-  const r=readPaste($("b-parea").value);
+  const r=readPasteV9($("b-parea").value);
   if(r.err){ $("b-perr").innerHTML=r.err; return; }
   const known=r.income?null:findWord(r.shop);
   cur={...r,known,step:known?"guess":"ask",note:"",done:null};
   closePSheet();
-  if(mode!=="paste") setMode("paste"); else showPaste();
+  if(mode!=="paste") setMode("paste"); else { showPaste(); slotState(); }
 }
 $("paste").onclick=openPSheet; $("b-pcancel").onclick=closePSheet; $("b-pdim").onclick=closePSheet; $("b-pok").onclick=okPSheet;
 $("b-psample").onclick=()=>{ $("b-parea").value=P_SAMPLES[sampleK++%P_SAMPLES.length]; $("b-perr").innerHTML=""; };
 $("b-parea").addEventListener("keydown",e=>{ if(e.key==="Escape") closePSheet(); });
 $("b-parea").addEventListener("input",()=>{ $("b-perr").innerHTML=""; });
 window.__bubblePaste=t=>{ openPSheet(); $("b-parea").value=t; okPSheet(); };
+// v9: 결제 문자 파서 (지급가능액·잔액·누적 같은 칸과 그 금액은 가게 이름/금액에서 뺌)
+const LABEL_RE="(?:지급\\s*가능\\s*액|지급가능금액|출금\\s*가능\\s*(?:금)?액|사용\\s*가능\\s*(?:금액|한도|액)?|이용\\s*가능\\s*(?:금액|한도|액)?|가능\\s*(?:금)?액|잔여\\s*한도|잔액|누적\\s*(?:금액|사용액|이용액)?|한도|결제\\s*예정\\s*(?:금)?액|포인트|적립)";
+const KW=/^(?:Web발신|웹발신|국외발신|국제발신|일시불|할부|\d+개월|승인|체크승인|신용승인|해외승인|결제|체크|체크카드|신용|신용카드|사용|이용|출금|입금|지급|국내|해외|금액|원|이용금액|승인금액|결제금액|사용금액|출금액|일시|가맹점|님|고객님|카드|카드승인|알림|안내|이체|ATM|전자금융|체크결제|간편결제|일반)$/i;
+const BRAND=/^(?:NH|NH농협|농협|KB|KB국민|국민|신한|우리|하나|삼성|현대|롯데|BC|비씨|씨티|IBK|기업|SC|SC제일|토스|토스뱅크|카카오|카카오뱅크|카카오페이|케이뱅크|새마을|우체국|수협|광주|전북|경남|부산|대구|제주|iM|DGB|BNK|MG)(?:\d*)$/i;
+function readPaste9(text){
+  const raw=String(text||"");
+  const flat=raw.replace(/\s+/g," ").trim();
+  if(!flat) return {err:"붙여 넣은 내용이 없어요"};
+  if(/취소/.test(flat)) return {err:"결제 취소 문자는 아직 못 읽어요. 결제(승인) 문자를 붙여 주세요"};
+  let s=raw.replace(/\r/g,"").replace(/\[[^\]\n]*\]/g,"\n").replace(/\([^)\n]*\)/g," ");
+  // 금액 후보: 앞에 지급가능액/잔액/누적 같은 말이 붙은 금액은 결제 금액이 아님
+  const amtRe=new RegExp("("+LABEL_RE+")?\\s*:?\\s*(-?\\d{1,3}(?:,\\d{3})+|-?\\d+)\\s*원","g");
+  let pay=null, m; while((m=amtRe.exec(s))){ if(!m[1]){ pay={v:parseInt(m[2].replace(/[,-]/g,""),10)}; break; } }
+  if(!pay||!pay.v) return {err:"앗, 여기서 결제 금액을 못 찾았어요.<br>「12,500원」처럼 금액이 들어 있는 카드 결제 문자를 그대로 붙여 주세요"};
+  const dm=flat.match(/(?:^|[^0-9])(\d{1,2})\/(\d{1,2})(?![0-9])/)||flat.match(/(\d{1,2})월\s*(\d{1,2})일/);
+  const tm=flat.match(/(?:^|[^0-9])([01]?\d|2[0-3]):([0-5]\d)(?![0-9])/);
+  // 가게 이름: 칸 이름+금액, 금액, 날짜, 시각, 카드 번호, 가린 이름, 카드사·안내 말을 지우고 남은 것
+  s=s.replace(new RegExp(LABEL_RE+"\\s*:?\\s*-?[\\d,]*\\s*원?","g"),"\n")
+     .replace(/-?\d{1,3}(?:,\d{3})+\s*원|-?\d+\s*원/g,"\n")
+     .replace(/\d{2,4}[-.]\d{1,2}[-.]\d{1,2}/g,"\n").replace(/\d{1,2}\/\d{1,2}/g,"\n").replace(/\d{1,2}월\s*\d{1,2}일/g,"\n")
+     .replace(/\d{1,2}:\d{2}(?::\d{2})?/g,"\n");
+  const segs=s.split("\n").map(line=>{
+    const out=[]; let seg=[];
+    line.split(/[\s,]+/).forEach(w=>{
+      const t=w.replace(/^[·:~\-]+|[·:~\-]+$/g,"");
+      const glued=t.replace(/(?:승인|체크|결제|사용|출금|일시불|카드)+$/,"");
+      const bad=!t||/\*/.test(t)||/님$/.test(t)||KW.test(t)||BRAND.test(t)||/^[\d\-.\/]+$/.test(t)
+        ||/(?:카드|체크|뱅크|은행|페이)(?:승인|결제|사용|\d*)$/.test(t)||(glued!==t&&(BRAND.test(glued)||!glued));
+      if(bad){ if(seg.length){out.push(seg.join(" ")); seg=[];} } else seg.push(t);
+    });
+    if(seg.length) out.push(seg.join(" ")); return out;
+  }).flat().filter(x=>/[가-힣A-Za-z]/.test(x));
+  let shop=segs.sort((a,b)=>b.length-a.length)[0]||"";
+  shop=shop.slice(0,30);
+  const income=/입금/.test(flat)&&!/출금|승인|결제/.test(flat);
+  return {shop,amt:pay.v,income,dm,tm,text:flat};
+}
+
+function readPasteV9(text){
+  let r; try{ r=readPaste9(text); }catch(e){ r={err:"앗, 이 문자는 못 읽었어요. 카드 결제 문자를 그대로 붙여 주세요"}; }
+  if(r.err) return r;
+  const hr=r.tm?+r.tm[1]:null;
+  const part=hr==null?"":hr<5?"새벽":hr<11?"아침":hr<14?"점심쯤":hr<18?"오후":hr<22?"저녁쯤":"밤";
+  let day="";
+  if(r.dm){ const mo=+r.dm[1], d=+r.dm[2]; if(mo>=1&&mo<=12&&d>=1&&d<=31&&!(mo===TODAY.mo&&d===TODAY.d)) day=(mo===TODAY.mo&&d===TODAY.d-1)?"어제":`${mo}월 ${d}일`; }
+  return {shop:r.shop,amt:r.amt,income:r.income,when:[day,part].filter(Boolean).join(" ")||"오늘",time:r.tm?r.tm[1].padStart(2,"0")+":"+r.tm[2]:"",text:r.text};
+}
+
+// ---- v9: 말풍선 밑 단어 버튼 (내가 고치는 목록, 처음 보는 가게에서 위에서부터 보여 줌)
+const MYW=[["밥","var(--peach)",-4],["커피","var(--yellow)",3],["간식","var(--sky)",-2]];
+const SHOWN=3;
+function myWords(shop){
+  const hit=MYW.filter(([w])=>HINTS.some(([re,h])=>h===w&&re.test(shop)));
+  return hit.concat(MYW.filter(x=>!hit.includes(x))).slice(0,SHOWN);
+}
+function addMyWord(v){ if(!v||MYW.some(x=>x[0]===v)) return false; MYW.push([v,COLS[MYW.length%COLS.length],[-3,3,-2,2][MYW.length%4]]); return true; }
+let wed=null; // {k, mode:"rename"|"delete", hint}
+function renderWEdit(){
+  $("b-wkind").textContent=`처음 보는 가게에서 위에서 ${SHOWN}개까지 보여요 · 지금 ${MYW.length}개`;
+  $("b-wlist").innerHTML=MYW.length?MYW.map(([n,col,r],k)=>{
+    let line2;
+    if(wed&&wed.k===k&&wed.mode==="rename") line2=`<div class="eline"><input class="einput" id="b-winput" type="text" maxlength="12" value="${esc(n)}" aria-label="새 이름" autocomplete="off"><button class="txtbtn sub" data-act="rcancel">취소</button><button class="txtbtn" data-act="rok">확인</button></div>${wed.hint?`<p class="ehint" aria-live="polite">${esc(wed.hint)}</p>`:""}`;
+    else if(wed&&wed.k===k&&wed.mode==="delete") line2=`<div class="eline"><span class="eask">정말 지울까요?</span><button class="txtbtn edel" data-act="dok">지우기</button><button class="txtbtn sub" data-act="dcancel">취소</button></div>`;
+    else line2=`<div class="eline"><button class="txtbtn" data-act="rename">이름 바꾸기</button><button class="txtbtn sub" data-act="delete">지우기</button></div>`;
+    return `<li class="erow${k<SHOWN?" shown":""}" data-k="${k}"><div class="emain"><span class="stk" style="background:${col};--r:${r}deg">${esc(n)}</span>${line2}</div>
+      <div class="earrows"><button class="arw" data-act="up" aria-label="${esc(n)} 위로" ${k===0?"disabled":""}>↑</button><button class="arw" data-act="down" aria-label="${esc(n)} 아래로" ${k===MYW.length-1?"disabled":""}>↓</button></div></li>`;
+  }).join(""):`<li class="eempty">단어가 없어요. 아래에서 새 단어를 넣어 주세요</li>`;
+  const inp=$("b-winput"); if(inp){ inp.focus(); inp.setSelectionRange(inp.value.length,inp.value.length); }
+}
+$("b-wlist").addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]"); if(!b||b.disabled) return;
+  const k=+b.closest(".erow").dataset.k, act=b.dataset.act;
+  if(act==="up"&&k>0){ [MYW[k-1],MYW[k]]=[MYW[k],MYW[k-1]]; wed=null; }
+  else if(act==="down"&&k<MYW.length-1){ [MYW[k+1],MYW[k]]=[MYW[k],MYW[k+1]]; wed=null; }
+  else if(act==="rename") wed={k,mode:"rename"};
+  else if(act==="delete") wed={k,mode:"delete"};
+  else if(act==="rcancel"||act==="dcancel") wed=null;
+  else if(act==="dok"){ MYW.splice(k,1); wed=null; }
+  else if(act==="rok"){
+    const v=$("b-winput").value.trim();
+    if(!v) wed={k,mode:"rename",hint:"이름을 적어 주세요"};
+    else if(v===MYW[k][0]) wed=null;
+    else if(MYW.some((s,j)=>j!==k&&s[0]===v)) wed={k,mode:"rename",hint:"이미 있는 이름이에요"};
+    else { MYW[k][0]=v; wed=null; }
+  }
+  renderWEdit();
+});
+$("b-wlist").addEventListener("keydown",e=>{ if(e.target.id==="b-winput"){ if(e.key==="Enter"){e.preventDefault(); $("b-wlist").querySelector('[data-act="rok"]').click();} if(e.key==="Escape"){ wed=null; renderWEdit(); } } });
+function addFromSheet(){
+  const v=$("b-wnew").value.trim();
+  if(!v){ $("b-wadderr").textContent="새 단어를 적어 주세요"; return; }
+  if(!addMyWord(v)){ $("b-wadderr").textContent="이미 있는 이름이에요"; return; }
+  $("b-wnew").value=""; $("b-wadderr").textContent=""; wed=null; renderWEdit();
+  const l=$("b-wlist"); l.scrollTop=l.scrollHeight;
+}
+$("b-wadd").onclick=addFromSheet;
+$("b-wnew").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); addFromSheet(); } });
+$("b-wnew").addEventListener("input",()=>{ $("b-wadderr").textContent=""; });
+function openWEdit(){ wed=null; $("b-wnew").value=""; $("b-wadderr").textContent=""; renderWEdit(); $("b-wsheet").hidden=false; $("b-pdim").classList.add("on"); }
+function closeWEdit(){ wed=null; $("b-wsheet").hidden=true; $("b-pdim").classList.remove("on"); if(mode==="paste"&&cur&&!cur.done&&cur.step==="ask") askPaste(cur.note); }
+$("b-wdone").onclick=closeWEdit;
+$("b-pdim").addEventListener("click",()=>{ if(!$("b-wsheet").hidden) closeWEdit(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("b-wsheet").hidden&&e.target.id!=="b-winput") closeWEdit(); });
+function setKB2(){ const vv=window.visualViewport; const kb=vv?Math.max(0,window.innerHeight-vv.height-vv.offsetTop):0; $("b-wsheet").style.setProperty("--kb",kb+"px"); }
+if(window.visualViewport){ visualViewport.addEventListener("resize",setKB2); visualViewport.addEventListener("scroll",setKB2); }
+// 점선 칸: 붙인 뒤엔 붙인 문자 요약을 칸 안에 보여 줌
+function slotState(){ const pasted=mode==="paste"&&cur; $("b-pmain").textContent=pasted?"붙인 결제 · 눌러서 다른 결제 붙이기":"여기를 눌러 결제 내역을 붙여요"; $("paste").classList.toggle("has",!!pasted); }
+window.__bubbleWords=()=>MYW.map(x=>x[0]);
 })();
 </script>
 <script>
