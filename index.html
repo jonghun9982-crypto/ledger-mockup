@@ -279,7 +279,6 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-bubble .psheet.wsheet{max-height:calc(100% - var(--kb,0px) - 40px)}
 #app-bubble .wsheet .elist{list-style:none;display:flex;flex-direction:column;gap:8px;overflow:auto;margin:2px -6px 0;padding:4px 6px 6px;min-height:0;flex:1}
 #app-bubble .erow{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:6px;background:var(--card);border:2px solid #cfc8b8;border-radius:14px;padding:8px 8px 2px 12px}
-#app-bubble .erow.shown{border-color:#d9b46a}
 #app-bubble .emain{display:contents}
 #app-bubble .emain .stk{grid-column:1;grid-row:1;justify-self:start;align-self:center}
 #app-bubble .erow > .earrows{grid-column:2;grid-row:1}
@@ -320,7 +319,7 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
   border:3px solid var(--ink);box-shadow:2px 3px 0 var(--ink);transform:rotate(4deg)}
 #app-bubble .bcap{display:block;margin-top:26px;text-align:center;font-size:21px;font-weight:900;color:var(--ink);letter-spacing:-.3px}
 #app-bubble .bcap small{display:block;margin-top:4px;font-size:13px;font-weight:700;color:var(--grey);letter-spacing:0}
-#app-bubble #v-main.st-empty #paste{display:none}
+#app-bubble #v-main #paste{display:none}
 #app-bubble #v-main:not(.st-empty) #b-big{display:none}
 #app-bubble #v-main:not([hidden]) ~ .demo{display:none}/* 말풍선 화면은 붙이기에 집중 (내 사전 화면은 그대로) *//* 질문 말풍선 등장 */
 #app-bubble .cloud.pop{animation:bpop .6s var(--spring) both, bob 4s ease-in-out .6s infinite}
@@ -330,6 +329,10 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-bubble .sky .replies.pop .cbtn:nth-child(3){animation-delay:.1s}
 #app-bubble .sky .replies.pop .cbtn:nth-child(4){animation-delay:.15s}
 #app-bubble .sky .replies.pop .cbtn:nth-child(5){animation-delay:.2s}
+#app-bubble .sky.tight{top:100px}
+#app-bubble .sky.dense .replies{gap:8px 6px;margin-top:10px}
+#app-bubble .sky.dense .cbtn{min-height:44px;padding:0 14px;font-size:15px}
+#app-bubble .sky .replies.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 0 6px}
 
 
 /* ===== 앱 하단 탭 바 (통합용으로 추가) ===== */
@@ -934,18 +937,18 @@ const MYW=[["밥","var(--peach)",-4],["커피","var(--yellow)",3],["간식","var
 const SHOWN=3;
 function myWords(shop){
   const hit=MYW.filter(([w])=>HINTS.some(([re,h])=>h===w&&re.test(shop)));
-  return hit.concat(MYW.filter(x=>!hit.includes(x))).slice(0,SHOWN);
+  return hit.concat(MYW.filter(x=>!hit.includes(x)));
 }
 function addMyWord(v){ if(!v||MYW.some(x=>x[0]===v)) return false; MYW.push([v,COLS[MYW.length%COLS.length],[-3,3,-2,2][MYW.length%4]]); return true; }
 let wed=null; // {k, mode:"rename"|"delete", hint}
 function renderWEdit(){
-  $("b-wkind").textContent=`처음 보는 가게에서 위에서 ${SHOWN}개까지 보여요 · 지금 ${MYW.length}개`;
+  $("b-wkind").textContent=`여기 있는 단어가 모두 말풍선 밑에 나와요 · 지금 ${MYW.length}개`;
   $("b-wlist").innerHTML=MYW.length?MYW.map(([n,col,r],k)=>{
     let line2;
     if(wed&&wed.k===k&&wed.mode==="rename") line2=`<div class="eline"><input class="einput" id="b-winput" type="text" maxlength="12" value="${esc(n)}" aria-label="새 이름" autocomplete="off"><button class="txtbtn sub" data-act="rcancel">취소</button><button class="txtbtn" data-act="rok">확인</button></div>${wed.hint?`<p class="ehint" aria-live="polite">${esc(wed.hint)}</p>`:""}`;
     else if(wed&&wed.k===k&&wed.mode==="delete") line2=`<div class="eline"><span class="eask">정말 지울까요?</span><button class="txtbtn edel" data-act="dok">지우기</button><button class="txtbtn sub" data-act="dcancel">취소</button></div>`;
     else line2=`<div class="eline"><button class="txtbtn" data-act="rename">이름 바꾸기</button><button class="txtbtn sub" data-act="delete">지우기</button></div>`;
-    return `<li class="erow${k<SHOWN?" shown":""}" data-k="${k}"><div class="emain"><span class="stk" style="background:${col};--r:${r}deg">${esc(n)}</span>${line2}</div>
+    return `<li class="erow" data-k="${k}"><div class="emain"><span class="stk" style="background:${col};--r:${r}deg">${esc(n)}</span>${line2}</div>
       <div class="earrows"><button class="arw" data-act="up" aria-label="${esc(n)} 위로" ${k===0?"disabled":""}>↑</button><button class="arw" data-act="down" aria-label="${esc(n)} 아래로" ${k===MYW.length-1?"disabled":""}>↓</button></div></li>`;
   }).join(""):`<li class="eempty">단어가 없어요. 아래에서 새 단어를 넣어 주세요</li>`;
   const inp=$("b-winput"); if(inp){ inp.focus(); inp.setSelectionRange(inp.value.length,inp.value.length); }
@@ -966,21 +969,22 @@ $("b-wlist").addEventListener("click",e=>{
     else if(MYW.some((s,j)=>j!==k&&s[0]===v)) wed={k,mode:"rename",hint:"이미 있는 이름이에요"};
     else { MYW[k][0]=v; wed=null; }
   }
-  renderWEdit();
+  renderWEdit(); refreshWords();
 });
 $("b-wlist").addEventListener("keydown",e=>{ if(e.target.id==="b-winput"){ if(e.key==="Enter"){e.preventDefault(); $("b-wlist").querySelector('[data-act="rok"]').click();} if(e.key==="Escape"){ wed=null; renderWEdit(); } } });
 function addFromSheet(){
   const v=$("b-wnew").value.trim();
   if(!v){ $("b-wadderr").textContent="새 단어를 적어 주세요"; return; }
   if(!addMyWord(v)){ $("b-wadderr").textContent="이미 있는 이름이에요"; return; }
-  $("b-wnew").value=""; $("b-wadderr").textContent=""; wed=null; renderWEdit();
+  $("b-wnew").value=""; $("b-wadderr").textContent=""; wed=null; renderWEdit(); refreshWords();
   const l=$("b-wlist"); l.scrollTop=l.scrollHeight;
 }
 $("b-wadd").onclick=addFromSheet;
 $("b-wnew").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); addFromSheet(); } });
 $("b-wnew").addEventListener("input",()=>{ $("b-wadderr").textContent=""; });
 function openWEdit(){ wed=null; $("b-wnew").value=""; $("b-wadderr").textContent=""; renderWEdit(); $("b-wsheet").hidden=false; $("b-pdim").classList.add("on"); }
-function closeWEdit(){ wed=null; $("b-wsheet").hidden=true; $("b-pdim").classList.remove("on"); if(mode==="paste"&&cur&&!cur.done&&cur.step==="ask") askPaste(cur.note); }
+function refreshWords(){ if(mode==="paste"&&cur&&!cur.done&&cur.step==="ask"){ cur.pop=false; askPaste(cur.note); } }
+function closeWEdit(){ wed=null; $("b-wsheet").hidden=true; $("b-pdim").classList.remove("on"); refreshWords(); }
 $("b-wdone").onclick=closeWEdit;
 $("b-pdim").addEventListener("click",()=>{ if(!$("b-wsheet").hidden) closeWEdit(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("b-wsheet").hidden&&e.target.id!=="b-winput") closeWEdit(); });
@@ -989,6 +993,17 @@ if(window.visualViewport){ visualViewport.addEventListener("resize",setKB2); vis
 // 점선 칸: 붙인 뒤엔 붙인 문자 요약을 칸 안에 보여 줌
 function slotState(){ const pasted=mode==="paste"&&cur; $("b-pmain").textContent=pasted?"다른 결제 붙이기 · 여기를 눌러요":"여기를 눌러 결제 내역을 붙여요"; $("paste").classList.toggle("has",!!pasted); }
 window.__bubbleWords=()=>MYW.map(x=>x[0]);
+// ---- v11: 단어가 많아 버튼이 '오늘 적어 둔 것'에 닿으면 말풍선을 위로 올리고 버튼을 촘촘하게
+function fitSky(){
+  const s=$("sky"), t=document.querySelector("#app-bubble .tl-title"), rp=s.querySelector(".replies");
+  s.classList.remove("tight","dense"); if(rp){ rp.style.maxHeight=""; rp.classList.remove("scroll"); }
+  if(!rp||!t||!s.offsetParent) return;
+  const over=()=>s.getBoundingClientRect().bottom>t.getBoundingClientRect().top-6;
+  if(over()) s.classList.add("tight");
+  if(over()) s.classList.add("dense");
+  if(over()){ rp.classList.add("scroll"); rp.style.maxHeight=Math.max(110,t.getBoundingClientRect().top-10-rp.getBoundingClientRect().top)+"px"; }
+}
+{ const sky0=sky; sky=function(h){ sky0(h); fitSky(); }; }
 
 function viewState(){ $("v-main").classList.toggle("st-empty",!cur); if(typeof slotState==="function") slotState(); }
 viewState(); if(mode!=="dict"){ mode="paste"; showPaste(); }
