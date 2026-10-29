@@ -382,7 +382,57 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-bubble .fin{text-align:center;font-size:12px;font-weight:800;color:#a8a397;margin-top:18px;position:relative;z-index:4}
 @media (prefers-reduced-motion: reduce){
 #app-bubble .book{animation:none}
-#app-bubble .thumb,#app-bubble .book .w{transition:none}}
+#app-bubble .thumb,#app-bubble .book .w{transition:none}}/* v18: 책을 짧게 (진짜 펼친 책 비율) + 두 쪽 + 책장 넘기기 */
+#app-bubble #v-dict .dict-fact{margin-bottom:58px}
+#app-bubble .book{flex:none;height:420px;margin:auto 4px 0}
+#app-bubble .spread{overflow:visible;perspective:1500px;background:none;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+#app-bubble .page{position:absolute;top:0;bottom:0;width:50%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-y;padding:12px 16px 16px 12px}
+#app-bubble .page::-webkit-scrollbar{display:none}
+#app-bubble .page::after{content:"";display:block;position:sticky;bottom:-16px;height:34px;margin:-34px -12px -16px;pointer-events:none;opacity:0;transition:opacity .2s;background:linear-gradient(rgba(255,253,247,0),#fffdf7 85%)}
+#app-bubble .page.fade::after{opacity:1}
+#app-bubble .face::after{position:absolute;margin:0;height:auto;transition:none}
+#app-bubble .pl{left:0;border-radius:13px 0 0 13px;background:linear-gradient(90deg,#fffdf7 0,#fffaf0 100%);padding:12px 18px 16px 12px}
+#app-bubble .pr{right:0;border-radius:0 13px 13px 0;background:linear-gradient(90deg,#fbf4e6 0,#fffdf7 100%);padding:12px 12px 16px 18px}
+#app-bubble .page .chap{margin:2px 0 6px;gap:6px}
+#app-bubble .page .ctab{font-size:14px;padding:2px 10px}
+#app-bubble .page .rhead{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:#a8a397;margin:4px 2px 4px;min-height:26px}
+#app-bubble .page .rhead i{flex:1;border-bottom:1.5px dashed #d9d1bd}
+#app-bubble .page .words{list-style:none;display:flex;flex-direction:column;gap:2px}
+#app-bubble .page .blank{text-align:center;color:#c2bcae;font-size:12px;font-weight:800;margin-top:40%}
+#app-bubble .page .fin{margin-top:12px}
+#app-bubble .page .pfoot{display:none}/* 넘어가는 한 장 */
+#app-bubble .leaf{position:absolute;top:0;bottom:0;width:50%;z-index:6;transform-style:preserve-3d;pointer-events:none}
+#app-bubble .leaf.n{left:50%;transform-origin:left center}
+#app-bubble .leaf.p{left:0;transform-origin:right center}
+#app-bubble .leaf.n.go{animation:flipN .62s cubic-bezier(.45,.05,.3,1) forwards}
+#app-bubble .leaf.p.go{animation:flipP .62s cubic-bezier(.45,.05,.3,1) forwards}
+@keyframes flipN{0%{transform:rotateY(0)}50%{transform:rotateY(-90deg) translateZ(2px)}100%{transform:rotateY(-180deg)}}
+@keyframes flipP{0%{transform:rotateY(0)}50%{transform:rotateY(90deg) translateZ(2px)}100%{transform:rotateY(180deg)}}
+#app-bubble .face{position:absolute;inset:0;width:100%;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 0 0 1.5px rgba(27,27,31,.18)}
+#app-bubble .face.back{transform:rotateY(180deg)}
+#app-bubble .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;border-radius:inherit}
+#app-bubble .leaf.n .front::after,#app-bubble .leaf.p .back::after{background:linear-gradient(90deg,rgba(27,27,31,.32),rgba(27,27,31,.06) 40%,rgba(255,255,255,.18) 80%,rgba(27,27,31,.1))}
+#app-bubble .leaf.n .back::after,#app-bubble .leaf.p .front::after{background:linear-gradient(270deg,rgba(27,27,31,.32),rgba(27,27,31,.06) 40%,rgba(255,255,255,.18) 80%,rgba(27,27,31,.1))}
+#app-bubble .leaf.go .face::after{animation:fshade .62s cubic-bezier(.45,.05,.3,1) forwards}
+@keyframes fshade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}/* 넘길 때 아래 쪽에 드리우는 그림자 */
+#app-bubble .cast{position:absolute;top:0;bottom:0;width:50%;z-index:5;pointer-events:none;opacity:0}
+#app-bubble .cast.n{left:50%;border-radius:0 13px 13px 0;background:linear-gradient(90deg,rgba(27,27,31,.35),rgba(27,27,31,0) 70%)}
+#app-bubble .cast.p{left:0;border-radius:13px 0 0 13px;background:linear-gradient(270deg,rgba(27,27,31,.35),rgba(27,27,31,0) 70%)}
+#app-bubble .cast.go{animation:fcast .62s cubic-bezier(.45,.05,.3,1) forwards}
+@keyframes fcast{0%{opacity:0}45%{opacity:1}100%{opacity:0}}
+#app-bubble .gutter{z-index:7}/* 아래: ◀ 1 / 4 ▶ */
+#app-bubble .ribbon{right:auto;left:104px}
+#app-bubble .pnav{display:flex;align-items:center;justify-content:space-between;margin:20px 0 auto;padding:0 0 12px}
+#app-bubble .pbtn{font:inherit;width:48px;height:44px;display:grid;place-items:center;font-size:15px;color:var(--ink);background:var(--bg);border:2.5px solid var(--ink);border-radius:14px 14px 14px 4px;
+  box-shadow:3px 3px 0 var(--ink);transform:rotate(var(--r));cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s,box-shadow .15s,opacity .2s}
+#app-bubble .pbtn.next{border-radius:14px 14px 4px 14px}
+#app-bubble .pbtn:active:not(:disabled){transform:rotate(var(--r)) translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+#app-bubble .pbtn:disabled{opacity:.35;cursor:default}
+#app-bubble .pbtn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+#app-bubble .pno{font-size:14px;font-weight:900;background:var(--card);border:2.5px solid var(--ink);border-radius:999px;padding:4px 14px;box-shadow:2px 2px 0 var(--ink);transform:rotate(-1.5deg)}
+@media (prefers-reduced-motion: reduce){
+#app-bubble .leaf.go,#app-bubble .cast.go,#app-bubble .leaf.go .face::after{animation:none}
+#app-bubble .pbtn{transition:none}}
 
 
 /* ===== 앱 하단 탭 바 (통합용으로 추가) ===== */
@@ -485,16 +535,18 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
       </nav>
       <span class="bcover" aria-hidden="true"></span><span class="bedge" aria-hidden="true"></span>
       <span class="ribbon" aria-hidden="true"></span>
-      <div class="spread">
-        <div class="dict-scroll" id="d-scroll">
-          <div class="chap" id="d-chap-shop"><span class="ctab" style="background:var(--yellow);--r:-3deg">가게</span><span class="cline" aria-hidden="true"></span><small class="num" id="d-nshop">3개</small></div>
-          <div class="words" id="d-shop"></div>
-          <div class="chap" id="d-chap-bank"><span class="ctab" style="background:var(--mint);--r:2deg">은행 말</span><span class="cline" aria-hidden="true"></span><small class="num" id="d-nbank">6개</small></div>
-          <div class="words" id="d-bank"></div>
-          <p class="fin num" id="d-fin">· 여기까지 24개 ·</p>
-        </div>
+      <div class="spread" id="d-spread" aria-roledescription="책" aria-label="내 사전 펼친 쪽 · 옆으로 밀면 넘어가요">
+        <div class="page pl" id="d-pl"></div>
+        <div class="page pr" id="d-pr"></div>
+        <span class="cast" id="d-cast" aria-hidden="true"></span>
+        <div class="leaf" id="d-leaf" aria-hidden="true" hidden><div class="face front" id="d-ff"></div><div class="face back" id="d-fb"></div></div>
         <span class="gutter" aria-hidden="true"></span>
       </div>
+    </div>
+    <div class="pnav">
+      <button class="pbtn prev" id="d-prev" aria-label="앞 쪽으로 넘기기" style="--bg:var(--sky);--r:-4deg"><span aria-hidden="true">◀</span></button>
+      <span class="pno num" id="d-pno" aria-live="polite">1 / 1</span>
+      <button class="pbtn next" id="d-next" aria-label="다음 쪽으로 넘기기" style="--bg:var(--peach);--r:4deg"><span aria-hidden="true">▶</span></button>
     </div>
   </section>
 
@@ -792,11 +844,8 @@ function wordHTML(w,i,k){
 let dictOpen=true; // v17: 책은 스크롤로 훑어보므로 전부 보여 줌 (더 보기 버튼 없앰)
 function renderDict(){
   const show=w=>dictOpen||!w.more;
-  const list=k=>{ const it=DICT[k].map((w,i)=>show(w)?wordHTML(w,i,k):"").filter(Boolean); return [0,1].map(c=>`<ul class="col">${it.filter((_,n)=>n%2===c).join("")}</ul>`).join(""); }; // v17: 두 쪽에 번갈아
-  $("d-shop").innerHTML=list("shop"); $("d-bank").innerHTML=list("bank");
-  $("d-nshop").textContent=DICT.shop.filter(show).length+"개"; $("d-nbank").textContent=DICT.bank.filter(show).length+"개";
   $("d-total").textContent=(DICT.shop.length+DICT.bank.length)+"개";
-  $("d-fin").textContent=`· 여기까지 ${DICT.shop.length+DICT.bank.length}개 ·`;
+  if(window.__paintBook) window.__paintBook(show); // v18: 두 쪽씩 펼친 책으로
 }
 $("v-dict").addEventListener("click",ev=>{if(ev.target.closest(".txtbtn"))return;const li=ev.target.closest(".w");if(!li)return;const [k,i]=li.dataset.k.split(":");DICT[k][+i].open=!DICT[k][+i].open;renderDict();});
 DICT.shop[1].open=true;
@@ -1118,17 +1167,82 @@ function commitGroup(together){
   p.done=`<div class="cloud reply">${together?"좋아요! 피시방 3번,<br>한 줄로 묶어 둘게요":"알겠어요! 피시방 3번,<br>따로따로 적어 둘게요"}</div>${puffs}`; sky(p.done);
   setTimeout(()=>{ if(cur===p){ cur=null; if(mode==="paste") showPaste(); } },2000);
 }
-// ---- v17: 책 위쪽 장 스티커 탭 → 그 장으로 넘기기, 스크롤하면 지금 장 표시
+// ---- v18: 쪽 나누기 + 책장 넘기기 (옆으로 밀기 · ◀ ▶ · 장 탭) · 세로 스크롤은 쪽 안에서
 {
-  const sc=$("d-scroll"), RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-  document.querySelector("#v-dict .thumbs").addEventListener("click",ev=>{
-    const b=ev.target.closest("[data-chap]"); if(!b) return;
-    const c=$("d-chap-"+b.dataset.chap); sc.scrollTo({top:Math.max(0,c.offsetTop-6),behavior:RM?"auto":"smooth"});
+  const RM=()=>window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const PER=3, CH={shop:["가게","var(--yellow)",-3],bank:["은행 말","var(--mint)",2]};
+  const pl=$("d-pl"), pr=$("d-pr"), leaf=$("d-leaf"), ff=$("d-ff"), fb=$("d-fb"), spread=$("d-spread"), book=$("d-book"), cast=$("d-cast");
+  let PAGES=[], SP=0, busy=false, chapStart={shop:0,bank:0};
+  function build(show){
+    const out=[], total=DICT.shop.length+DICT.bank.length;
+    ["shop","bank"].forEach(k=>{
+      const items=DICT[k].map((w,i)=>({w,i})).filter(x=>show(x.w)), n=items.length;
+      const pages=Math.max(2,2*Math.ceil(Math.ceil(n/PER)/2)), base=Math.floor(n/pages), extra=n%pages;
+      chapStart[k]=out.length/2; let at=0;
+      for(let p=0;p<pages;p++){ const c=base+(p<extra?1:0); out.push({k,first:p===0,n,items:items.slice(at,at+c)}); at+=c; }
+    });
+    out[out.length-1].fin=total; return out;
+  }
+  function pageHTML(pg,no){
+    if(!pg) return "";
+    const [name,bg,r]=CH[pg.k];
+    const head=pg.first?`<div class="chap"><span class="ctab" style="background:${bg};--r:${r}deg">${name}</span><span class="cline" aria-hidden="true"></span><small class="num cnum">${pg.n}개</small></div>`
+      :`<div class="rhead num"><span>${name}</span><i aria-hidden="true"></i><span>${no}</span></div>`;
+    const body=pg.items.length?`<ul class="words">${pg.items.map(x=>wordHTML(x.w,x.i,pg.k)).join("")}</ul>`:`<p class="blank">· 빈 쪽 ·</p>`;
+    return head+body+(pg.fin!=null?`<p class="fin num">· 여기까지 ${pg.fin}개 ·</p>`:"")+(pg.first?`<p class="pfoot num">${no}</p>`:"");
+  }
+  const nSp=()=>Math.max(1,PAGES.length/2);
+  function marks(){
+    $("d-pno").textContent=`${SP+1} / ${nSp()}`;
+    $("d-prev").disabled=SP<=0; $("d-next").disabled=SP>=nSp()-1;
+    const k=PAGES[2*SP]?PAGES[2*SP].k:"shop";
+    document.querySelectorAll("#v-dict .thumb").forEach(t=>{ const on=t.dataset.chap===k; t.classList.toggle("on",on); t.setAttribute("aria-current",on?"true":"false"); });
+  }
+  function paint(keep){
+    const y=[pl.scrollTop,pr.scrollTop];
+    pl.innerHTML=pageHTML(PAGES[2*SP],2*SP+1); pr.innerHTML=pageHTML(PAGES[2*SP+1],2*SP+2);
+    if(keep){ pl.scrollTop=y[0]; pr.scrollTop=y[1]; } else { pl.scrollTop=0; pr.scrollTop=0; }
+    marks(); fades();
+  }
+  const fades=()=>[pl,pr].forEach(e=>e.classList.toggle("fade",e.scrollHeight>e.clientHeight+2&&e.scrollTop+e.clientHeight<e.scrollHeight-4));
+  [pl,pr].forEach(e=>e.addEventListener("scroll",fades,{passive:true}));
+  window.__paintBook=show=>{ PAGES=build(show); if(busy) return; SP=Math.min(SP,nSp()-1); paint(true); };
+  function go(to){
+    to=Math.max(0,Math.min(nSp()-1,to)); if(busy||to===SP) return;
+    if(RM()){ SP=to; paint(false); return; }
+    const dir=to>SP?1:-1; busy=true;
+    leaf.className="leaf "+(dir>0?"n":"p"); cast.className="cast "+(dir>0?"n":"p");
+    if(dir>0){ ff.innerHTML=pr.innerHTML; ff.scrollTop=pr.scrollTop; fb.innerHTML=pageHTML(PAGES[2*to],2*to+1); pr.innerHTML=pageHTML(PAGES[2*to+1],2*to+2); pr.scrollTop=0; }
+    else { ff.innerHTML=pl.innerHTML; ff.scrollTop=pl.scrollTop; fb.innerHTML=pageHTML(PAGES[2*to+1],2*to+2); pl.innerHTML=pageHTML(PAGES[2*to],2*to+1); pl.scrollTop=0; }
+    ff.className="face front page "+(dir>0?"pr":"pl"); fb.className="face back page "+(dir>0?"pl":"pr");
+    leaf.hidden=false; void leaf.offsetWidth; leaf.classList.add("go"); cast.classList.add("go");
+    let done=false; const end=()=>{ if(done) return; done=true; SP=to; leaf.hidden=true; leaf.className="leaf"; cast.className="cast"; ff.innerHTML=fb.innerHTML=""; busy=false; paint(false); };
+    leaf.addEventListener("animationend",e=>{ if(e.target===leaf) end(); },{once:false}); setTimeout(end,1200);
+  }
+  window.__dictGo=go; window.__dictSP=()=>({sp:SP,n:nSp(),busy});
+  $("d-prev").onclick=()=>go(SP-1); $("d-next").onclick=()=>go(SP+1);
+  document.querySelector("#v-dict .thumbs").addEventListener("click",ev=>{ const b=ev.target.closest("[data-chap]"); if(b) go(chapStart[b.dataset.chap]); });
+  // 옆으로 미는 손짓만 책장 넘기기 (세로로 움직이면 쪽 안 스크롤에 맡김)
+  let g=null, swallow=false;
+  spread.addEventListener("pointerdown",e=>{ if(e.pointerType==="mouse"&&e.button!==0) return; g={x:e.clientX,y:e.clientY,id:e.pointerId,dir:null}; });
+  spread.addEventListener("pointermove",e=>{ if(!g||e.pointerId!==g.id) return; const dx=e.clientX-g.x, dy=e.clientY-g.y;
+    if(!g.dir&&(Math.abs(dx)>10||Math.abs(dy)>10)){ g.dir=Math.abs(dx)>Math.abs(dy)*1.3?"h":"v"; if(g.dir==="h"){ try{spread.setPointerCapture(e.pointerId)}catch(_){} } }
+    if(g.dir==="h") e.preventDefault(); });
+  const up=e=>{ if(!g||e.pointerId!==g.id) return; const dx=e.clientX-g.x, h=g.dir==="h"; g=null;
+    if(h){ swallow=true; setTimeout(()=>swallow=false,400); if(Math.abs(dx)>36) go(SP+(dx<0?1:-1)); } };
+  spread.addEventListener("pointerup",up); spread.addEventListener("pointercancel",()=>{ g=null; });
+  spread.addEventListener("click",e=>{ if(swallow){ e.stopPropagation(); e.preventDefault(); swallow=false; } },true);
+  // 펼친 쪽지가 쪽 아래로 잘리면 살짝 올려 보여 줌
+  spread.addEventListener("click",ev=>{ const li=ev.target.closest(".w"); if(!li||ev.target.closest(".txtbtn")) return; const key=li.dataset.k;
+    requestAnimationFrame(()=>{ const o=spread.querySelector(`.page:not(.face) .w[data-k="${key}"]`); if(!o||!o.classList.contains("open")) return;
+      const pg=o.closest(".page"), a=o.getBoundingClientRect(), r=pg.getBoundingClientRect();
+      if(a.bottom>r.bottom-10) pg.scrollTo({top:pg.scrollTop+Math.min(a.bottom-r.bottom+18,a.top-r.top-8),behavior:RM()?"auto":"smooth"}); }); });
+  spread.addEventListener("dragstart",e=>e.preventDefault());
+  $("v-dict").addEventListener("keydown",ev=>{
+    if((ev.key==="Enter"||ev.key===" ")&&ev.target.classList&&ev.target.classList.contains("w")){ ev.preventDefault(); ev.target.click(); }
+    else if(ev.key==="ArrowRight"&&!/INPUT|TEXTAREA/.test(ev.target.tagName)) go(SP+1);
+    else if(ev.key==="ArrowLeft"&&!/INPUT|TEXTAREA/.test(ev.target.tagName)) go(SP-1);
   });
-  const mark=()=>{ const onBank=sc.scrollTop+40>=$("d-chap-bank").offsetTop||sc.scrollTop+sc.clientHeight>=sc.scrollHeight-2;
-    document.querySelectorAll("#v-dict .thumb").forEach(t=>{ const on=(t.dataset.chap==="bank")===onBank; t.classList.toggle("on",on); t.setAttribute("aria-current",on?"true":"false"); }); };
-  sc.addEventListener("scroll",mark,{passive:true});
-  $("v-dict").addEventListener("keydown",ev=>{ if((ev.key==="Enter"||ev.key===" ")&&ev.target.classList&&ev.target.classList.contains("w")){ ev.preventDefault(); ev.target.click(); } });
 }
 })();
 </script>
