@@ -172,8 +172,9 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-card .drop .pbar i{display:block;height:100%;width:0;background:var(--yellow);transition:width .25s}
 #app-card .ebank{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:12.5px;font-weight:700;color:var(--grey)}
 #app-card .bchip{font-size:13px;font-weight:900;color:var(--ink);background:var(--sky);border:2.5px solid var(--ink);border-radius:999px;padding:2px 10px;box-shadow:2px 2px 0 var(--ink)}
-#app-card .eerr{font-size:13px;font-weight:800;color:var(--amber);margin-top:8px;line-height:1.35}
+#app-card .eerr{font-size:13px;font-weight:800;color:var(--amber);margin-top:6px;line-height:1.3;background:#fff;border:2px solid var(--amber);border-radius:12px;padding:6px 9px;text-align:left}
 #app-card .eerr:empty{display:none}
+#app-card .eerr .ewhy{display:block;margin-top:4px;font-size:11px;font-weight:600;color:var(--grey);word-break:break-all;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 #app-card .eprivacy{align-self:stretch;margin:0 4px;font-size:13px;font-weight:600;color:var(--grey);line-height:1.45;text-align:left}
 #app-card .eprivacy b{display:block;font-size:15px;color:var(--ink);font-weight:800;margin-bottom:3px}
 #app-card .raw.long{font-size:24px}
@@ -1207,7 +1208,7 @@ function renderEntry(){
   const st=$("stage"); st.innerHTML="";
   ["back2","back1"].forEach(cls=>{ const d=document.createElement("div"); d.className="card "+cls; st.appendChild(d); });
   const d=document.createElement("div"); d.className="card top entry"; d.id="top"; d.innerHTML=entryHTML(); st.appendChild(d);
-  $("c-pick").onclick=()=>{ $("c-eerr").textContent=""; $("c-file").value=""; $("c-file").click(); };
+  $("c-pick").onclick=()=>{ $("c-eerr").textContent=""; $("c-dt").hidden=false; $("c-dh").hidden=false; $("c-file").value=""; $("c-file").click(); };
   const dr=$("c-drop");
   dr.addEventListener("dragover",e=>{ e.preventDefault(); dr.classList.add("over"); });
   dr.addEventListener("dragleave",()=>dr.classList.remove("over"));
@@ -1230,43 +1231,57 @@ function setMode(m){
 // ---- 파일 읽기
 let pwTries=0, pwCb=null;
 function progress(txt,frac){ const dt=$("c-dt"); if(!dt) return; dt.innerHTML=`<span class="prog">${esc(txt)}</span><span class="pbar"><i style="width:${Math.round(frac*100)}%"></i></span>`; $("c-pick").hidden=true; $("c-dh").hidden=true; }
-function entryErr(msg){ if(MODE!=="entry") setMode("entry"); renderEntry(); $("c-eerr").textContent=msg; }
+function entryErr(msg,e){ if(MODE!=="entry") setMode("entry"); renderEntry(); const el=$("c-eerr"); el.textContent=msg; $("c-dt").hidden=true; $("c-dh").hidden=true; const why=errWhy(e); if(why){ const d=document.createElement("small"); d.className="ewhy"; d.textContent="자세히: "+why; el.appendChild(d); } if(e) console.warn("PDF 읽기 실패:",e); try{ el.scrollIntoView({block:"nearest"}); }catch(_){} }
 let pdfjsP=null;
 function loadPdfjs(){
-  if(!Promise.withResolvers) Promise.withResolvers=function(){ let a,b; const p=new Promise((x,y)=>{a=x;b=y;}); return {promise:p,resolve:a,reject:b}; };
-  if(!pdfjsP) pdfjsP=import("./pdfjs/pdf.min.mjs").then(m=>{ m.GlobalWorkerOptions.workerSrc=new URL("./pdfjs/pdf.worker.min.mjs",location.href).href; return m; });
+  // 사파리 보충(safari-fix)을 먼저 넣고 pdf.js를 불러옴. 일꾼도 보충이 든 입구(worker.mjs)로
+  if(!pdfjsP) pdfjsP=import("./pdfjs/safari-fix.mjs").then(()=>import("./pdfjs/pdf.min.mjs")).then(m=>{ m.GlobalWorkerOptions.workerSrc=new URL("./pdfjs/worker.mjs",location.href).href; return m; });
+  pdfjsP.catch(()=>{ pdfjsP=null; });
   return pdfjsP;
 }
+// 글자 읽기: for await 없이 직접 한 조각씩 (사파리에서도 확실히)
+async function pageText(pg){
+  if(typeof pg.streamTextContent!=="function") return pg.getTextContent();
+  const rd=pg.streamTextContent().getReader(), out={items:[]};
+  for(;;){ const {done,value}=await rd.read(); if(done) break; if(value&&value.items) out.items.push(...value.items); }
+  return out;
+}
+const errWhy=e=>{ if(!e) return ""; const n=e.name&&e.name!=="Error"?e.name+": ":""; return (n+(e.message||String(e))).slice(0,140); };
 async function readFile(f){
+  try{ await readFile1(f); }catch(e){ try{ closePw(); }catch(_){} entryErr("PDF를 읽지 못했어요. 다시 시도해 주세요",e); }
+}
+async function readFile1(f){
   if(!f) return;
-  if(!/\.pdf$/i.test(f.name||"")&&f.type!=="application/pdf") return entryErr("PDF 파일만 넣을 수 있어요");
+  // 아이폰 「파일」 앱은 종류(type)를 비워 줄 때가 있어서, 이름·종류가 확실히 PDF가 아닐 때만 먼저 거름 (진짜 확인은 아래 %PDF 머리)
+  if(!/\.pdf$/i.test(f.name||"")&&f.type&&!/pdf|octet-stream/i.test(f.type)) return entryErr("PDF 파일만 넣을 수 있어요");
   if(MODE!=="entry") setMode("entry");
   progress("PDF 여는 중",0.05);
-  let buf; try{ buf=new Uint8Array(await f.arrayBuffer()); }catch(e){ return entryErr("파일을 못 열었어요. 다시 골라 주세요"); }
+  let buf; try{ buf=new Uint8Array(await f.arrayBuffer()); }catch(e){ return entryErr("파일을 못 열었어요. 다시 골라 주세요",e); }
   if(!(buf[0]===0x25&&buf[1]===0x50&&buf[2]===0x44&&buf[3]===0x46)) return entryErr("PDF 파일만 넣을 수 있어요");
-  let lib; try{ lib=await loadPdfjs(); }catch(e){ return entryErr("PDF 읽는 도구를 못 불러왔어요. 새로고침 후 다시 해 주세요"); }
+  let lib; try{ lib=await loadPdfjs(); }catch(e){ return entryErr("PDF 읽는 도구를 못 불러왔어요. 새로고침 후 다시 해 주세요",e); }
   pwTries=0;
   const task=lib.getDocument({data:buf,cMapUrl:new URL("./pdfjs/cmaps/",location.href).href,cMapPacked:true,standardFontDataUrl:new URL("./pdfjs/standard_fonts/",location.href).href,wasmUrl:new URL("./pdfjs/wasm/",location.href).href,iccUrl:new URL("./pdfjs/iccs/",location.href).href,isEvalSupported:false,disableFontFace:true,useSystemFonts:false,enableXfa:false});
   task.onPassword=(cb,reason)=>{ pwTries+= (reason===2?1:0);
     if(pwTries>=5){ closePw(); task.destroy(); return entryErr("5번 틀렸어요. 은행 앱에서 비밀번호를 확인해 주세요"); }
     openPw(cb,reason===2); };
-  let doc; try{ doc=await task.promise; }catch(e){ closePw(); if(pwTries>=5) return; return entryErr(e&&e.name==="PasswordException"?"PDF를 열지 않았어요":"이 PDF는 열 수 없어요. 은행 앱에서 다시 받아 주세요"); }
+  let doc; try{ doc=await task.promise; }catch(e){ closePw(); if(pwTries>=5) return; return entryErr(e&&e.name==="PasswordException"?"PDF를 열지 않았어요":"이 PDF는 열 수 없어요. 은행 앱에서 다시 받아 주세요",e&&e.name==="PasswordException"?null:e); }
   closePw(); buf=null;
   const pages=[]; let chars=0;
   try{
     for(let p=1;p<=doc.numPages;p++){
       progress(`${p} / ${doc.numPages}쪽 읽는 중`,(p-0.5)/doc.numPages);
-      const pg=await doc.getPage(p); const tc=await pg.getTextContent();
+      const pg=await doc.getPage(p); const tc=await pageText(pg);
       const it=tc.items.filter(t=>t.str&&t.str.trim()).map(t=>({s:t.str,x:t.transform[4],y:t.transform[5],w:t.width,h:t.height||Math.abs(t.transform[3])||8}));
       chars+=it.reduce((s,t)=>s+t.s.length,0); pages.push(it); pg.cleanup();
     }
-  }catch(e){ task.destroy(); return entryErr("읽다가 멈췄어요. 다시 해 주세요"); }
+  }catch(e){ try{ task.destroy(); }catch(_){} return entryErr("PDF를 읽지 못했어요. 다시 시도해 주세요",e); }
   const nPages=doc.numPages; task.destroy();
   progress(`${nPages} / ${nPages}쪽 다 읽음`,1);
   if(chars<20*nPages) return entryErr("이 PDF는 사진처럼 되어 있어서 아직 못 읽어요. 은행 앱에서 거래내역서를 PDF로 다시 받아 주세요");
-  let res; try{ res=STMT.parse(pages); }catch(e){ res=null; }
-  if(!res||!res.rows.length){ const t=pages.flat().map(x=>x.s).join(" "); return entryErr(/USD|외화/.test(t)?"원화 통장만 읽어요":"여기서 거래 표를 못 찾았어요. 거래내역서 PDF인지 확인해 주세요"); }
-  res.nPages=nPages; await openPreview(res);
+  let res, perr=null; try{ res=STMT.parse(pages); }catch(e){ res=null; perr=e; }
+  if(!res||!res.rows.length){ const t=pages.flat().map(x=>x.s).join(" "); return entryErr(/USD|외화/.test(t)?"원화 통장만 읽어요":"여기서 거래 표를 못 찾았어요. 거래내역서 PDF인지 확인해 주세요",perr); }
+  res.nPages=nPages;
+  try{ await openPreview(res); }catch(e){ closePreview(); return entryErr("목록을 보여 주지 못했어요. 다시 시도해 주세요",e); }
 }
 // ---- 비밀번호 시트 (비밀번호는 변수에만 잠깐, 저장 안 함)
 function openPw(cb,wrong){ pwCb=cb; $("c-pwerr").textContent=wrong?"비밀번호가 달라요. 다시 넣어 주세요":""; $("c-pw").value=""; $("c-pwsheet").hidden=false; $("c-sdim").classList.add("on"); setTimeout(()=>$("c-pw").focus(),30); }
@@ -1935,7 +1950,7 @@ function commitGroup(together){
       if(!ctx){ ctx=new AC(); master=ctx.createGain(); master.gain.value=0.216; /* v24: v23의 60% */ master.connect(ctx.destination);
         const n=Math.floor(ctx.sampleRate*1.2); noise=ctx.createBuffer(1,n,ctx.sampleRate); const d=noise.getChannelData(0);
         let b=0; for(let i=0;i<n;i++){ const w=Math.random()*2-1; b=0.97*b+0.03*w; d[i]=w*0.75+b*1.6; } } // 흰 잡음 + 살짝 낮은 결
-      if(ctx.state==="suspended") ctx.resume();
+      if(ctx.state==="suspended"){ const r=ctx.resume(); if(r&&r.catch) r.catch(()=>{}); }
     }catch(_){ ctx=null; }
     return ctx;
   }
