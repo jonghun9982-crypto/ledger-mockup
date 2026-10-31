@@ -533,7 +533,24 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-bubble .book .w.just .stk{animation:wjust .55s var(--spring)}
 @keyframes wjust{0%{transform:rotate(var(--r)) scale(.6)}60%{transform:rotate(var(--r)) scale(1.15)}100%{transform:rotate(var(--r)) scale(1)}}
 @media (prefers-reduced-motion: reduce){
-#app-bubble .book .w.just .stk{animation:none}}
+#app-bubble .book .w.just .stk{animation:none}}/* v26: 예시 지우기 · 빈 화면 */
+#app-bubble .exrow{display:flex;justify-content:center;margin:-6px 0 4px}
+#app-bubble .exrow .txtbtn[hidden]{display:none}
+#app-bubble .xtoast{position:fixed;left:50%;bottom:calc(var(--tabh) + 18px);transform:translateX(-50%) rotate(-2deg);z-index:170;background:var(--yellow);border:3px solid var(--ink);
+  border-radius:14px;padding:8px 14px;font-weight:900;font-size:15px;box-shadow:3px 4px 0 var(--ink);opacity:0;pointer-events:none;transition:opacity .25s}
+#app-bubble .xtoast.on{opacity:1}
+#app-bubble .xsheet .xkeep{list-style:none;display:flex;flex-direction:column;gap:6px;margin:2px 0 6px}
+#app-bubble .xsheet .xkeep li{font-size:14px;font-weight:700;padding-left:22px;position:relative;line-height:1.4}
+#app-bubble .xsheet .xkeep li::before{content:"✓";position:absolute;left:2px;top:0;color:var(--green);font-weight:900}
+#app-bubble .cbtn.xdel{background:var(--card);color:var(--amber);border-color:var(--amber);box-shadow:3px 4px 0 var(--amber);min-width:120px}
+#app-bubble .cbtn.xdel:active{box-shadow:0 0 0 var(--amber)}
+#app-bubble .cbtn.xdel:disabled{opacity:.6}
+#app-bubble .tl-empty{list-style:none;margin-left:-22px;border:2.5px dashed var(--soft);border-radius:18px;padding:14px 16px;text-align:center;font-size:15px;font-weight:800;color:var(--ink);background:var(--card)}
+#app-bubble .tl-empty small{display:block;margin-top:4px;font-size:13px;font-weight:600;color:var(--grey)}
+#app-bubble .dempty{margin-top:28px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+#app-bubble .dempty b{white-space:nowrap;font-size:16px;font-weight:900;background:var(--yellow);border:2.5px solid var(--ink);border-radius:10px;padding:3px 10px;transform:rotate(-2deg);box-shadow:2px 3px 0 var(--ink)}
+#app-bubble .dempty span{font-size:13.5px;font-weight:700;color:var(--grey);line-height:1.5}
+#app-bubble .timeline:has(.tl-empty)::before,#app-bubble .timeline:has(.tl-empty)::after{display:none}
 
 
 /* ===== 앱 하단 탭 바 (통합용으로 추가) ===== */
@@ -658,7 +675,7 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
 
   <!-- 내 사전: 아래 숫자(단어 24개, 87%, n번 맞힘)는 전부 목업용 예시 숫자이며 실제 데이터 아님 -->
   <section class="view" id="v-dict" hidden>
-    <p class="dict-fact num">단어 <b id="d-total">24개</b> · 이번 달 자동으로 맞힌 비율 <b>87%</b></p>
+    <p class="dict-fact num">단어 <b id="d-total">24개</b><span id="d-rate"> · 이번 달 자동으로 맞힌 비율 <b>87%</b></span></p>
     <div class="book" id="d-book">
       <nav class="thumbs" aria-label="사전 장 바로 가기">
         <button class="thumb on" data-chap="shop" style="--bg:var(--yellow);--r:-3deg">가게</button>
@@ -679,6 +696,8 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
       <span class="pno num" id="d-pno" aria-live="polite">1 / 1</span>
       <button class="pbtn next" id="d-next" aria-label="다음 쪽으로 넘기기" style="--bg:var(--peach);--r:4deg"><span aria-hidden="true">▶</span></button>
     </div>
+    <div class="exrow"><button class="txtbtn sub" id="b-exclear" aria-haspopup="dialog" hidden>예시 데이터 모두 지우기</button></div>
+    <div class="xtoast" id="b-xtoast" role="status" aria-live="polite"></div>
   </section>
 
 </div>
@@ -695,6 +714,16 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
   <div class="pbtns"><button class="txtbtn sub" id="b-dcancel">취소</button><span class="pgap"></span><button class="cbtn yes" id="b-dsave" style="--r:-2deg">바꾸기</button></div>
 </section>
 <div class="psdim" id="b-pdim"></div>
+<section class="psheet xsheet" id="b-xsheet" role="dialog" aria-modal="true" aria-labelledby="b-xtitle" hidden>
+  <h3 id="b-xtitle">예시 데이터를 모두 지울까요?</h3>
+  <p class="psub" id="b-xsub"></p>
+  <ul class="xkeep">
+    <li>통장 PDF로 넣은 거래는 그대로 있어요</li>
+    <li>내가 붙인 스티커, 직접 고친 단어도 그대로예요</li>
+    <li>지운 예시는 다시 생기지 않아요</li>
+  </ul>
+  <div class="pbtns"><button class="txtbtn sub" id="b-xno">취소</button><span class="pgap"></span><button class="cbtn xdel" id="b-xyes" style="--r:-2deg">예시 지우기</button></div>
+</section>
 <section class="psheet" id="b-psheet" role="dialog" aria-modal="true" aria-labelledby="b-ptitle" hidden>
   <h3 id="b-ptitle">결제 내역 붙이기</h3>
   <p class="psub">카드 결제 문자나 앱 알림을 길게 눌러 복사한 뒤, 아래에 그대로 붙여 넣어 주세요</p>
@@ -1391,7 +1420,7 @@ $("again").onclick=()=>{ if(MODE==="pdf") return; setMode("example"); };
   setMode(TX.length?"pdf":"entry");
   window.__v25ready=true;
 })();
-window.__v25={state:()=>({MODE,TX:TX.length,cards:CARDS.length,i,done,TOTAL}),setMode:m=>setMode(m)};
+window.__v25={state:()=>({MODE,TX:TX.length,cards:CARDS.length,i,done,TOTAL}),setMode:m=>setMode(m),tx:()=>TX,color:n=>COLOR[n],moved:MOVED,ready:()=>!!window.__v25ready};
 })();
 </script>
 <script>
@@ -1416,9 +1445,9 @@ function entryHTML(e,k){
     <div class="exact num">${e.time?`<span><b>${esc(e.time)}</b></span>`:""}<span><b>${e.amt.toLocaleString("ko-KR")}원</b></span><span>${esc(e.raw)}</span></div></li>`;
 }
 function renderTL(){
-  $("tl").innerHTML=entries.map(entryHTML).join("");
+  $("tl").innerHTML=entries.length?entries.map(entryHTML).join(""):`<li class="tl-empty">아직 적어 둔 게 없어요<small>위 칸을 눌러 결제 내역을 붙여 봐요</small></li>`;
   const sum=entries.reduce((s,e)=>s+e.amt,0);
-  $("total").textContent=`${entries.reduce((s,e)=>s+(e.count||1),0)}건 · ${approx(sum)}`;
+  $("total").textContent=entries.length?`${entries.reduce((s,e)=>s+(e.count||1),0)}건 · ${approx(sum)}`:"0건";
 }
 $("tl").addEventListener("click",ev=>{const li=ev.target.closest(".entry");if(!li)return;const e=entries[+li.dataset.k];e.open=!e.open;entries.forEach(x=>x.isNew=false);renderTL();});
 
@@ -1825,15 +1854,15 @@ function commitGroup(together){
       chapStart[k]=out.length/2; let at=0;
       for(let p=0;p<pages;p++){ const c=base+(p<extra?1:0); out.push({k,first:p===0,n,items:items.slice(at,at+c)}); at+=c; }
     });
-    out[out.length-1].fin=total; return out;
+    out[out.length-1].fin=total; if(!total) out[0].empty=true; return out;
   }
   function pageHTML(pg,no){
     if(!pg) return "";
     const [name,bg,r]=CH[pg.k];
     const head=pg.first?`<div class="chap"><span class="ctab" style="background:${bg};--r:${r}deg">${name}</span><span class="cline" aria-hidden="true"></span><small class="num cnum">${pg.n}개</small></div>`
       :`<div class="rhead num"><span>${name}</span><i aria-hidden="true"></i><span>${no}</span></div>`;
-    const body=pg.items.length?`<ul class="words">${pg.items.map(x=>wordHTML(x.w,x.i,pg.k)).join("")}</ul>`:`<p class="blank">· 빈 쪽 ·</p>`;
-    return head+body+(pg.fin!=null?`<p class="fin num">· 여기까지 ${pg.fin}개 ·</p>`:"")+(pg.first?`<p class="pfoot num">${no}</p>`:"");
+    const body=pg.items.length?`<ul class="words">${pg.items.map(x=>wordHTML(x.w,x.i,pg.k)).join("")}</ul>`:(pg.empty?`<div class="dempty"><b>사전이 비어 있어요</b><span>카드 게임에서 스티커를 붙이면 여기에 내 단어가 쌓여요</span></div>`:`<p class="blank">· 빈 쪽 ·</p>`);
+    return head+body+(pg.fin?`<p class="fin num">· 여기까지 ${pg.fin}개 ·</p>`:"")+(pg.first?`<p class="pfoot num">${no}</p>`:"");
   }
   const nSp=()=>Math.max(1,PAGES.length/2);
   function marks(){
@@ -1986,6 +2015,60 @@ function commitGroup(together){
     }catch(_){}
   }
   window.__flipSound=play; window.__flipSoundState=()=>({ctx:ctx?ctx.state:null});
+}
+
+// ===================== v26: 예시 데이터 모두 지우기 (내 사전·말풍선) =====================
+// 처음부터 들어 있던 예시: 사전 단어(SEED), 말풍선 「오늘 적어 둔 것」 3건(BASE). 내가 붙이거나 고친 건 남김.
+{
+  const EXKEY="tongjang-noex";
+  const SEED=JSON.parse(JSON.stringify({shop:DICT.shop,bank:DICT.bank}));
+  const BASEKEY=new Set(BASE.map(e=>e.raw+"|"+e.time));
+  // 예시 그대로인 단어만 예시로 봄: 이름·단어가 같고, 맞힌 횟수가 늘지 않았고, 직접 고치지 않은 것
+  const isEx=(w,k)=>SEED[k].some(s=>s.raw===w.raw&&s.word===w.word&&(+w.n||0)<=(+s.n||0)&&w.how!=="edit"&&(w.fixed||"")===(s.fixed||""));
+  const exWords=()=>["shop","bank"].reduce((n,k)=>n+DICT[k].filter(w=>isEx(w,k)).length,0);
+  let cleared=false; try{ cleared=localStorage.getItem(EXKEY)==="1"; }catch(_){}
+  function realDates(){
+    const d=new Date(), t=`${d.getMonth()+1}월 ${d.getDate()}일`;
+    const td=document.querySelector("#app-bubble .today"); if(td) td.textContent=`${t} (${"일월화수목금토"[d.getDay()]})`;
+    const bh=document.querySelector("#app-bubble .bhead .num"); if(bh) bh.textContent=t;
+  }
+  function strip(){
+    ["shop","bank"].forEach(k=>{ const keep=DICT[k].filter(w=>!isEx(w,k)); DICT[k].splice(0,DICT[k].length,...keep); });
+    BASE.length=0;
+    entries=entries.filter(e=>!BASEKEY.has(e.raw+"|"+e.time));
+    renderTL(); renderDict(); realDates(); paintBtn();
+  }
+  function paintBtn(){
+    const b=$("b-exclear"); if(!b) return;
+    const n=exWords()+BASE.length; b.hidden=cleared||n===0;
+    const r=$("d-rate"); if(r) r.hidden=cleared;
+  }
+  window.__exInfo=()=>({cleared,words:exWords(),bubble:BASE.length});
+  window.__exClear=async()=>{
+    cleared=true; try{ localStorage.setItem(EXKEY,"1"); }catch(_){}
+    strip();
+    try{ await window.LDB.set("noex",true); }catch(_){}
+    try{ await window.LDB.saveDict(); }catch(_){}
+  };
+  // 확인 시트 (황토색, 빨강 안 씀)
+  const sh=$("b-xsheet"), dim=$("b-pdim");
+  function openX(){
+    const w=exWords(), bb=BASE.length;
+    $("b-xsub").textContent=`처음부터 들어 있던 예시 단어 ${w}개${bb?`와 말풍선 예시 ${bb}건`:""}을 지워요.`;
+    sh.hidden=false; dim.classList.add("on"); setTimeout(()=>$("b-xno").focus(),30);
+  }
+  function closeX(){ sh.hidden=true; if($("b-psheet").hidden&&$("b-dsheet").hidden) dim.classList.remove("on"); }
+  $("b-exclear").addEventListener("click",openX);
+  $("b-xno").addEventListener("click",closeX);
+  dim.addEventListener("click",()=>{ if(!sh.hidden) closeX(); });
+  $("b-xyes").addEventListener("click",async()=>{ $("b-xyes").disabled=true; await window.__exClear(); closeX(); $("b-xyes").disabled=false;
+    const t=$("b-xtoast"); if(t){ t.textContent="예시를 지웠어요"; t.classList.add("on"); setTimeout(()=>t.classList.remove("on"),1800); } });
+  if(cleared) strip(); else paintBtn();
+  // 저장소에서 사전을 다 읽은 뒤 한 번 더 (다른 저장 경로에서 지운 표시가 남아 있을 때도)
+  (function wait(){ const p=window.LDB&&window.LDB.loadDictOnce; if(!p) return setTimeout(wait,40);
+    p.then(async()=>{ let f=cleared; if(!f){ try{ f=!!(await window.LDB.get("noex")); }catch(_){} }
+      if(f){ cleared=true; try{ localStorage.setItem(EXKEY,"1"); }catch(_){} strip(); try{ await window.LDB.saveDict(); }catch(_){} }
+      else paintBtn(); }).catch(()=>{}); })();
 }
 })();
 </script>
