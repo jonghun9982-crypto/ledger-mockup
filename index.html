@@ -230,7 +230,30 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-card .footer .txtbtn.sub{color:var(--grey)}
 #app-card .cbtns[hidden],#app-card .txtbtn[hidden]{display:none!important}
 #app-card .stuck.sugg{transform:rotate(8deg) scale(1)}
-#app-card .card.top .slot.hide{min-height:0}
+#app-card .card.top .slot.hide{min-height:0}/* v27: 카드가 많아져도 글씨가 안 겹치게 — 화면 높이에 맞추고, 카드는 내용만큼 커지고, 아래는 스크롤 */
+#app-card .phone#phone{height:calc(100vh - var(--tabh) - env(safe-area-inset-bottom));height:calc(100dvh - var(--tabh) - env(safe-area-inset-bottom));
+  min-height:480px;max-height:calc(844px - var(--tabh));padding:calc(env(safe-area-inset-top,0px) + 22px) 0 0}
+#app-card .phone#phone>header{flex:none;padding:0 20px}
+#app-card .cscroll{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  display:flex;flex-direction:column;padding:0 20px 16px}
+#app-card .cscroll>*{flex:none}
+#app-card .stage{height:auto;min-height:0;margin:22px 4px 0}
+#app-card .card.top{position:relative;inset:auto;min-height:300px}
+#app-card .card.top .raw{overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
+#app-card .card.top .chip{max-width:100%}
+#app-card .card.top .kicker{gap:10px}
+#app-card .card.top .kicker>span:last-child{white-space:nowrap;flex:none}
+#app-card .card.top .amt{white-space:nowrap;padding-top:6px}
+#app-card .card.top .hints span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+#app-card .prompt{margin-top:42px;gap:4px 10px;flex-wrap:wrap;align-items:baseline}
+#app-card .prompt>span:first-child{flex:1 1 auto;min-width:0}
+#app-card .prompt>#pkind{white-space:nowrap;margin-left:auto}
+#app-card .footer{margin-top:auto;padding-top:14px}
+@media (max-height:700px){
+#app-card .card.top{min-height:250px}
+#app-card .stage{margin-top:14px}
+#app-card .prompt{margin-top:36px}
+}
 
 /* ===== 말풍선 · 내 사전 (#app-bubble) ===== */
 
@@ -646,6 +669,7 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
     <div class="gauge" role="progressbar" aria-valuemin="0" aria-valuemax="82" aria-valuenow="41" id="gbar"><i id="gfill"></i></div>
   </header>
 
+  <div class="cscroll" id="c-scroll">
   <div class="stage" id="stage" aria-live="polite"></div>
   <div class="toast" id="toast"></div>
 
@@ -661,6 +685,7 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
     <input type="file" id="c-file" class="vh" accept="application/pdf,.pdf" tabindex="-1" aria-hidden="true">
   </div>
 
+  </div>
   <div class="dim" id="dim"></div>
   <div class="sheet-dim" id="c-sdim"></div>
   <section class="sheet esheet" id="c-esheet" role="dialog" aria-modal="true" aria-labelledby="c-etitle" hidden>
@@ -1092,7 +1117,7 @@ const won=n=>(n<0?"−":"+")+Math.abs(n).toLocaleString("ko-KR")+"원";
 
 function cardHTML(c){return `
   <div class="kicker num"><span>${c.sugg?"사전이 아는 글자":"통장에 찍힌 글자"}</span><span>${i+1} / ${CARDS.length}</span></div>
-  <div class="raw upright">${c.raw}</div>
+  <div class="raw upright${String(c.raw||"").length>18?" xlong":String(c.raw||"").length>11?" long":""}">${esc(String(c.raw||""))}</div>
   <div class="chip upright">${c.chip}</div>
   <div class="slot${c.sugg?" hide":""}">여기에 내 말 스티커가 붙어요</div>
   <div class="amt num upright ${c.amt>0?'in':''}">${c.amt==null?'':won(c.amt)}</div>
