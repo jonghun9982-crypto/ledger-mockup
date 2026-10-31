@@ -566,6 +566,72 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
 .tab[aria-selected="true"]{color:var(--ink);font-weight:900;background:var(--yellow);border-color:var(--ink);box-shadow:2px 3px 0 var(--ink)}
 .tab:focus-visible{outline:3px solid var(--stampblue);outline-offset:2px}
 
+/* ===== 한눈에 (#app-glance) ===== */
+#app-glance[hidden]{display:none}
+#app-glance{--gsoft:#ebe5d6}
+#app-glance .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+#app-glance .phone{width:390px;height:calc(844px - var(--tabh));margin:0 auto;background:var(--paper);position:relative;overflow:hidden;padding:54px 20px 12px;display:flex;flex-direction:column}
+#app-glance header{display:flex;align-items:baseline;justify-content:space-between}
+#app-glance h1{font-size:28px;font-weight:900;letter-spacing:-.5px}
+#app-glance .gsub{font-size:13.5px;font-weight:700;color:var(--grey)}
+#app-glance .gmonths{display:flex;gap:8px;margin-top:12px;overflow-x:auto;padding:2px 2px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#app-glance .gmonths[hidden]{display:none}
+#app-glance .gmonths::-webkit-scrollbar{display:none}
+#app-glance .gm{font:inherit;flex:none;min-height:36px;padding:0 14px;border:2.5px solid var(--ink);border-radius:12px;background:var(--card);font-size:14.5px;font-weight:800;color:var(--ink);cursor:pointer}
+#app-glance .gm.on{background:var(--yellow);box-shadow:2px 3px 0 var(--ink)}
+#app-glance .gm.solo{display:inline-flex;align-items:center;cursor:default}
+#app-glance .gsw{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+#app-glance .gsw[hidden]{display:none}
+#app-glance .gsc{font:inherit;text-align:left;border:3px solid var(--ink);border-radius:18px;background:var(--card);padding:10px 12px 9px;display:flex;flex-direction:column;gap:2px;
+  color:var(--ink);cursor:pointer;box-shadow:3px 4px 0 var(--ink);transition:transform .15s var(--spring),box-shadow .15s;-webkit-tap-highlight-color:transparent}
+#app-glance .gsc.o{transform:rotate(-1.5deg)} #app-glance .gsc.i{transform:rotate(1.5deg)}
+#app-glance .gsc:not(.on){box-shadow:0 0 0 var(--ink);border-color:#b9b3a5;background:#faf6ec}
+#app-glance .gsc:not(.on) .gv,#app-glance .gsc:not(.on) .gl{color:var(--grey)}
+#app-glance .gsc.on.o{background:#fff4cf} #app-glance .gsc.on.i{background:#e0f5ea}
+#app-glance .gsc:focus-visible,#app-glance .gm:focus-visible,#app-glance .grow:focus-visible{outline:3px solid var(--stampblue);outline-offset:2px}
+#app-glance .gl{font-size:14px;font-weight:900}
+#app-glance .gv{font-size:19px;font-weight:900;letter-spacing:-.3px;white-space:nowrap}
+#app-glance .gsc.i .gv{color:var(--green)}
+#app-glance .gc{font-size:12.5px;font-weight:700;color:var(--grey)}
+#app-glance .gbody{flex:1;min-height:0;overflow-y:auto;margin:12px -20px 0;padding:4px 20px 16px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#app-glance .gdrow{display:flex;align-items:center;gap:16px;background:var(--card);border:3px solid var(--ink);border-radius:22px;padding:12px 14px;box-shadow:4px 5px 0 var(--ink);transform:rotate(-.6deg)}
+#app-glance .gdo{width:128px;height:128px;flex:none}
+#app-glance .gdtx{display:flex;flex-direction:column;gap:4px;min-width:0}
+#app-glance .gk{font-size:13px;font-weight:800;color:var(--grey)}
+#app-glance .gdtx b{font-size:24px;font-weight:900;letter-spacing:-.5px}
+#app-glance .gtop{font-size:13.5px;font-weight:800;line-height:1.9}
+#app-glance .stk{display:inline-block;border:2.5px solid var(--ink);border-radius:10px;padding:1px 9px;font-size:14.5px;font-weight:900;color:var(--ink);
+  transform:rotate(var(--r,0deg));box-shadow:2px 2px 0 var(--ink);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+#app-glance .grank{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:10px}
+#app-glance .grank>li{background:var(--card);border:2.5px solid var(--ink);border-radius:16px;overflow:hidden}
+#app-glance .grank>li.none{border-style:dashed}
+#app-glance .grow{font:inherit;width:100%;background:none;border:0;color:var(--ink);cursor:pointer;padding:10px 12px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:8px 10px;align-items:center;text-align:left;-webkit-tap-highlight-color:transparent}
+#app-glance .grow .stk{justify-self:start;max-width:170px}
+#app-glance .gamt{justify-self:end;display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
+#app-glance .gamt b{font-size:16px;font-weight:900}
+#app-glance .gamt small{font-size:12px;font-weight:700;color:var(--grey)}
+#app-glance .gbar{grid-column:1 / -1;height:12px;border:2px solid var(--ink);border-radius:8px;background:var(--paper);overflow:hidden}
+#app-glance .gbar i{display:block;height:100%;border-right:2px solid var(--ink)}
+#app-glance .gtx{list-style:none;border-top:2px dashed var(--gsoft);margin:0 12px;padding:6px 0 8px}
+#app-glance .gtx li{display:grid;grid-template-columns:84px 1fr auto;gap:6px;padding:6px 0;font-size:13.5px;font-weight:700;align-items:baseline}
+#app-glance .gtx li+li{border-top:1px dotted var(--gsoft)}
+#app-glance .gtx .d{color:var(--grey);font-size:12px;white-space:nowrap}
+#app-glance .gtx .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#app-glance .gtx .a{font-weight:900} #app-glance .gtx .a.in{color:var(--green)}
+#app-glance .gnote{font-size:12.5px;font-weight:700;color:var(--grey);margin-top:10px;line-height:1.45}
+#app-glance .gmoved{margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#e2ddd0;border:2.5px solid #b9b3a5;border-radius:14px;padding:9px 12px;font-size:14px;font-weight:800;color:var(--grey)}
+#app-glance .gmoved small{display:block;font-size:11.5px;font-weight:700}
+#app-glance .gnone{margin-top:6px;background:var(--card);border:2.5px dashed #b9b3a5;border-radius:16px;padding:18px 14px;text-align:center;font-size:15px;font-weight:800;color:var(--grey)}
+#app-glance .gempty{display:flex;justify-content:center;padding-top:40px}
+#app-glance .gecard{position:relative;width:100%;background:var(--card);border:3px solid var(--ink);border-radius:24px;box-shadow:5px 6px 0 var(--ink);padding:34px 20px 22px;transform:rotate(-1.5deg);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+#app-glance .gestk{position:absolute;top:-16px;left:18px;background:var(--lilac);border:3px solid var(--ink);border-radius:12px;padding:3px 12px;font-weight:900;font-size:15px;transform:rotate(var(--r));box-shadow:2px 3px 0 var(--ink)}
+#app-glance .gecard b{font-size:21px;font-weight:900}
+#app-glance .gecard p{font-size:14.5px;font-weight:600;color:var(--grey);line-height:1.55}
+#app-glance .sticker{font:inherit;min-height:48px;padding:0 18px;border:3px solid var(--ink);border-radius:16px;font-size:17px;font-weight:900;color:var(--ink);box-shadow:3px 4px 0 var(--ink);cursor:pointer;transform:rotate(var(--r,0deg));margin-top:6px}
+#app-glance .sticker:active{transform:rotate(var(--r,0deg)) translate(3px,4px);box-shadow:0 0 0 var(--ink)}
+@media (prefers-reduced-motion:reduce){#app-glance .gsc{transition:none}}
+.tabbar .tab{min-width:0;padding:0 2px;white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -743,10 +809,19 @@ body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
   <div class="pbtns"><span class="pgap"></span><button class="cbtn yes" id="b-wdone" style="--r:-2deg">다 했어요</button></div>
 </section>
 </main>
+<main id="app-glance" hidden>
+<div class="phone">
+  <header><h1>한눈에</h1><span class="gsub">스티커별로 모아 봤어요</span></header>
+  <div class="gmonths" id="g-months" aria-label="달 고르기"></div>
+  <div class="gsw" id="g-sw" role="tablist" aria-label="나간 돈 · 들어온 돈"></div>
+  <div class="gbody" id="g-body" aria-live="polite"></div>
+</div>
+</main>
 <nav class="tabbar" aria-label="화면 바꾸기"><div class="tabs" role="tablist">
   <button class="tab" role="tab" data-tab="card" aria-selected="true">카드 게임</button>
   <button class="tab" role="tab" data-tab="bubble" aria-selected="false">말풍선</button>
   <button class="tab" role="tab" data-tab="dict" aria-selected="false">내 사전</button>
+  <button class="tab" role="tab" data-tab="glance" aria-selected="false">한눈에</button>
 </div></nav>
 <script>
 // ---- v25: 통장 거래내역서 PDF 표 읽기 (우리은행 우선 + 다른 은행은 추측). 서버 없이 폰 안에서만.
@@ -2073,15 +2148,108 @@ function commitGroup(together){
 })();
 </script>
 <script>
+// ===================== v26: 한눈에 (스티커별 나간 돈 · 들어온 돈) =====================
+(()=>{
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const won=n=>Math.round(Math.abs(n)).toLocaleString("ko-KR")+"원";
+  const NONE="아직 안 붙인 것";
+  const PAL=["--yellow","--mint","--sky","--pink","--lilac","--peach"];
+  const TILT=[-3,2,-2,3,-1,2];
+  let dir="out", month=null, open=null;
+  const V=()=>window.__v25||{};
+  const moved=()=>V().moved||"옮긴 돈";
+  const isMoved=r=>r.word===moved()||(!r.word&&r.mine);
+  function colorOf(name,k){ if(name===NONE) return "var(--gsoft)"; const c=V().color&&V().color(name); return `var(${c||PAL[k%PAL.length]})`; }
+  const ym=d=>String(d||"").slice(0,7);
+  const ymLabel=(k,all)=>{ const [y,m]=k.split("-").map(Number); const multiY=new Set(all.map(x=>x.slice(0,4))).size>1; return (multiY?`${y}년 `:"")+`${m}월`; };
+  function data(){
+    const tx=(V().tx&&V().tx())||[];
+    const months=[...new Set(tx.map(r=>ym(r.date)).filter(Boolean))].sort();
+    if(month&&month!=="all"&&!months.includes(month)) month=null;
+    if(!months.length) month=null; else if(!month) month=months[months.length-1];
+    const mk=month||"all";
+    const rows=tx.filter(r=>mk==="all"||ym(r.date)===mk);
+    const side=d=>{ const rs=rows.filter(r=>(d==="in"?r.amt>0:r.amt<0)&&!isMoved(r));
+      const g=new Map(); rs.forEach(r=>{ const k=r.word||NONE; if(!g.has(k)) g.set(k,[]); g.get(k).push(r); });
+      const total=rs.reduce((s,r)=>s+Math.abs(r.amt),0);
+      const list=[...g.entries()].map(([name,rr])=>({name,rows:rr.sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)),sum:rr.reduce((s,r)=>s+Math.abs(r.amt),0)}))
+        .sort((a,b)=>(a.name===NONE)-(b.name===NONE)||b.sum-a.sum);
+      list.forEach((x,i)=>{ x.share=total?x.sum/total:0; x.color=colorOf(x.name,i); x.r=TILT[i%TILT.length]; });
+      return {total,count:rs.length,list};
+    };
+    const mv=rows.filter(isMoved);
+    return {tx,months,rows,out:side("out"),in:side("in"),moved:{sum:mv.reduce((s,r)=>s+Math.abs(r.amt),0),count:mv.length}};
+  }
+  const pct=s=>s<=0?"0%":s<0.01?"1% 미만":Math.round(s*100)+"%";
+  function donut(list,total){
+    const R=54, C=2*Math.PI*R; let at=0;
+    const segs=list.filter(x=>x.sum>0).map(x=>{ const len=x.share*C; const s=`<circle r="${R}" cx="70" cy="70" fill="none" stroke-width="26" style="stroke:${x.color}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-at).toFixed(2)}"/>`; at+=len; return s; }).join("");
+    const ticks=list.length>1?list.filter(x=>x.sum>0).reduce((o,x)=>{ o.a+=x.share*360; o.s+=`<line x1="111" y1="70" x2="137" y2="70" stroke="var(--ink)" stroke-width="2.5" transform="rotate(${o.a.toFixed(2)} 70 70)"/>`; return o; },{a:0,s:""}).s:"";
+    return `<svg class="gdo" viewBox="0 0 140 140" role="img" aria-label="스티커별 비율 그림">
+      <g transform="rotate(-90 70 70)">${total?segs:`<circle r="${R}" cx="70" cy="70" fill="none" stroke-width="26" style="stroke:var(--gsoft)"/>`}${ticks}</g>
+      <circle r="67" cx="70" cy="70" fill="none" stroke="var(--ink)" stroke-width="3"/><circle r="41" cx="70" cy="70" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/></svg>`;
+  }
+  function rowsHTML(x){
+    return `<ul class="gtx">${x.rows.map(r=>{ const [y,m,d]=String(r.date).split("-").map(Number);
+      return `<li><span class="d num">${m}/${d}${r.time?" "+esc(String(r.time).slice(0,5)):""}</span><span class="n">${esc(r.desc)}</span><span class="a num ${r.amt>0?"in":""}">${r.amt>0?"+":"−"}${won(r.amt)}</span></li>`; }).join("")}</ul>`;
+  }
+  function render(){
+    const root=$("g-body"); if(!root) return;
+    const D=data();
+    $("g-months").innerHTML=D.months.length>1?[...D.months.slice().reverse(),"all"].map(k=>`<button class="gm${k===month?" on":""}" data-m="${k}" aria-pressed="${k===month}">${k==="all"?"전체":ymLabel(k,D.months)}</button>`).join(""):
+      D.months.length?`<span class="gm on solo">${ymLabel(D.months[0],D.months)}</span>`:"";
+    $("g-months").hidden=!D.months.length;
+    if(!D.tx.length){
+      $("g-sw").hidden=true;
+      root.innerHTML=`<div class="gempty"><div class="gecard"><span class="gestk" style="--r:-3deg">한눈에</span>
+        <b>아직 볼 게 없어요</b><p>카드 게임에서 통장 PDF를 넣고 스티커를 붙이면, 나간 돈과 들어온 돈을 스티커별로 여기서 한눈에 봐요.</p>
+        <button class="sticker" id="g-go" style="background:var(--yellow);--r:-2deg">카드 게임으로 가기 →</button></div></div>`;
+      $("g-go").onclick=()=>window.__showTab&&window.__showTab("card"); return;
+    }
+    $("g-sw").hidden=false;
+    const card=(d,label,cls)=>{ const S=D[d]; return `<button class="gsc ${cls}${dir===d?" on":""}" data-d="${d}" role="tab" aria-selected="${dir===d}">
+      <span class="gl">${label}</span><span class="gv num">${d==="in"?"+":"−"}${won(S.total)}</span><span class="gc num">${S.count}건</span></button>`; };
+    $("g-sw").innerHTML=card("out","나간 돈","o")+card("in","들어온 돈","i");
+    const S=D[dir], word=dir==="in"?"들어온":"나간";
+    const top=S.list.find(x=>x.name!==NONE);
+    let html="";
+    if(!S.count){ html+=`<div class="gnone">${month==="all"?"":ymLabel(month,D.months)+"엔 "}${word} 돈이 없어요</div>`; }
+    else {
+      html+=`<div class="gdrow">${donut(S.list,S.total)}<div class="gdtx"><span class="gk">${word} 돈 모두</span><b class="num">${won(S.total)}</b>
+        ${top?`<span class="gtop">제일 많이 <span class="stk" style="background:${top.color};--r:-2deg">${esc(top.name)}</span> ${pct(top.share)}</span>`:`<span class="gtop">아직 스티커를 안 붙였어요</span>`}</div></div>`;
+      html+=`<ul class="grank">${S.list.map((x,i)=>{ const k=dir+":"+x.name, on=open===k;
+        return `<li class="${x.name===NONE?"none":""}${on?" open":""}"><button class="grow" data-k="${esc(k)}" aria-expanded="${on}">
+          <span class="stk" style="background:${x.color};--r:${x.r}deg">${esc(x.name)}</span>
+          <span class="gamt num"><b>${won(x.sum)}</b><small>${pct(x.share)} · ${x.rows.length}건</small></span>
+          <span class="gbar" aria-hidden="true"><i style="width:${Math.max(2,x.share*100).toFixed(1)}%;background:${x.color}"></i></span></button>${on?rowsHTML(x):""}</li>`; }).join("")}</ul>`;
+      if(S.list.some(x=>x.name===NONE)) html+=`<p class="gnote">「${NONE}」은 카드 게임에서 스티커를 붙이면 제자리로 가요</p>`;
+    }
+    if(D.moved.count) html+=`<div class="gmoved"><span>옮긴 돈 <small>내 통장끼리 · 합계에서 뺐어요</small></span><span class="num">${won(D.moved.sum)} · ${D.moved.count}건</span></div>`;
+    root.innerHTML=html;
+  }
+  document.addEventListener("click",e=>{
+    const m=e.target.closest("#g-months .gm[data-m]"); if(m){ month=m.dataset.m; open=null; render(); return; }
+    const s=e.target.closest("#g-sw .gsc"); if(s){ dir=s.dataset.d; open=null; render(); $("g-body").scrollTop=0; return; }
+    const r=e.target.closest("#g-body .grow"); if(r){ open=open===r.dataset.k?null:r.dataset.k; const y=$("g-body").scrollTop; render(); $("g-body").scrollTop=y; }
+  });
+  window.__renderGlance=()=>{ const go=()=>{ try{ render(); }catch(e){ console.warn("한눈에 그리기 실패",e); $("g-body").innerHTML=`<div class="gnone">화면을 그리지 못했어요. 다시 열어 주세요</div>`; } };
+    if(V().ready&&V().ready()) go(); else { go(); (function w(){ if(V().ready&&V().ready()) go(); else setTimeout(w,80); })(); } };
+  window.__glance={set:(d,m)=>{ if(d) dir=d; if(m) month=m; open=null; render(); },open:k=>{ open=k; render(); }};
+})();
+
+</script>
+<script>
 (()=>{
   const tabs=[...document.querySelectorAll('.tab')];
-  const card=document.getElementById('app-card'), bub=document.getElementById('app-bubble');
+  const card=document.getElementById('app-card'), bub=document.getElementById('app-bubble'), gl=document.getElementById('app-glance');
   let lastBubble='ask';
   function mark(t){ tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t)); if(location.hash!=='#'+t) history.replaceState(null,'','#'+t); }
   window.__onBubbleMode=m=>{ if(bub.hidden) return; if(m!=='dict') lastBubble=m; mark(m==='dict'?'dict':'bubble'); };
   function show(t){
-    if(!['card','bubble','dict'].includes(t)) t='card';
-    card.hidden=t!=='card'; bub.hidden=t==='card';
+    if(!['card','bubble','dict','glance'].includes(t)) t='card';
+    card.hidden=t!=='card'; bub.hidden=t==='card'||t==='glance'; gl.hidden=t!=='glance';
+    if(t==='glance'){ if(window.__renderGlance) window.__renderGlance(); mark(t); window.scrollTo(0,0); return; }
     if(t==='dict') window.__bubbleSetMode('dict');
     else if(t==='bubble' && window.__bubbleGetMode()==='dict') window.__bubbleSetMode(lastBubble);
     mark(t); window.scrollTo(0,0);
