@@ -265,7 +265,22 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 #app-card .sfind input::-webkit-search-cancel-button{-webkit-appearance:none}
 #app-card .sfind .txtbtn{flex:none}
 #app-card .sall{display:flex;flex-wrap:wrap;gap:14px 12px;justify-content:center;padding:10px 2px 4px}
-#app-card .snone{width:100%;text-align:center;font-size:14.5px;font-weight:700;color:var(--grey);padding:4px 0 0}
+#app-card .snone{width:100%;text-align:center;font-size:14.5px;font-weight:700;color:var(--grey);padding:4px 0 0}/* v30: 요약 카드가 화면 밖으로 안 나가게 */
+#app-card .clear{top:74px;bottom:auto;left:20px;right:20px;max-height:calc(100% - 74px - 14px);display:flex;flex-direction:column;padding:0;box-sizing:border-box;max-width:calc(100% - 40px)}
+#app-card .clear .cin{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;min-height:0;padding:26px 20px 20px;border-radius:21px}
+#app-card .clear .bigstamp{right:-4px;top:-58px;z-index:2}
+#app-card .clear h2{padding-right:64px;overflow-wrap:anywhere}
+#app-card .clear .rows div,#app-card .clear .moved{flex-wrap:wrap;gap:0 10px;align-items:baseline}
+#app-card .clear .rows div>span:last-child,#app-card .clear .moved>span:last-child{margin-left:auto;white-space:nowrap;font-size:clamp(14px,4.4vw,17px)}
+#app-card .clear .rows div>span:first-child{min-width:0}
+#app-card .clear .match{flex-wrap:wrap;gap:8px 10px}
+#app-card .clear .match>span:first-child{min-width:0}
+#app-card .clear .match .ok{margin-left:auto;white-space:nowrap;font-size:clamp(14px,4.4vw,18px)}
+#app-card .clear .top3{min-width:0}
+#app-card .clear .top3 .sticker{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#app-card .psheet .pbal,#app-card .pbal{flex-wrap:wrap;gap:6px 10px}
+#app-card .pbal .ok{margin-left:auto;white-space:nowrap}
+#app-card .toast{max-width:calc(100% - 32px);white-space:normal!important;text-align:center;overflow-wrap:anywhere}
 
 /* ===== 말풍선 · 내 사전 (#app-bubble) ===== */
 
@@ -593,6 +608,9 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
 html,body{max-width:100%;overflow-x:hidden}
 @supports (overflow:clip){html,body{overflow-x:clip}}
+/* v30: 빠르게 두 번 톡톡 눌러도 화면이 확대되지 않게 (두 손가락 확대는 그대로) */
+html,body,button,a,label,.sticker{touch-action:manipulation}
+#app-card .phone,#app-bubble .phone,#app-glance .phone{width:min(390px,100%);max-width:100%;box-sizing:border-box}
 @media (pointer:coarse){input:not([type=file]),textarea,select{font-size:max(16px,1em)!important}}
 #app-card[hidden],#app-bubble[hidden]{display:none}
 #app-card .phone,#app-bubble .phone{height:calc(844px - var(--tabh))}
@@ -669,6 +687,12 @@ html,body{max-width:100%;overflow-x:hidden}
 #app-glance .sticker:active{transform:rotate(var(--r,0deg)) translate(3px,4px);box-shadow:0 0 0 var(--ink)}
 @media (prefers-reduced-motion:reduce){#app-glance .gsc{transition:none}}
 .tabbar .tab{min-width:0;padding:0 2px;white-space:nowrap}
+/* v30: 큰 금액도 칸 안에 (글씨가 칸 너비에 맞춰 작아져요) */
+#app-glance .gsw{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+#app-glance .gsc{min-width:0;container-type:inline-size}
+#app-glance .gv{font-size:min(19px,11cqi);overflow:hidden;text-overflow:clip}
+#app-glance .gdtx{flex:1;container-type:inline-size}
+#app-glance .gdtx b{font-size:min(24px,12.5cqi);white-space:nowrap}
 
 </style>
 </head>
@@ -1176,7 +1200,7 @@ function next(){
   $("toast").classList.remove("on"); $("top").classList.add("fly");
   setTimeout(()=>{i++;busy=false;render();if(i>=CARDS.length)finish();},450);
 }
-function finish(){ if(MODE==="pdf") fillClear(); else restoreClear(); $("dim").classList.add("on"); setTimeout(()=>$("clear").classList.add("on"),50); }
+function finish(){ try{ if(document.activeElement&&document.activeElement.blur) document.activeElement.blur(); window.__resetZoom&&window.__resetZoom(); }catch(e){} if(MODE==="pdf") fillClear(); else restoreClear(); { const ci=$("clear").querySelector(".cin"); if(ci) ci.scrollTop=0; } $("dim").classList.add("on"); setTimeout(()=>$("clear").classList.add("on"),50); }
 $("stickers").addEventListener("click",e=>{const b=e.target.closest(".sticker");if(!b)return; if(b.dataset.n==="new") return openSheet("name"); stick(b.dataset.n)});
 // (붙이기 시트는 openSheet("paste")로 언제든 다시 연결 가능 — 지금은 연결된 곳 없음)
 
@@ -1592,6 +1616,14 @@ $("stickers").addEventListener("click",e=>{
 $("stickers").addEventListener("input",e=>{ if(e.target.id!=="c-sfind") return; stkQ=e.target.value; const c=CARDS[i]; if(c) paintFound(c.sugg,c.amt>0); });
 $("stickers").addEventListener("keydown",e=>{ if(e.target.id!=="c-sfind") return; if(e.key==="Enter"){ e.preventDefault(); const f=$("c-sall").querySelector(".sticker:not(.new)"); if(f){ unfocusTop(); f.click(); } else { const m=$("c-sall").querySelector('[data-n="make"]'); if(m) m.click(); } } if(e.key==="Escape"){ stkOpen=false; stkQ=""; unfocusTop(); renderStickers(); } });
 window.__stk={pool:inc=>stickerPool(!!inc).map(s=>s[0]),open:()=>stkOpen,top:TOPN};
+
+// v30: 요약 카드 안쪽을 스크롤 칸으로 감싸기 (도장은 밖에 그대로)
+(function(){
+  const cl=document.getElementById("clear"); if(!cl||cl.querySelector(".cin")) return;
+  const cin=document.createElement("div"); cin.className="cin";
+  [...cl.childNodes].forEach(n=>{ if(!(n.nodeType===1&&n.classList.contains("bigstamp"))) cin.appendChild(n); });
+  cl.appendChild(cin);
+})();
 })();
 </script>
 <script>
