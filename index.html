@@ -579,6 +579,9 @@ body{font-family:"Pretendard","Pretendard Variable","Noto Sans CJK KR","Noto San
 /* ===== 앱 하단 탭 바 (통합용으로 추가) ===== */
 :root{--tabh:58px}
 body{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
+html,body{max-width:100%;overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+@media (pointer:coarse){input:not([type=file]),textarea,select{font-size:max(16px,1em)!important}}
 #app-card[hidden],#app-bubble[hidden]{display:none}
 #app-card .phone,#app-bubble .phone{height:calc(844px - var(--tabh))}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:100;background:var(--paper);border-top:3px solid var(--ink);
@@ -1197,7 +1200,8 @@ function openSheet(m){
   $("c-sheet").hidden=false; $("c-sdim").classList.add("on");
   setTimeout(()=>(isPaste?$("c-sarea"):$("c-sinput")).focus(),30);
 }
-function closeSheet(){ sheetMode=null; $("c-sheet").hidden=true; $("c-sdim").classList.remove("on"); }
+function unfocusTop(){ const a=document.activeElement; if(a&&a.matches&&a.matches("input,textarea,select")) a.blur(); const sc=$("c-scroll"); if(sc) sc.scrollTo(0,0); window.scrollTo(0,0); if(window.__resetZoom) window.__resetZoom(); }
+function closeSheet(){ unfocusTop(); sheetMode=null; $("c-sheet").hidden=true; $("c-sdim").classList.remove("on"); }
 function confirmSheet(){
   if(sheetMode==="paste"){
     const v=$("c-sarea").value.trim(); if(!v){ $("c-serr").textContent="붙여 넣은 내용이 없어요"; return; }
@@ -2265,6 +2269,20 @@ function commitGroup(together){
 
 </script>
 <script>
+// v28: 아이폰 사파리가 글자 칸을 누를 때 화면을 확대하고 그대로 두는 문제 막기
+(()=>{
+  const vp=document.querySelector('meta[name="viewport"]'); if(!vp) return;
+  const base=vp.getAttribute('content'); const lock=base+', maximum-scale=1';
+  const isField=e=>e&&e.matches&&e.matches('input:not([type=file]),textarea,select');
+  let t=0;
+  // 글자 칸에 들어가는 동안만 자동 확대를 막음 (손가락으로 벌려 확대하는 건 그대로 됨)
+  const on=()=>{ clearTimeout(t); if(vp.getAttribute('content')!==lock) vp.setAttribute('content',lock); };
+  const off=()=>{ clearTimeout(t); t=setTimeout(()=>{ if(!isField(document.activeElement)){ vp.setAttribute('content',base); } },400); };
+  document.addEventListener('touchstart',e=>{ if(isField(e.target)) on(); },{capture:true,passive:true});
+  document.addEventListener('focusin',e=>{ if(isField(e.target)) on(); },true);
+  document.addEventListener('focusout',e=>{ if(isField(e.target)) off(); },true);
+  window.__resetZoom=()=>{ const s=window.visualViewport?visualViewport.scale:1; if(s>1.01){ vp.setAttribute('content',lock); setTimeout(()=>{ if(!isField(document.activeElement)) vp.setAttribute('content',base); window.scrollTo(0,0); },350); } window.scrollTo(0,0); };
+})();
 (()=>{
   const tabs=[...document.querySelectorAll('.tab')];
   const card=document.getElementById('app-card'), bub=document.getElementById('app-bubble'), gl=document.getElementById('app-glance');
