@@ -725,6 +725,66 @@ html,body,button,a,label,.sticker{touch-action:manipulation}
 #app-glance .gdtx{flex:1;container-type:inline-size}
 #app-glance .gdtx b{font-size:min(24px,12.5cqi);white-space:nowrap}
 
+/* ===== v32: 한눈에 시간순 그림 + 스티커별 막대 ===== */
+#app-glance{--gin:#7fd8ad;--gout:#ffbd7a;--gbal:#8cc4ff}
+#app-glance .gtl{background:var(--card);border:3px solid var(--ink);border-radius:22px;box-shadow:4px 5px 0 var(--ink);padding:12px 0 10px;transform:rotate(-.4deg);min-width:0}
+#app-glance .gtlh{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;padding:0 14px;container-type:inline-size}
+#app-glance .gtlh b{font-size:min(26px,9cqi);font-weight:900;letter-spacing:-.5px;white-space:nowrap}
+#app-glance .gwhen{font-size:12.5px;font-weight:700;color:var(--grey);margin-left:auto}
+#app-glance .gtip{margin:8px 12px 0;height:70px;background:#fff8e6;border:2px dashed var(--amber);border-radius:12px;padding:5px 10px;display:flex;flex-direction:column;gap:1px;font-size:13px;font-weight:700;color:var(--grey);overflow:hidden;line-height:19px}
+#app-glance .gtip .r1,#app-glance .gtip .r2{display:flex;flex-wrap:wrap;gap:0 12px;align-items:baseline}
+#app-glance .gtip .r1 .tb{margin-left:auto}
+#app-glance .gtip .r3{min-height:19px}
+#app-glance .gtip b{color:var(--ink);font-weight:900;white-space:nowrap}
+#app-glance .gtip .tw{color:var(--amber);font-weight:900;font-size:13.5px}
+#app-glance .gtip .ti b{color:var(--green)}
+#app-glance .gtip span{white-space:nowrap}
+#app-glance .gtip .tm,#app-glance .gtip .tn{font-size:12px}
+#app-glance .gtip .tm small{font-size:11.5px}
+#app-glance .gscr{margin-top:6px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:thin;outline:none}
+#app-glance .gscr:focus-visible{outline:3px solid var(--stampblue);outline-offset:-3px}
+#app-glance .gplot{position:relative}
+#app-glance .gsvg{display:block;touch-action:pan-y;cursor:crosshair;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#app-glance .gsvg .gsel{fill:#c98a12;opacity:.13}
+#app-glance .gsvg .gselx{stroke:var(--amber);stroke-width:2;stroke-dasharray:4 3}
+#app-glance .gsvg .gzero{stroke:var(--ink);stroke-width:2}
+#app-glance .gsvg .barea{fill:var(--gbal);opacity:.32}
+#app-glance .gsvg .bline{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linejoin:round}
+#app-glance .gsvg .bi{fill:var(--gin);stroke:var(--ink);stroke-width:1.8}
+#app-glance .gsvg .bo{fill:var(--gout);stroke:var(--ink);stroke-width:1.8}
+#app-glance .gsvg .bm{fill:#b9b3a5;stroke:var(--ink);stroke-width:1.2}
+#app-glance .gsvg .gdot{fill:#fff;stroke:var(--amber);stroke-width:3}
+#app-glance .gsvg .gend{fill:var(--amber);stroke:var(--ink);stroke-width:2.5}
+#app-glance .gsvg .gendl rect{fill:var(--yellow);stroke:var(--ink);stroke-width:2.5}
+#app-glance .gsvg .gendl text{font:900 12.5px Pretendard,system-ui,sans-serif;fill:var(--ink);font-variant-numeric:tabular-nums}
+#app-glance .gdates{position:relative;height:22px;touch-action:pan-x}
+#app-glance .gdates span{position:absolute;top:3px;transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--grey);white-space:nowrap}
+#app-glance .gdates span.we{color:#9a958a}
+#app-glance .gdates span.m{color:var(--ink);font-weight:900}
+#app-glance .gleg{display:flex;gap:14px;padding:4px 14px 0;font-size:12.5px;font-weight:800;color:var(--grey)}
+#app-glance .gleg i{display:inline-block;width:12px;height:12px;border:2px solid var(--ink);border-radius:3px;margin-right:5px;vertical-align:-2px}
+#app-glance .gleg .li{background:var(--gin)} #app-glance .gleg .lo{background:var(--gout)}
+#app-glance .gleg .lb{background:var(--gbal);height:4px;border-radius:2px;vertical-align:2px;width:14px}
+#app-glance .gcap{padding:6px 14px 0;font-size:11.5px;font-weight:700;color:var(--grey);line-height:1.45}
+#app-glance .gsh{display:flex;align-items:baseline;justify-content:space-between;margin:20px 2px 0}
+#app-glance .gsh[hidden]{display:none}
+#app-glance .gsh h2{font-size:17px;font-weight:900}
+#app-glance .gsh span{font-size:12.5px;font-weight:700;color:var(--grey)}
+#app-glance .gbody .gsw{margin-top:8px}
+#app-glance .gsum{margin-top:14px;font-size:13.5px;font-weight:800;line-height:1.9;color:var(--grey)}
+#app-glance .gsum b{color:var(--ink)}
+#app-glance .grank{margin-top:8px}
+#app-glance .gbar{height:14px}
+#app-glance .gchev{grid-column:1 / -1;justify-self:end;font-size:11.5px;font-weight:800;color:var(--grey);margin-top:-4px}
+#app-glance .grank>li.open{box-shadow:3px 4px 0 var(--ink)}
+#app-glance .gtx li{grid-template-columns:78px minmax(0,1fr) auto;row-gap:3px}
+#app-glance .tbar{grid-column:1 / -1;height:8px;border:1.5px solid var(--ink);border-radius:5px;background:var(--paper);overflow:hidden}
+#app-glance .tbar i{display:block;height:100%;opacity:.85}
+#app-glance .gmore{font:inherit;display:block;margin:0 12px 10px auto;min-height:36px;padding:0 12px;background:var(--card);border:2px solid var(--ink);border-radius:10px;font-size:13px;font-weight:800;color:var(--ink);cursor:pointer}
+#app-glance .gfold{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;background:#fff4cf;font-size:16px}
+#app-glance .gfold small{font-size:12.5px;font-weight:800;color:var(--grey)}
+#app-glance .gmore:focus-visible,#app-glance .gfold:focus-visible{outline:3px solid var(--stampblue);outline-offset:2px}
+
 </style>
 </head>
 <body>
@@ -914,10 +974,14 @@ html,body,button,a,label,.sticker{touch-action:manipulation}
 </main>
 <main id="app-glance" hidden>
 <div class="phone">
-  <header><h1>한눈에</h1><span class="gsub">스티커별로 모아 봤어요</span></header>
+  <header><h1>한눈에</h1><span class="gsub">날마다 오간 돈 · 잔액</span></header>
   <div class="gmonths" id="g-months" aria-label="달 고르기"></div>
-  <div class="gsw" id="g-sw" role="tablist" aria-label="나간 돈 · 들어온 돈"></div>
-  <div class="gbody" id="g-body" aria-live="polite"></div>
+  <div class="gbody" id="g-body">
+    <div id="g-tl"></div>
+    <div class="gsh" id="g-sh" hidden><h2>스티커별</h2><span>많은 순서</span></div>
+    <div class="gsw" id="g-sw" role="tablist" aria-label="나간 돈 · 들어온 돈"></div>
+    <div id="g-list" aria-live="polite"></div>
+  </div>
 </div>
 </main>
 <nav class="tabbar" aria-label="화면 바꾸기"><div class="tabs" role="tablist">
@@ -2466,94 +2530,242 @@ window.__bubbleWordRenamed=(old,v)=>{ try{ bubbleRename(old,v,""); }catch(e){} }
 })();
 </script>
 <script>
-// ===================== v26: 한눈에 (스티커별 나간 돈 · 들어온 돈) =====================
+// ===================== v32: 한눈에 (시간순 들어온 돈 · 나간 돈 · 잔액 + 스티커별 막대) =====================
 (()=>{
   const $=id=>document.getElementById(id);
   const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const won=n=>Math.round(Math.abs(n)).toLocaleString("ko-KR")+"원";
+  const swon=n=>(n<0?"−":"")+won(n);
   const NONE="아직 안 붙인 것";
   const PAL=["--yellow","--mint","--sky","--pink","--lilac","--peach"];
   const TILT=[-3,2,-2,3,-1,2];
-  let dir="out", month=null, open=null;
+  const TOPN=5, TXN=8;
+  let dir="out", month=null, open=null, allOpen={in:false,out:false}, txMore={}, sel=null, tlKey="";
   const V=()=>window.__v25||{};
   const moved=()=>V().moved||"옮긴 돈";
   const isMoved=r=>r.word===moved()||(!r.word&&r.mine);
   function colorOf(name,k){ if(name===NONE) return "var(--gsoft)"; const c=V().color&&V().color(name); return `var(${c||PAL[k%PAL.length]})`; }
   const ym=d=>String(d||"").slice(0,7);
   const ymLabel=(k,all)=>{ const [y,m]=k.split("-").map(Number); const multiY=new Set(all.map(x=>x.slice(0,4))).size>1; return (multiY?`${y}년 `:"")+`${m}월`; };
+  const DAY=864e5;
+  const toT=d=>{ const [y,m,dd]=String(d).split("-").map(Number); return Date.UTC(y,m-1,dd); };
+  const toD=t=>new Date(t).toISOString().slice(0,10);
+  const md=d=>{ const [,m,dd]=String(d).split("-").map(Number); return `${m}/${dd}`; };
+  const WD="일월화수목금토";
+  const wd=d=>WD[new Date(toT(d)).getUTCDay()];
+  const key=r=>String(r.date)+" "+String(r.time||"");
+
+  // ---- 통장별 잔액 줄 (오래된 것 → 최신). 같은 시각 줄은 잔액이 이어지게 순서 맞춤
+  function ledger(tx){
+    const by=new Map(); tx.forEach(r=>{ const k=(r.bank||"")+"|"+(r.acct||""); if(!by.has(k)) by.set(k,[]); by.get(k).push(r); });
+    const accts=[]; let computed=false;
+    by.forEach(rs=>{
+      rs=rs.slice().sort((a,b)=>key(a).localeCompare(key(b)));
+      const out=[]; let P=null;
+      for(let i=0;i<rs.length;){
+        let j=i; while(j<rs.length&&key(rs[j])===key(rs[i])) j++;
+        const g=rs.slice(i,j);
+        if(g.length>1&&g.every(r=>r.bal!=null)){
+          if(P==null){ const st=g.find(x=>!g.some(y=>y!==x&&y.bal===x.bal-x.amt)); if(st) P=st.bal-st.amt; }
+          while(g.length){ let k=P==null?-1:g.findIndex(x=>x.bal===P+x.amt); if(k<0) k=0; const x=g.splice(k,1)[0]; out.push(x); P=x.bal; }
+        } else { g.forEach(x=>{ out.push(x); if(x.bal!=null) P=x.bal; }); }
+        i=j;
+      }
+      // 잔액 칸이 없는 줄은 앞 줄 잔액 + 금액으로
+      let prev=null; const ev=out.map(r=>{ let b=r.bal; if(b==null){ computed=true; b=(prev==null?0:prev)+r.amt; } prev=b; return {date:r.date,bal:b}; });
+      const f=out[0]; const opening=f.bal!=null?f.bal-f.amt:0;
+      accts.push({ev,opening});
+    });
+    return {accts,computed};
+  }
+  // 날짜 d가 끝났을 때 모든 통장 잔액 합
+  function balAt(L,d){ let s=0; L.accts.forEach(a=>{ let b=a.opening; for(const e of a.ev){ if(e.date<=d) b=e.bal; else break; } s+=b; }); return s; }
+
   function data(){
     const tx=(V().tx&&V().tx())||[];
     const months=[...new Set(tx.map(r=>ym(r.date)).filter(Boolean))].sort();
     if(month&&month!=="all"&&!months.includes(month)) month=null;
-    if(!months.length) month=null; else if(!month) month=months[months.length-1];
+    if(!months.length) month=null;
+    else if(!month){ const ds=tx.map(r=>r.date).filter(Boolean).sort(); const span=(toT(ds[ds.length-1])-toT(ds[0]))/DAY;
+      month=months.length>1&&span<=62?"all":months[months.length-1]; }
     const mk=month||"all";
     const rows=tx.filter(r=>mk==="all"||ym(r.date)===mk);
     const side=d=>{ const rs=rows.filter(r=>(d==="in"?r.amt>0:r.amt<0)&&!isMoved(r));
       const g=new Map(); rs.forEach(r=>{ const k=r.word||NONE; if(!g.has(k)) g.set(k,[]); g.get(k).push(r); });
       const total=rs.reduce((s,r)=>s+Math.abs(r.amt),0);
-      const list=[...g.entries()].map(([name,rr])=>({name,rows:rr.sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)),sum:rr.reduce((s,r)=>s+Math.abs(r.amt),0)}))
+      const list=[...g.entries()].map(([name,rr])=>({name,rows:rr.sort((a,b)=>Math.abs(b.amt)-Math.abs(a.amt)||key(b).localeCompare(key(a))),sum:rr.reduce((s,r)=>s+Math.abs(r.amt),0)}))
         .sort((a,b)=>(a.name===NONE)-(b.name===NONE)||b.sum-a.sum);
       list.forEach((x,i)=>{ x.share=total?x.sum/total:0; x.color=colorOf(x.name,i); x.r=TILT[i%TILT.length]; });
       return {total,count:rs.length,list};
     };
     const mv=rows.filter(isMoved);
-    return {tx,months,rows,out:side("out"),in:side("in"),moved:{sum:mv.reduce((s,r)=>s+Math.abs(r.amt),0),count:mv.length}};
+    return {tx,months,rows,mk,out:side("out"),in:side("in"),moved:{sum:mv.reduce((s,r)=>s+Math.abs(r.amt),0),count:mv.length}};
   }
   const pct=s=>s<=0?"0%":s<0.01?"1% 미만":Math.round(s*100)+"%";
-  function donut(list,total){
-    const R=54, C=2*Math.PI*R; let at=0;
-    const segs=list.filter(x=>x.sum>0).map(x=>{ const len=x.share*C; const s=`<circle r="${R}" cx="70" cy="70" fill="none" stroke-width="26" style="stroke:${x.color}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-at).toFixed(2)}"/>`; at+=len; return s; }).join("");
-    const ticks=list.length>1?list.filter(x=>x.sum>0).reduce((o,x)=>{ o.a+=x.share*360; o.s+=`<line x1="111" y1="70" x2="137" y2="70" stroke="var(--ink)" stroke-width="2.5" transform="rotate(${o.a.toFixed(2)} 70 70)"/>`; return o; },{a:0,s:""}).s:"";
-    return `<svg class="gdo" viewBox="0 0 140 140" role="img" aria-label="스티커별 비율 그림">
-      <g transform="rotate(-90 70 70)">${total?segs:`<circle r="${R}" cx="70" cy="70" fill="none" stroke-width="26" style="stroke:var(--gsoft)"/>`}${ticks}</g>
-      <circle r="67" cx="70" cy="70" fill="none" stroke="var(--ink)" stroke-width="3"/><circle r="41" cx="70" cy="70" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/></svg>`;
+
+  // ---- 시간순 그림 데이터: 날마다(길면 주마다) 들어온 돈 · 나간 돈 · 그 끝 잔액
+  function buckets(D){
+    const L=ledger(D.tx);
+    const ds=D.rows.map(r=>r.date).filter(Boolean).sort();
+    const t0=toT(ds[0]), t1=toT(ds[ds.length-1]), n=Math.round((t1-t0)/DAY)+1;
+    const weekly=n>62;
+    const B=[];
+    if(!weekly) for(let t=t0;t<=t1;t+=DAY) B.push({from:toD(t),to:toD(t)});
+    else { let t=t0-((new Date(t0).getUTCDay()+6)%7)*DAY; while(t<=t1){ B.push({from:toD(Math.max(t,t0)),to:toD(Math.min(t+6*DAY,t1))}); t+=7*DAY; } }
+    const idx=new Map(); B.forEach((b,i)=>{ b.in=0; b.out=0; b.mvIn=0; b.mvOut=0; b.n=0; });
+    const find=d=>{ if(!weekly) return Math.round((toT(d)-t0)/DAY); let lo=0,hi=B.length-1; while(lo<hi){ const m=(lo+hi+1)>>1; if(B[m].from<=d) lo=m; else hi=m-1; } return lo; };
+    D.rows.forEach(r=>{ const b=B[find(r.date)]; if(!b) return; b.n++; if(isMoved(r)){ if(r.amt>0) b.mvIn+=r.amt; else b.mvOut-=r.amt; } else if(r.amt>0) b.in+=r.amt; else b.out-=r.amt; });
+    // 잔액: 통장별로 줄을 따라가며 (빠르게)
+    const ptr=L.accts.map(a=>({a,i:0,b:a.opening}));
+    const adv=d=>{ let s=0; ptr.forEach(p=>{ while(p.i<p.a.ev.length&&p.a.ev[p.i].date<=d){ p.b=p.a.ev[p.i].bal; p.i++; } s+=p.b; }); return s; };
+    const start=adv(toD(t0-DAY));
+    B.forEach(b=>{ b.bal=adv(b.to); });
+    const lastAll=D.tx.map(r=>r.date).sort().pop();
+    const now=balAt(L,lastAll);
+    return {B,weekly,start,computed:L.computed,isNow:B[B.length-1].to>=lastAll,now,lastAll,end:B[B.length-1].to};
   }
-  function rowsHTML(x){
-    return `<ul class="gtx">${x.rows.map(r=>{ const [y,m,d]=String(r.date).split("-").map(Number);
-      return `<li><span class="d num">${m}/${d}${r.time?" "+esc(String(r.time).slice(0,5)):""}</span><span class="n">${esc(r.desc)}</span><span class="a num ${r.amt>0?"in":""}">${r.amt>0?"+":"−"}${won(r.amt)}</span></li>`; }).join("")}</ul>`;
+
+  function tlHTML(T,D){
+    const last=T.B[T.B.length-1];
+    const head=T.isNow?`<span class="gk">지금 잔액</span>`:`<span class="gk">${esc(D.mk==="all"?"":ymLabel(D.mk,D.months)+" ")}끝 잔액</span>`;
+    return `<section class="gtl" aria-label="시간순으로 들어온 돈 · 나간 돈 · 잔액">
+      <div class="gtlh">${head}<b class="num" id="g-nowv">${swon(last.bal)}</b><span class="gwhen num">${md(last.to)}${T.isNow?" 기준":""}${T.computed?" · 계산":""}</span></div>
+      <div class="gtip num" id="g-tip" aria-live="polite"></div>
+      <div class="gscr" id="g-scr" tabindex="0" aria-label="날짜 그림 · 왼쪽 오른쪽 화살표로 날짜 고르기"><div class="gplot" id="g-plot"></div></div>
+      <div class="gleg"><span><i class="li"></i>들어온 돈</span><span><i class="lo"></i>나간 돈</span><span><i class="lb"></i>잔액</span></div>
+      <p class="gcap">${T.computed?"통장 잔액 칸이 없는 줄은 넣은 거래로 셌어요. ":""}막대는 옮긴 돈(내 통장끼리)을 뺀 돈이고, 위·아래 막대는 각각 제일 큰 날에 길이를 맞췄어요. 잔액 선은 통장에 찍힌 잔액 그대로라 옮긴 돈도 들어 있어요.</p>
+    </section>`;
+  }
+  let T=null, G=null;
+  function drawPlot(){
+    const scr=$("g-scr"), plot=$("g-plot"); if(!scr||!T) return;
+    const n=T.B.length, avail=Math.max(200,scr.clientWidth);
+    const minW=T.weekly?44:22, padL=6, padR=8;
+    const colW=Math.max(minW,(avail-padL-padR)/n), W=Math.round(padL+padR+colW*n);
+    const H1=104, top=34, bY0=H1+14, bH=60, mid=bY0+bH, H=mid+bH+6;
+    const bals=[T.start,...T.B.map(b=>b.bal)]; let lo=Math.min(...bals), hi=Math.max(...bals); if(hi===lo){ hi+=1; lo-=1; }
+    const yB=v=>top+(H1-top)*(1-(v-lo)/(hi-lo));
+    const mxI=Math.max(1,...T.B.map(b=>b.in)), mxO=Math.max(1,...T.B.map(b=>b.out));
+    const xC=i=>padL+colW*(i+.5);
+    const bw=Math.max(4,Math.min(26,colW*.62));
+    let bars="";
+    T.B.forEach((b,i)=>{ const x=(xC(i)-bw/2).toFixed(1);
+      if(b.in>0){ const h=Math.max(3,b.in/mxI*bH); bars+=`<rect class="bi" x="${x}" y="${(mid-h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="3"/>`; }
+      if(b.out>0){ const h=Math.max(3,b.out/mxO*bH); bars+=`<rect class="bo" x="${x}" y="${mid}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="3"/>`; }
+      if(!b.in&&!b.out&&(b.mvIn||b.mvOut)) bars+=`<circle class="bm" cx="${xC(i).toFixed(1)}" cy="${mid}" r="3"/>`; });
+    const pts=[[padL,yB(T.start)],...T.B.map((b,i)=>[xC(i),yB(b.bal)])];
+    // 계단 모양: 그날이 끝날 때 잔액
+    let d=`M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`; T.B.forEach((b,i)=>{ const xl=padL+colW*i, xr=xl+colW; d+=` H${(xl+colW*.5).toFixed(1)} V${yB(b.bal).toFixed(1)}`; if(i===n-1) d+=` H${(xr-2).toFixed(1)}`; });
+    const area=d+` V${H1} H${padL} Z`;
+    const ex=padL+colW*n-2, ey=yB(T.B[n-1].bal);
+    const lab=(T.isNow?"지금 잔액 ":"끝 잔액 ")+swon(T.B[n-1].bal);
+    const lw=Math.min(W-8,lab.length*7.6+18), lx=Math.max(4,ex-lw), ly=Math.max(2,Math.min(ey-30,H1-28));
+    // 날짜 줄
+    let dates=""; const step=T.weekly?1:(colW>=22?1:2);
+    T.B.forEach((b,i)=>{ const [,m,dd]=b.from.split("-").map(Number); const first=i===0||dd===1||T.weekly&&b.from.slice(5,7)!==T.B[i-1].from.slice(5,7);
+      if(T.weekly) dates+=`<span style="left:${xC(i).toFixed(1)}px" class="${first?"m":""}">${m}/${dd}</span>`;
+      else if(first||i%step===0) dates+=`<span style="left:${xC(i).toFixed(1)}px" class="${first?"m":""}${"토일".includes(wd(b.from))?" we":""}">${first?m+"/"+dd:dd}</span>`; });
+    plot.style.width=W+"px";
+    plot.innerHTML=`<svg class="gsvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(md(T.B[0].from))}부터 ${esc(md(T.end))}까지 ${T.weekly?"주마다":"날마다"} 들어온 돈과 나간 돈, 잔액 선">
+      <rect class="gsel" id="g-selr" x="0" y="0" width="${colW.toFixed(1)}" height="${H}" rx="6"/>
+      <line class="gzero" x1="${padL}" x2="${W-padR}" y1="${mid}" y2="${mid}"/>
+      <path class="barea" d="${area}"/><path class="bline" d="${d}"/>
+      ${bars}
+      <line class="gselx" id="g-selx" x1="0" x2="0" y1="${top-6}" y2="${H}"/>
+      <circle class="gdot" id="g-dot" r="5" cx="0" cy="0"/>
+      <circle class="gend" cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" r="6"/>
+      <g class="gendl" transform="translate(${lx.toFixed(1)} ${ly.toFixed(1)}) rotate(-2)"><rect width="${lw.toFixed(1)}" height="24" rx="8"/><text x="${(lw/2).toFixed(1)}" y="16.5" text-anchor="middle">${esc(lab)}</text></g>
+    </svg><div class="gdates" id="g-dates" style="width:${W}px">${dates}</div>`;
+    G={colW,padL,xC,yB,n,W};
+    if(sel==null||sel>=n) sel=n-1;
+    showSel(false);
+    scr.scrollLeft=Math.max(0,xC(sel)-scr.clientWidth/2);
+  }
+  function showSel(scroll){
+    if(!G||!T) return; const b=T.B[sel], x=G.xC(sel);
+    const r=$("g-selr"), l=$("g-selx"), dt=$("g-dot"); if(!r) return;
+    r.setAttribute("x",(x-G.colW/2).toFixed(1)); l.setAttribute("x1",x.toFixed(1)); l.setAttribute("x2",x.toFixed(1)); dt.setAttribute("cx",x.toFixed(1)); dt.setAttribute("cy",G.yB(b.bal).toFixed(1));
+    const when=T.weekly?`${md(b.from)}~${md(b.to)}`:`${md(b.from)} (${wd(b.from)})`;
+    const mv=b.mvIn||b.mvOut?`<span class="tm">옮긴 돈 ${b.mvIn?"+"+won(b.mvIn):""}${b.mvIn&&b.mvOut?" ":""}${b.mvOut?"−"+won(b.mvOut):""} <small>잔액엔 들어가요</small></span>`:"";
+    $("g-tip").innerHTML=`<div class="r1"><span class="tw">${when}${sel===T.B.length-1&&T.isNow?" · 마지막":""}</span><span class="tb">잔액 <b>${swon(b.bal)}</b></span></div>
+      <div class="r2"><span class="ti">들어온 <b>+${won(b.in)}</b></span><span class="to">나간 <b>−${won(b.out)}</b></span></div>
+      <div class="r3">${mv||(!b.n?`<span class="tn">${T.weekly?"이 주는":"이날은"} 거래가 없었어요</span>`:"")}</div>`;
+    if(scroll){ const s=$("g-scr"); if(x<s.scrollLeft+20) s.scrollLeft=x-40; else if(x>s.scrollLeft+s.clientWidth-20) s.scrollLeft=x-s.clientWidth+40; }
+  }
+  function pick(clientX){ const p=$("g-plot"); if(!p||!G) return; const k=p.getBoundingClientRect(); const i=Math.max(0,Math.min(G.n-1,Math.floor((clientX-k.left-G.padL)/G.colW))); if(i!==sel){ sel=i; showSel(false); } }
+  let drag=null, auto=0;
+  function edge(){ if(!drag) return; const s=$("g-scr"); if(!s) return; const k=s.getBoundingClientRect(); let v=0; if(drag.x<k.left+30) v=-8; else if(drag.x>k.right-30) v=8;
+    if(v){ s.scrollLeft+=v; pick(drag.x); } auto=requestAnimationFrame(edge); }
+  document.addEventListener("pointerdown",e=>{ const sv=e.target.closest&&e.target.closest("#g-plot .gsvg"); if(!sv) return; drag={id:e.pointerId,x:e.clientX}; try{ sv.setPointerCapture(e.pointerId); }catch(_){} pick(e.clientX); cancelAnimationFrame(auto); auto=requestAnimationFrame(edge); });
+  document.addEventListener("pointermove",e=>{ if(!drag||e.pointerId!==drag.id) return; drag.x=e.clientX; pick(e.clientX); });
+  const end=e=>{ if(drag&&(!e||e.pointerId===drag.id)){ drag=null; cancelAnimationFrame(auto); } };
+  document.addEventListener("pointerup",end); document.addEventListener("pointercancel",end);
+  document.addEventListener("keydown",e=>{ if(!e.target.closest||!e.target.closest("#g-scr")||!G) return; if(e.key==="ArrowLeft"||e.key==="ArrowRight"){ e.preventDefault(); sel=Math.max(0,Math.min(G.n-1,sel+(e.key==="ArrowLeft"?-1:1))); showSel(true); } });
+
+  // ---- 스티커별 막대
+  function txHTML(x){
+    const k=dir+":"+x.name, more=txMore[k], rs=more?x.rows:x.rows.slice(0,TXN), mx=Math.max(...x.rows.map(r=>Math.abs(r.amt)));
+    return `<ul class="gtx">${rs.map(r=>`<li><span class="d num">${md(r.date)}${r.time?" "+esc(String(r.time).slice(0,5)):""}</span><span class="n">${esc(r.desc)}</span><span class="a num ${r.amt>0?"in":""}">${r.amt>0?"+":"−"}${won(r.amt)}</span>
+      <span class="tbar" aria-hidden="true"><i style="width:${Math.max(1.5,Math.abs(r.amt)/mx*100).toFixed(1)}%;background:${x.color}"></i></span></li>`).join("")}</ul>
+      ${x.rows.length>TXN?`<button class="gmore sub" data-tm="${esc(k)}" type="button">${more?"내역 접기":`내역 ${x.rows.length-TXN}건 더 보기`}</button>`:""}`;
+  }
+  function listHTML(D){
+    const S=D[dir], word=dir==="in"?"들어온":"나간";
+    if(!S.count) return `<div class="gnone">${D.mk==="all"?"":ymLabel(D.mk,D.months)+"엔 "}${word} 돈이 없어요</div>`;
+    const top=S.list.find(x=>x.name!==NONE), mxs=Math.max(...S.list.map(x=>x.sum));
+    const showAll=allOpen[dir]||S.list.length<=TOPN+1;
+    const shown=showAll?S.list:S.list.slice(0,TOPN);
+    let h=`<p class="gsum">${top?`제일 많이 <span class="stk" style="background:${top.color};--r:-2deg">${esc(top.name)}</span> <b class="num">${pct(top.share)}</b>`:"아직 스티커를 안 붙였어요"} <span class="num">· 스티커 ${S.list.length}개</span></p>`;
+    h+=`<ul class="grank">${shown.map(x=>{ const k=dir+":"+x.name, on=open===k;
+      return `<li class="${x.name===NONE?"none":""}${on?" open":""}"><button class="grow" data-k="${esc(k)}" aria-expanded="${on}">
+        <span class="stk" style="background:${x.color};--r:${x.r}deg">${esc(x.name)}</span>
+        <span class="gamt num"><b>${won(x.sum)}</b><small>${pct(x.share)} · ${x.rows.length}건</small></span>
+        <span class="gbar" aria-hidden="true"><i style="width:${Math.max(2,x.sum/mxs*100).toFixed(1)}%;background:${x.color}"></i></span>
+        <span class="gchev" aria-hidden="true">${on?"내역 접기 ▲":"내역별 보기 ▼"}</span></button>${on?txHTML(x):""}</li>`; }).join("")}</ul>`;
+    if(S.list.length>TOPN+1) h+=`<button class="gfold sticker" id="g-fold" type="button" aria-expanded="${!!allOpen[dir]}" style="--r:-1.5deg">${allOpen[dir]?"접기 ▲":`펼치기 ▼ <small>스티커 ${S.list.length-TOPN}개 더</small>`}</button>`;
+    if(S.list.some(x=>x.name===NONE)) h+=`<p class="gnote">「${NONE}」은 카드 게임에서 스티커를 붙이면 제자리로 가요</p>`;
+    if(D.moved.count) h+=`<div class="gmoved"><span>옮긴 돈 <small>내 통장끼리 · 합계에서 뺐어요</small></span><span class="num">${won(D.moved.sum)} · ${D.moved.count}건</span></div>`;
+    return h;
+  }
+  let D=null;
+  function renderList(){
+    if(!D||!D.tx.length) return;
+    const card=(d,label,cls)=>{ const S=D[d]; return `<button class="gsc ${cls}${dir===d?" on":""}" data-d="${d}" role="tab" aria-selected="${dir===d}">
+      <span class="gl">${label}</span><span class="gv num">${d==="in"?"+":"−"}${won(S.total)}</span><span class="gc num">${S.count}건</span></button>`; };
+    $("g-sw").innerHTML=card("out","나간 돈","o")+card("in","들어온 돈","i");
+    $("g-list").innerHTML=listHTML(D);
   }
   function render(){
     const root=$("g-body"); if(!root) return;
-    const D=data();
+    D=data();
     $("g-months").innerHTML=D.months.length>1?[...D.months.slice().reverse(),"all"].map(k=>`<button class="gm${k===month?" on":""}" data-m="${k}" aria-pressed="${k===month}">${k==="all"?"전체":ymLabel(k,D.months)}</button>`).join(""):
       D.months.length?`<span class="gm on solo">${ymLabel(D.months[0],D.months)}</span>`:"";
     $("g-months").hidden=!D.months.length;
     if(!D.tx.length){
-      $("g-sw").hidden=true;
-      root.innerHTML=`<div class="gempty"><div class="gecard"><span class="gestk" style="--r:-3deg">한눈에</span>
-        <b>아직 볼 게 없어요</b><p>카드 게임에서 통장 PDF를 넣고 스티커를 붙이면, 나간 돈과 들어온 돈을 스티커별로 여기서 한눈에 봐요.</p>
+      $("g-sw").hidden=true; $("g-tl").innerHTML=""; $("g-sh").hidden=true; T=null; G=null; tlKey="";
+      $("g-list").innerHTML=`<div class="gempty"><div class="gecard"><span class="gestk" style="--r:-3deg">한눈에</span>
+        <b>아직 볼 게 없어요</b><p>카드 게임에서 통장 PDF를 넣으면, 날마다 들어오고 나간 돈과 지금 잔액을 그림으로 보고, 스티커를 붙이면 스티커별로도 봐요.</p>
         <button class="sticker" id="g-go" style="background:var(--yellow);--r:-2deg">카드 게임으로 가기 →</button></div></div>`;
       $("g-go").onclick=()=>window.__showTab&&window.__showTab("card"); return;
     }
-    $("g-sw").hidden=false;
-    const card=(d,label,cls)=>{ const S=D[d]; return `<button class="gsc ${cls}${dir===d?" on":""}" data-d="${d}" role="tab" aria-selected="${dir===d}">
-      <span class="gl">${label}</span><span class="gv num">${d==="in"?"+":"−"}${won(S.total)}</span><span class="gc num">${S.count}건</span></button>`; };
-    $("g-sw").innerHTML=card("out","나간 돈","o")+card("in","들어온 돈","i");
-    const S=D[dir], word=dir==="in"?"들어온":"나간";
-    const top=S.list.find(x=>x.name!==NONE);
-    let html="";
-    if(!S.count){ html+=`<div class="gnone">${month==="all"?"":ymLabel(month,D.months)+"엔 "}${word} 돈이 없어요</div>`; }
-    else {
-      html+=`<div class="gdrow">${donut(S.list,S.total)}<div class="gdtx"><span class="gk">${word} 돈 모두</span><b class="num">${won(S.total)}</b>
-        ${top?`<span class="gtop">제일 많이 <span class="stk" style="background:${top.color};--r:-2deg">${esc(top.name)}</span> ${pct(top.share)}</span>`:`<span class="gtop">아직 스티커를 안 붙였어요</span>`}</div></div>`;
-      html+=`<ul class="grank">${S.list.map((x,i)=>{ const k=dir+":"+x.name, on=open===k;
-        return `<li class="${x.name===NONE?"none":""}${on?" open":""}"><button class="grow" data-k="${esc(k)}" aria-expanded="${on}">
-          <span class="stk" style="background:${x.color};--r:${x.r}deg">${esc(x.name)}</span>
-          <span class="gamt num"><b>${won(x.sum)}</b><small>${pct(x.share)} · ${x.rows.length}건</small></span>
-          <span class="gbar" aria-hidden="true"><i style="width:${Math.max(2,x.share*100).toFixed(1)}%;background:${x.color}"></i></span></button>${on?rowsHTML(x):""}</li>`; }).join("")}</ul>`;
-      if(S.list.some(x=>x.name===NONE)) html+=`<p class="gnote">「${NONE}」은 카드 게임에서 스티커를 붙이면 제자리로 가요</p>`;
-    }
-    if(D.moved.count) html+=`<div class="gmoved"><span>옮긴 돈 <small>내 통장끼리 · 합계에서 뺐어요</small></span><span class="num">${won(D.moved.sum)} · ${D.moved.count}건</span></div>`;
-    root.innerHTML=html;
+    $("g-sw").hidden=false; $("g-sh").hidden=false;
+    const k=D.mk+"|"+D.tx.length+"|"+D.tx.reduce((s,r)=>s+(r.bal||0)%9973+r.amt%7919,0)+"|"+D.rows.filter(isMoved).length;
+    if(k!==tlKey||!$("g-scr")){ tlKey=k; sel=null; T=buckets(D); $("g-tl").innerHTML=tlHTML(T,D); drawPlot(); }
+    renderList();
   }
+  let rz=0; window.addEventListener("resize",()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if(T&&!$("app-glance").hidden){ const s=sel; drawPlot(); if(s!=null){ sel=Math.min(s,T.B.length-1); showSel(true); } } },150); });
   document.addEventListener("click",e=>{
     const m=e.target.closest("#g-months .gm[data-m]"); if(m){ month=m.dataset.m; open=null; render(); return; }
-    const s=e.target.closest("#g-sw .gsc"); if(s){ dir=s.dataset.d; open=null; render(); $("g-body").scrollTop=0; return; }
-    const r=e.target.closest("#g-body .grow"); if(r){ open=open===r.dataset.k?null:r.dataset.k; const y=$("g-body").scrollTop; render(); $("g-body").scrollTop=y; }
+    const s=e.target.closest("#g-sw .gsc"); if(s){ dir=s.dataset.d; open=null; renderList(); return; }
+    const keep=fn=>{ const y=$("g-body").scrollTop; fn(); renderList(); $("g-body").scrollTop=y; };
+    const r=e.target.closest("#g-list .grow"); if(r){ keep(()=>{ open=open===r.dataset.k?null:r.dataset.k; }); return; }
+    const f=e.target.closest("#g-fold"); if(f){ keep(()=>{ allOpen[dir]=!allOpen[dir]; if(!allOpen[dir]) open=null; }); if(!allOpen[dir]){ const sh=$("g-sh"); sh&&sh.scrollIntoView({block:"start"}); } return; }
+    const t=e.target.closest("#g-list .gmore[data-tm]"); if(t){ keep(()=>{ txMore[t.dataset.tm]=!txMore[t.dataset.tm]; }); return; }
   });
-  window.__renderGlance=()=>{ const go=()=>{ try{ render(); }catch(e){ console.warn("한눈에 그리기 실패",e); $("g-body").innerHTML=`<div class="gnone">화면을 그리지 못했어요. 다시 열어 주세요</div>`; } };
+  window.__renderGlance=()=>{ const go=()=>{ try{ tlKey=""; render(); }catch(e){ console.warn("한눈에 그리기 실패",e); $("g-list").innerHTML=`<div class="gnone">화면을 그리지 못했어요. 다시 열어 주세요</div>`; } };
     if(V().ready&&V().ready()) go(); else { go(); (function w(){ if(V().ready&&V().ready()) go(); else setTimeout(w,80); })(); } };
-  window.__glance={set:(d,m)=>{ if(d) dir=d; if(m) month=m; open=null; render(); },open:k=>{ open=k; render(); }};
+  window.__glance={set:(d,m)=>{ if(d) dir=d; if(m) month=m; open=null; tlKey=""; render(); },open:k=>{ open=k; renderList(); },
+    fold:v=>{ allOpen[dir]=v; renderList(); }, sel:i=>{ sel=i; showSel(true); }, tl:()=>T&&{n:T.B.length,weekly:T.weekly,start:T.start,now:T.now,end:T.B[T.B.length-1].bal,isNow:T.isNow,computed:T.computed,sel,B:T.B.map(b=>({from:b.from,to:b.to,in:b.in,out:b.out,mvIn:b.mvIn,mvOut:b.mvOut,bal:b.bal}))}};
 })();
 
 </script>
