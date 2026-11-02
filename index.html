@@ -808,6 +808,67 @@ html,body,button,a,label,.sticker{touch-action:manipulation}
 #app-glance .gleg .le{background:var(--amber)}
 #app-glance .gleg .lm{background:repeating-linear-gradient(45deg,#e2ddd0 0 3px,#8f897b 3px 5px)}
 
+/* ===== v34: 한눈에 달 고르기 · 세 칸 요약 · 잔액 흐름 · 누적 꺾은선 · 월별 폭포 ===== */
+#app-glance{--glav:#cdb8f0}
+#app-glance .gpick{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;touch-action:pan-y}
+#app-glance .gpick[hidden]{display:none}
+#app-glance .gar{font:inherit;flex:none;width:44px;height:40px;border:2.5px solid var(--ink);border-radius:12px;background:var(--yellow);box-shadow:2px 3px 0 var(--ink);font-size:15px;font-weight:900;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#app-glance .gar:disabled{background:#faf6ec;border-color:#cfc8b8;color:#cfc8b8;box-shadow:none;cursor:default}
+#app-glance .gar:not(:disabled):active{transform:translate(2px,3px);box-shadow:0 0 0 var(--ink)}
+#app-glance .gar:focus-visible{outline:3px solid var(--stampblue);outline-offset:2px}
+#app-glance .gml{flex:1;text-align:center;font-size:19px;font-weight:900;letter-spacing:-.3px;white-space:nowrap}
+#app-glance .gcards{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 10px;margin-top:2px;touch-action:pan-y}
+#app-glance .gcd{min-width:0;border:3px solid var(--ink);border-radius:18px;box-shadow:3px 4px 0 var(--ink);padding:9px 12px 8px;display:flex;flex-direction:column;gap:1px}
+#app-glance .gcd.i{background:#e0f5ea;transform:rotate(-1.2deg)} #app-glance .gcd.o{background:#ffe9d2;transform:rotate(1.2deg)}
+#app-glance .gcd.n{grid-column:1 / -1;background:#fff4cf;transform:rotate(-.5deg);display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:10px}
+#app-glance .gcd.n .gv{text-align:right}
+#app-glance .gcd.n>small{grid-column:1 / -1;justify-self:end}
+#app-glance .gcd .gl{font-size:13.5px;font-weight:900}
+#app-glance .gcd .gl small{display:block;font-size:11px;font-weight:700;color:var(--grey)}
+#app-glance .gcd .gv{font-size:19px;font-weight:900;letter-spacing:-.4px;white-space:nowrap;overflow:hidden;min-width:0}
+#app-glance .gcd.i .gv{color:var(--green)}
+#app-glance .gcd.n.neg .gv{color:var(--amber)}
+#app-glance .gcd>small{font-size:12px;font-weight:700;color:var(--grey)}
+#app-glance #g-flow,#app-glance #g-line,#app-glance #g-tl{margin-top:16px}
+#app-glance .gfh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:0 14px}
+#app-glance .gfh h2{font-size:16px;font-weight:900}
+#app-glance .gfh span{font-size:12.5px;font-weight:800;color:var(--grey);white-space:nowrap}
+#app-glance .gflow{transform:rotate(.4deg)}
+#app-glance .gflow .fr{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:7px 14px 0;font-size:14px;font-weight:800}
+#app-glance .gflow .fk small{font-size:11.5px;font-weight:700;color:var(--grey);margin-left:3px}
+#app-glance .gflow .fr b{font-size:16px;font-weight:900;white-space:nowrap}
+#app-glance .gflow .fr b.up{color:var(--green)} #app-glance .gflow .fr b.dn{color:var(--amber)}
+#app-glance .gflow .fs{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:2px 10px;padding:2px 14px 0;font-size:12px;font-weight:700;color:var(--grey)}
+#app-glance .gflow .fs .m{background:repeating-linear-gradient(45deg,#ece7da 0 4px,#e0dacb 4px 6px);border-radius:6px;padding:0 5px}
+#app-glance .gflow .fr.end{margin:8px 10px 0;padding:8px 10px;border-top:2.5px solid var(--ink);background:#fff4cf;border-radius:0 0 12px 12px}
+#app-glance .gflow .fr.end b{font-size:19px;color:var(--amber)}
+#app-glance .gl2{margin:6px 6px 0}
+#app-glance .gsvg .lai{fill:var(--gin);opacity:.45}
+#app-glance .gsvg .lao{fill:var(--glav);opacity:.55}
+#app-glance .gsvg .lln{fill:none;stroke:var(--ink);stroke-width:5.5;stroke-linejoin:round;stroke-linecap:round}
+#app-glance .gsvg .lli{fill:none;stroke:var(--gin);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+#app-glance .gsvg .llo{fill:none;stroke:var(--gout);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+#app-glance .gsvg .ldi{fill:var(--gin);stroke:var(--ink);stroke-width:2.5}
+#app-glance .gsvg .ldo{fill:var(--gout);stroke:var(--ink);stroke-width:2.5}
+#app-glance .gsvg .gyl,#app-glance .gsvg .gxl{font:800 10.5px Pretendard,system-ui,sans-serif;fill:var(--grey);font-variant-numeric:tabular-nums}
+#app-glance .gsvg .gxl.e{fill:var(--amber);font-weight:900}
+#app-glance .gleg .lli,#app-glance .gleg .llo{height:5px;width:16px;border-radius:3px;vertical-align:2px}
+#app-glance .gleg .lli{background:var(--gin)} #app-glance .gleg .llo{background:var(--gout)}
+#app-glance .gleg .lai{background:#bfead3;border-style:dashed} #app-glance .gleg .lao{background:#e6dbf8;border-style:dashed}
+#app-glance .gtip .tday b{font-size:12.5px} #app-glance .gtip .tday b.i{color:var(--green)}
+#app-glance .gtip .tn b{color:var(--ink)}
+#app-glance .gsvg .gselm{fill:var(--yellow);opacity:.55}
+#app-glance .gsvg .wup.on,#app-glance .gsvg .wdn.on,#app-glance .gsvg .wmv.on{stroke-width:3}
+#app-glance .gmwf .gdates span[data-m]{cursor:pointer}
+#app-glance .gmwf .gdates span.on{color:var(--ink);font-weight:900;background:var(--yellow);border:2px solid var(--ink);border-radius:7px;padding:0 4px;top:1px}
+#app-glance .gmwf .gsvg{cursor:pointer}
+#app-glance .gleg .lli,#app-glance .gleg .llo{border-width:1.5px}
+#app-glance .gmwf .gdates.yr{height:36px}
+#app-glance .gmwf .gdates span.y{top:20px;font-size:10px;font-weight:800;color:var(--grey)}
+#app-glance .gtip .tn.up{color:var(--green);font-weight:900} #app-glance .gtip .tn.dn{color:var(--amber);font-weight:900}
+#app-glance .gtip.sm{font-size:11.5px} #app-glance .gtip.sm .tw{font-size:12px} #app-glance .gtip.sm .r2{gap:0 8px}
+#app-glance .gl2{outline:none;border-radius:10px} #app-glance .gl2:focus-visible{outline:3px solid var(--stampblue);outline-offset:2px}
+
 </style>
 </head>
 <body>
@@ -998,8 +1059,11 @@ html,body,button,a,label,.sticker{touch-action:manipulation}
 <main id="app-glance" hidden>
 <div class="phone">
   <header><h1>한눈에</h1><span class="gsub">잔액이 어떻게 바뀌었나</span></header>
-  <div class="gmonths" id="g-months" aria-label="달 고르기"></div>
+  <div class="gpick" id="g-months" role="group" aria-label="달 고르기"></div>
   <div class="gbody" id="g-body">
+    <div id="g-sum"></div>
+    <div id="g-flow"></div>
+    <div id="g-line"></div>
     <div id="g-tl"></div>
     <div class="gsh" id="g-sh" hidden><h2>스티커별</h2><span>많은 순서</span></div>
     <div class="gsw" id="g-sw" role="tablist" aria-label="나간 돈 · 들어온 돈"></div>
@@ -2553,7 +2617,7 @@ window.__bubbleWordRenamed=(old,v)=>{ try{ bubbleRename(old,v,""); }catch(e){} }
 })();
 </script>
 <script>
-// ===================== v33: 한눈에 (폭포 차트: 시작 잔액 → 날마다 → 끝 잔액). 스티커별은 잠시 숨김 (SHOW_STICKERS) =====================
+// ===================== v34: 한눈에 (달 고르기 · 세 칸 요약 · 잔액 흐름 · 누적 꺾은선 · 월별 폭포). 스티커별은 잠시 숨김 (SHOW_STICKERS) =====================
 (()=>{
   const $=id=>document.getElementById(id);
   const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -2563,8 +2627,9 @@ window.__bubbleWordRenamed=(old,v)=>{ try{ bubbleRename(old,v,""); }catch(e){} }
   const PAL=["--yellow","--mint","--sky","--pink","--lilac","--peach"];
   const TILT=[-3,2,-2,3,-1,2];
   const TOPN=5, TXN=8;
-  const SHOW_STICKERS=false; // v33: 스티커별 막대는 잠시 뺌 (true로 바꾸면 다시 나와요)
-  let dir="out", month=null, open=null, allOpen={in:false,out:false}, txMore={}, sel=null, tlKey="";
+  const SHOW_STICKERS=false; // 스티커별 막대는 잠시 뺌 (true로 바꾸면 다시 나와요)
+  const MAXM=12; // 월별 폭포에 보이는 달 수
+  let dir="out", month=null, open=null, allOpen={in:false,out:false}, txMore={};
   const V=()=>window.__v25||{};
   const moved=()=>V().moved||"옮긴 돈";
   const isMoved=r=>r.word===moved()||(!r.word&&r.mine);
@@ -2604,166 +2669,6 @@ window.__bubbleWordRenamed=(old,v)=>{ try{ bubbleRename(old,v,""); }catch(e){} }
   }
   // 날짜 d가 끝났을 때 모든 통장 잔액 합
   function balAt(L,d){ let s=0; L.accts.forEach(a=>{ let b=a.opening; for(const e of a.ev){ if(e.date<=d) b=e.bal; else break; } s+=b; }); return s; }
-
-  function data(){
-    const tx=(V().tx&&V().tx())||[];
-    const months=[...new Set(tx.map(r=>ym(r.date)).filter(Boolean))].sort();
-    if(month&&month!=="all"&&!months.includes(month)) month=null;
-    if(!months.length) month=null;
-    else if(!month){ const ds=tx.map(r=>r.date).filter(Boolean).sort(); const span=(toT(ds[ds.length-1])-toT(ds[0]))/DAY;
-      month=months.length>1&&span<=62?"all":months[months.length-1]; }
-    const mk=month||"all";
-    const rows=tx.filter(r=>mk==="all"||ym(r.date)===mk);
-    const side=d=>{ const rs=rows.filter(r=>(d==="in"?r.amt>0:r.amt<0)&&!isMoved(r));
-      const g=new Map(); rs.forEach(r=>{ const k=r.word||NONE; if(!g.has(k)) g.set(k,[]); g.get(k).push(r); });
-      const total=rs.reduce((s,r)=>s+Math.abs(r.amt),0);
-      const list=[...g.entries()].map(([name,rr])=>({name,rows:rr.sort((a,b)=>Math.abs(b.amt)-Math.abs(a.amt)||key(b).localeCompare(key(a))),sum:rr.reduce((s,r)=>s+Math.abs(r.amt),0)}))
-        .sort((a,b)=>(a.name===NONE)-(b.name===NONE)||b.sum-a.sum);
-      list.forEach((x,i)=>{ x.share=total?x.sum/total:0; x.color=colorOf(x.name,i); x.r=TILT[i%TILT.length]; });
-      return {total,count:rs.length,list};
-    };
-    const mv=rows.filter(isMoved);
-    return {tx,months,rows,mk,out:side("out"),in:side("in"),moved:{sum:mv.reduce((s,r)=>s+Math.abs(r.amt),0),count:mv.length}};
-  }
-  const pct=s=>s<=0?"0%":s<0.01?"1% 미만":Math.round(s*100)+"%";
-
-  // ---- 시간순 그림 데이터: 날마다(길면 주마다) 들어온 돈 · 나간 돈 · 그 끝 잔액
-  function buckets(D){
-    const L=ledger(D.tx);
-    const ds=D.rows.map(r=>r.date).filter(Boolean).sort();
-    const t0=toT(ds[0]), t1=toT(ds[ds.length-1]), n=Math.round((t1-t0)/DAY)+1;
-    const weekly=n>62;
-    const B=[];
-    if(!weekly) for(let t=t0;t<=t1;t+=DAY) B.push({from:toD(t),to:toD(t)});
-    else { let t=t0-((new Date(t0).getUTCDay()+6)%7)*DAY; while(t<=t1){ B.push({from:toD(Math.max(t,t0)),to:toD(Math.min(t+6*DAY,t1))}); t+=7*DAY; } }
-    const idx=new Map(); B.forEach((b,i)=>{ b.in=0; b.out=0; b.mvIn=0; b.mvOut=0; b.n=0; });
-    const find=d=>{ if(!weekly) return Math.round((toT(d)-t0)/DAY); let lo=0,hi=B.length-1; while(lo<hi){ const m=(lo+hi+1)>>1; if(B[m].from<=d) lo=m; else hi=m-1; } return lo; };
-    D.rows.forEach(r=>{ const b=B[find(r.date)]; if(!b) return; b.n++; if(isMoved(r)){ if(r.amt>0) b.mvIn+=r.amt; else b.mvOut-=r.amt; } else if(r.amt>0) b.in+=r.amt; else b.out-=r.amt; });
-    // 잔액: 통장별로 줄을 따라가며 (빠르게)
-    const ptr=L.accts.map(a=>({a,i:0,b:a.opening}));
-    const adv=d=>{ let s=0; ptr.forEach(p=>{ while(p.i<p.a.ev.length&&p.a.ev[p.i].date<=d){ p.b=p.a.ev[p.i].bal; p.i++; } s+=p.b; }); return s; };
-    const start=adv(toD(t0-DAY));
-    B.forEach(b=>{ b.bal=adv(b.to); });
-    const lastAll=D.tx.map(r=>r.date).sort().pop();
-    const now=balAt(L,lastAll);
-    const W=B.filter(b=>b.n>0);
-    return {B,W,weekly,start,computed:L.computed,isNow:B[B.length-1].to>=lastAll,now,lastAll,end:B[B.length-1].to};
-  }
-
-  // ---- v33: 폭포 차트. 시작 잔액(0부터) → 날마다 떠 있는 막대(앞 막대 끝에서 시작) → 끝 잔액(0부터)
-  const short=v=>{ const a=Math.abs(v), s=v<0?"−":""; if(a>=1e8) return s+(a/1e8).toFixed(a>=1e9?0:1).replace(/\.0$/,"")+"억"; if(a>=1e4) return s+Math.round(a/1e4).toLocaleString("ko-KR")+"만"; return s+Math.round(a).toLocaleString("ko-KR"); };
-  const nice=x=>{ const p=Math.pow(10,Math.floor(Math.log10(x))), f=x/p; return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p; };
-  function tlHTML(T,D){
-    const last=T.B[T.B.length-1];
-    const head=T.isNow?`<span class="gk">지금 잔액</span>`:`<span class="gk">${esc(D.mk==="all"?"":ymLabel(D.mk,D.months)+" ")}끝 잔액</span>`;
-    return `<section class="gtl" aria-label="폭포 그림: 시작 잔액에서 날마다 늘고 줄어 끝 잔액까지">
-      <div class="gtlh">${head}<b class="num" id="g-nowv">${swon(last.bal)}</b><span class="gwhen num">${md(last.to)}${T.isNow?" 기준":""}${T.computed?" · 계산":""}</span></div>
-      <div class="gtip num" id="g-tip" aria-live="polite"></div>
-      <div class="gwf"><div class="gax" id="g-ax" aria-hidden="true"></div><div class="gscr" id="g-scr" tabindex="0" aria-label="폭포 그림 · 왼쪽 오른쪽 화살표로 날짜 고르기"><div class="gplot" id="g-plot"></div></div></div>
-      <div class="gleg"><span><i class="le"></i>잔액</span><span><i class="li"></i>늘어남</span><span><i class="lo"></i>줄어듦</span><span><i class="lm"></i>옮긴 돈</span></div>
-      <p class="gcap" id="g-cap"></p>
-    </section>`;
-  }
-  let T=null, G=null;
-  function drawPlot(){
-    const scr=$("g-scr"), plot=$("g-plot"); if(!scr||!T) return;
-    const W0=T.W, n=W0.length; // 거래 있는 날(주)만
-    const avail=Math.max(160,scr.clientWidth);
-    const eW=50, minW=T.weekly?42:24, padL=4, padR=6;
-    const colW=Math.max(minW,(avail-padL-padR-2*eW)/Math.max(1,n));
-    const cols=[]; let x=padL;
-    cols.push({k:"start",x,w:eW,a:null,b:T.start}); x+=eW;
-    W0.forEach((b,i)=>{ cols.push({k:"day",x,w:colW,a:i?W0[i-1].bal:T.start,b:b.bal,B:b}); x+=colW; });
-    cols.push({k:"end",x,w:eW,a:null,b:W0.length?W0[n-1].bal:T.start}); x+=eW;
-    const W=Math.round(x+padR);
-    const gb=$("g-body"), st0=scr.getBoundingClientRect().top+(gb?gb.scrollTop:0)+(window.scrollY||0), room=Math.min(gb?gb.clientHeight-250:300,(window.innerHeight||700)-st0-96); const top=34, bot=Math.round(Math.max(190,Math.min(300,room))), H=bot+4;
-    const lv=[T.start,...W0.map(b=>b.bal)]; let lo=Math.min(...lv), hi=Math.max(...lv);
-    // 세로 눈금: 잔액이 다 0보다 크고 날마다 움직임이 잔액에 비해 작으면 0이 아닌 곳에서 시작(물결 표시)
-    let base, broken=false; const span=Math.max(1,hi-Math.min(lo,0));
-    if(lo>0&&(hi-lo)<0.6*hi){ const st=nice(Math.max(1,(hi-lo))/3); base=Math.floor((lo-(hi-lo)*0.25-st*0.01)/st)*st; if(base<=0) base=0; else broken=true; }
-    else base=Math.min(0,lo);
-    let step=nice(Math.max(1,(hi-base))/4);
-    if(lo<0&&!broken) base=Math.floor(lo/step)*step;
-    const top2=hi+(hi-base)*0.06+1;
-    const y=v=>top+(bot-top)*(1-(v-base)/(top2-base));
-    let grid="", ticks="";
-    for(let v=base;v<=top2;v+=step){ const yy=y(v); grid+=`<line class="ggrid${v===0?" z":""}" x1="0" x2="${W}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}"/>`; ticks+=`<span style="top:${yy.toFixed(1)}px">${broken&&v===base?"≈ ":""}${short(v)}</span>`; }
-    const fl=v=>Math.max(top-2,Math.min(bot,y(v)));
-    let bars="", conn="";
-    const seg=(cls,cx,w,a,b,extra)=>{ let y1=fl(Math.max(a,b)), y2=fl(Math.min(a,b)); if(y2-y1<3){ const m=(y1+y2)/2; y1=m-1.5; y2=m+1.5; } return `<rect class="${cls}" x="${(cx-w/2).toFixed(1)}" y="${y1.toFixed(1)}" width="${w.toFixed(1)}" height="${(y2-y1).toFixed(1)}" rx="2" ${extra||""}/>`; };
-    const bw=Math.max(6,Math.min(24,colW*.62)), ebw=30, baseY=bot;
-    cols.forEach((c,i)=>{ const cx=c.x+c.w/2; c.cx=cx;
-      if(c.k!=="day"){ const yy=fl(c.b), cls=c.k==="end"?"wend":"wstart"; const y1=Math.min(yy,baseY), h=Math.max(2,Math.abs(baseY-yy));
-        bars+=`<rect class="${cls}" x="${(cx-ebw/2).toFixed(1)}" y="${y1.toFixed(1)}" width="${ebw}" height="${h.toFixed(1)}" rx="3" data-v="${c.b}"/>`;
-        if(broken) bars+=`<path class="wbrk" d="M${(cx-ebw/2-3).toFixed(1)} ${bot-10} l6 -4 l6 4 l6 -4 l6 4 l6 -4 l6 4 M${(cx-ebw/2-3).toFixed(1)} ${bot-5} l6 -4 l6 4 l6 -4 l6 4 l6 -4 l6 4"/>`;
-      } else { const B=c.B, mv=B.mvIn-B.mvOut, r=B.in-B.out, mid=c.a+mv;
-        // 일반 돈(들어온-나간): 옮긴 돈 다음부터 끝까지. 옮긴 돈: 빗금, 앞 끝에서 시작
-        // 들어온 쪽을 먼저 그려서 막대가 0 밑으로 꺼지지 않게
-        const rf=mv<0&&r>0, ra=rf?c.a:mid, rb=rf?c.a+r:c.b, ma=rf?c.a+r:c.a, mb=rf?c.b:mid;
-        if(r!==0||!mv) bars+=seg(r>=0?"wup":"wdn",cx,bw,ra,rb,`data-a="${c.a}" data-b="${c.b}"`);
-        if(mv) bars+=seg("wmv",cx,r?bw*.62:bw,ma,mb,r?"":`data-a="${c.a}" data-b="${c.b}"`);
-      }
-      if(i<cols.length-1){ const nx=cols[i+1], vy=fl(c.b).toFixed(1); conn+=`<line class="wcon" x1="${(cx+(c.k==="day"?bw:ebw)/2).toFixed(1)}" x2="${(nx.x+nx.w/2-(nx.k==="day"?bw:ebw)/2).toFixed(1)}" y1="${vy}" y2="${vy}"/>`; }
-    });
-    const ec=cols[cols.length-1], sc=cols[0];
-    const lab=(T.isNow?"지금 잔액 ":(D&&D.mk!=="all"?ymLabel(D.mk,D.months)+" ":"")+"끝 잔액 ")+swon(ec.b);
-    const lw=Math.min(W-8,lab.length*7.4+18), lx=Math.max(4,ec.cx+ebw/2-lw);
-    // 이름표가 가리는 막대 위로 올려요
-    const topIn=(x0,x1)=>Math.min(...cols.filter(c=>c.cx+bw/2>=x0&&c.cx-bw/2<=x1).map(c=>Math.min(fl(c.b),c.a==null?fl(c.b):fl(c.a),c.B?fl(c.a+c.B.in-c.B.out):1e9)));
-    const ly=Math.max(2,Math.min(fl(ec.b)-30,topIn(lx,lx+lw)-30));
-    const sl=`시작 ${short(sc.b)}`, slw=sl.length*7+12, slx=Math.max(2,sc.cx-slw/2), sly=Math.max(2,Math.min(fl(sc.b)-24,topIn(slx,slx+slw)-24));
-    let dates=""; let prevM="";
-    cols.forEach(c=>{ let t, cls="";
-      if(c.k==="start"){ t="시작"; cls="e"; } else if(c.k==="end"){ t=T.isNow?"지금":"끝"; cls="e"; }
-      else { const [,m,dd]=c.B.from.split("-").map(Number); const mm=c.B.from.slice(0,7); t=(mm!==prevM)?`${m}/${dd}`:String(dd); if(mm!==prevM) cls="m"; prevM=mm; if(!T.weekly&&"토일".includes(wd(c.B.from))) cls+=" we"; }
-      dates+=`<span style="left:${c.cx.toFixed(1)}px" class="${cls}">${t}</span>`; });
-    plot.style.width=W+"px";
-    plot.innerHTML=`<svg class="gsvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(md(T.B[0].from))}부터 ${esc(md(T.end))}까지 폭포 그림. 시작 잔액 ${esc(swon(sc.b))}, ${esc(lab)}">
-      <defs><pattern id="g-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#e2ddd0"/><line x1="0" y1="0" x2="0" y2="6" stroke="#8f897b" stroke-width="2.4"/></pattern></defs>
-      ${grid}<rect class="gsel" id="g-selr" x="0" y="0" width="10" height="${H}" rx="6"/>${conn}${bars}
-      <line class="gselx" id="g-selx" x1="0" x2="0" y1="${top-8}" y2="${bot}"/>
-      <g class="gsl" transform="translate(${slx.toFixed(1)} ${sly.toFixed(1)})"><rect width="${slw}" height="20" rx="7"/><text x="${slw/2}" y="14" text-anchor="middle">${esc(sl)}</text></g>
-      <g class="gendl" transform="translate(${lx.toFixed(1)} ${ly.toFixed(1)}) rotate(-2)"><rect width="${lw.toFixed(1)}" height="24" rx="8"/><text x="${(lw/2).toFixed(1)}" y="16.5" text-anchor="middle">${esc(lab)}</text></g>
-    </svg><div class="gdates" id="g-dates" style="width:${W}px">${dates}</div>`;
-    $("g-ax").innerHTML=ticks; $("g-ax").style.height=H+"px";
-    const skipped=T.B.length-n;
-    $("g-cap").textContent=[
-      `막대 하나가 ${T.weekly?"한 주":"하루"}예요${skipped?` (거래 없는 ${T.weekly?"주":"날"}은 건너뛰어요)`:""}. 앞 막대가 끝난 곳에서 시작해 늘면 민트, 줄면 살구색이에요.`,
-      T.B.some(b=>b.mvIn||b.mvOut)?"빗금은 옮긴 돈(내 통장끼리)이에요. 들어온·나간 돈 합계엔 안 넣지만, 통장 잔액엔 들어 있어서 막대에 같이 그렸어요.":"",
-      broken?`잔액이 커서 작은 날도 보이게 세로 눈금을 ${short(base)}원부터 그렸어요 (≈ 물결 표시).`:"",
-      T.computed?"통장 잔액 칸이 없는 줄은 넣은 거래로 셌어요.":""].filter(Boolean).join(" ");
-    G={cols,n:cols.length,W,y:fl,bw,ebw,base,broken,top2};
-    if(sel==null||sel>=cols.length) sel=cols.length>2?cols.length-2:cols.length-1;
-    showSel(false);
-    scr.scrollLeft=Math.max(0,W-scr.clientWidth);
-  }
-  function showSel(scroll){
-    if(!G||!T) return; const c=G.cols[sel]; if(!c) return;
-    const r=$("g-selr"), l=$("g-selx"); if(!r) return;
-    r.setAttribute("x",c.x.toFixed(1)); r.setAttribute("width",c.w.toFixed(1)); l.setAttribute("x1",c.cx.toFixed(1)); l.setAttribute("x2",c.cx.toFixed(1));
-    let h;
-    if(c.k==="start"){ const f=T.B[0].from; h=`<div class="r1"><span class="tw">시작 잔액 · ${md(f)} 전</span><span class="tb">잔액 <b>${swon(c.b)}</b></span></div><div class="r2"><span>${md(f)}부터 거래가 쌓여요</span></div><div class="r3"></div>`; }
-    else if(c.k==="end"){ const S=T.W.reduce((o,b)=>(o.i+=b.in,o.o+=b.out,o.m+=b.mvIn-b.mvOut,o),{i:0,o:0,m:0});
-      h=`<div class="r1"><span class="tw">${T.isNow?"지금 잔액":"끝 잔액"} · ${md(T.end)}</span><span class="tb">잔액 <b>${swon(c.b)}</b></span></div>
-      <div class="r2"><span class="ti">모두 들어온 <b>+${won(S.i)}</b></span><span class="to">나간 <b>−${won(S.o)}</b></span></div>
-      <div class="r3">${S.m?`<span class="tm">옮긴 돈 ${S.m>0?"+":"−"}${won(S.m)} <small>잔액엔 들어가요</small></span>`:""}</div>`; }
-    else { const b=c.B, when=T.weekly?`${md(b.from)}~${md(b.to)}`:`${md(b.from)} (${wd(b.from)})`;
-      const mv=b.mvIn||b.mvOut?`<span class="tm">옮긴 돈 ${b.mvIn?"+"+won(b.mvIn):""}${b.mvIn&&b.mvOut?" ":""}${b.mvOut?"−"+won(b.mvOut):""} <small>잔액엔 들어가요</small></span>`:"";
-      const d=c.b-c.a;
-      h=`<div class="r1"><span class="tw">${when}</span><span class="tb">잔액 <b>${swon(c.b)}</b> <small class="${d>=0?"up":"dn"}">${d>=0?"▲":"▼"}${won(d)}</small></span></div>
-      <div class="r2"><span class="ti">들어온 <b>+${won(b.in)}</b></span><span class="to">나간 <b>−${won(b.out)}</b></span></div><div class="r3">${mv}</div>`; }
-    $("g-tip").innerHTML=h;
-    if(scroll){ const s=$("g-scr"); if(c.x<s.scrollLeft+10) s.scrollLeft=c.x-30; else if(c.x+c.w>s.scrollLeft+s.clientWidth-10) s.scrollLeft=c.x+c.w-s.clientWidth+30; }
-  }
-  function pick(clientX){ const p=$("g-plot"); if(!p||!G) return; const k=p.getBoundingClientRect(), xx=clientX-k.left; let i=G.cols.findIndex(c=>xx<c.x+c.w); if(i<0) i=G.n-1; if(i!==sel){ sel=i; showSel(false); } }
-  let drag=null, auto=0;
-  function edge(){ if(!drag) return; const s=$("g-scr"); if(!s) return; const k=s.getBoundingClientRect(); let v=0; if(drag.x<k.left+30) v=-8; else if(drag.x>k.right-30) v=8;
-    if(v){ s.scrollLeft+=v; pick(drag.x); } auto=requestAnimationFrame(edge); }
-  document.addEventListener("pointerdown",e=>{ const sv=e.target.closest&&e.target.closest("#g-plot .gsvg"); if(!sv) return; drag={id:e.pointerId,x:e.clientX}; try{ sv.setPointerCapture(e.pointerId); }catch(_){} pick(e.clientX); cancelAnimationFrame(auto); auto=requestAnimationFrame(edge); });
-  document.addEventListener("pointermove",e=>{ if(!drag||e.pointerId!==drag.id) return; drag.x=e.clientX; pick(e.clientX); });
-  const end=e=>{ if(drag&&(!e||e.pointerId===drag.id)){ drag=null; cancelAnimationFrame(auto); } };
-  document.addEventListener("pointerup",end); document.addEventListener("pointercancel",end);
-  document.addEventListener("keydown",e=>{ if(!e.target.closest||!e.target.closest("#g-scr")||!G) return; if(e.key==="ArrowLeft"||e.key==="ArrowRight"){ e.preventDefault(); sel=Math.max(0,Math.min(G.n-1,sel+(e.key==="ArrowLeft"?-1:1))); showSel(true); } });
   // ---- 스티커별 막대
   function txHTML(x){
     const k=dir+":"+x.name, more=txMore[k], rs=more?x.rows:x.rows.slice(0,TXN), mx=Math.max(...x.rows.map(r=>Math.abs(r.amt)));
@@ -2789,7 +2694,6 @@ window.__bubbleWordRenamed=(old,v)=>{ try{ bubbleRename(old,v,""); }catch(e){} }
     if(D.moved.count) h+=`<div class="gmoved"><span>옮긴 돈 <small>내 통장끼리 · 합계에서 뺐어요</small></span><span class="num">${won(D.moved.sum)} · ${D.moved.count}건</span></div>`;
     return h;
   }
-  let D=null;
   function renderList(){
     if(!D||!D.tx.length) return;
     const card=(d,label,cls)=>{ const S=D[d]; return `<button class="gsc ${cls}${dir===d?" on":""}" data-d="${d}" role="tab" aria-selected="${dir===d}">
@@ -2797,37 +2701,286 @@ window.__bubbleWordRenamed=(old,v)=>{ try{ bubbleRename(old,v,""); }catch(e){} }
     $("g-sw").innerHTML=card("out","나간 돈","o")+card("in","들어온 돈","i");
     $("g-list").innerHTML=listHTML(D);
   }
+  // ---- 달 고르기 · 달마다 숫자
+  const lastDay=k=>{ const [y,m]=k.split("-").map(Number); return toD(Date.UTC(y,m,0)); };
+  const prevDay=d=>toD(toT(d)-DAY);
+  const ymFull=k=>{ const [y,m]=k.split("-").map(Number); return `${y}년 ${m}월`; };
+  function data(){
+    const tx=(V().tx&&V().tx())||[];
+    const months=[...new Set(tx.map(r=>ym(r.date)).filter(Boolean))].sort();
+    if(!months.length) month=null; else if(!month||!months.includes(month)) month=months[months.length-1];
+    const mk=month;
+    const rows=mk?tx.filter(r=>ym(r.date)===mk):[];
+    const side=d=>{ const rs=rows.filter(r=>(d==="in"?r.amt>0:r.amt<0)&&!isMoved(r));
+      const g=new Map(); rs.forEach(r=>{ const k=r.word||NONE; if(!g.has(k)) g.set(k,[]); g.get(k).push(r); });
+      const total=rs.reduce((s,r)=>s+Math.abs(r.amt),0);
+      const list=[...g.entries()].map(([name,rr])=>({name,rows:rr.sort((a,b)=>Math.abs(b.amt)-Math.abs(a.amt)||key(b).localeCompare(key(a))),sum:rr.reduce((s,r)=>s+Math.abs(r.amt),0)}))
+        .sort((a,b)=>(a.name===NONE)-(b.name===NONE)||b.sum-a.sum);
+      list.forEach((x,i)=>{ x.share=total?x.sum/total:0; x.color=colorOf(x.name,i); x.r=TILT[i%TILT.length]; });
+      return {total,count:rs.length,list};
+    };
+    const mv=rows.filter(isMoved);
+    return {tx,months,rows,mk,out:side("out"),in:side("in"),moved:{sum:mv.reduce((s,r)=>s+Math.abs(r.amt),0),count:mv.length}};
+  }
+  const pct=s=>s<=0?"0%":s<0.01?"1% 미만":Math.round(s*100)+"%";
+  // 모든 달의 들어온·나간·옮긴 돈과 달 시작/끝 잔액
+  function monthsModel(D){
+    const L=ledger(D.tx), lastAll=D.tx.map(r=>r.date).filter(Boolean).sort().pop();
+    const S=new Map(); D.months.forEach(k=>S.set(k,{k,in:0,out:0,mvIn:0,mvOut:0,n:0}));
+    D.tx.forEach(r=>{ const s=S.get(ym(r.date)); if(!s) return; s.n++; if(isMoved(r)){ if(r.amt>0) s.mvIn+=r.amt; else s.mvOut-=r.amt; } else if(r.amt>0) s.in+=r.amt; else s.out-=r.amt; });
+    const firstDate=D.tx.map(r=>r.date).filter(Boolean).sort()[0];
+    D.months.forEach((k,i)=>{ const s=S.get(k); s.endDate=lastDay(k)<lastAll?lastDay(k):lastAll; s.isNow=i===D.months.length-1;
+      s.start=balAt(L,prevDay(k+"-01")); s.end=balAt(L,s.endDate); s.net=s.in-s.out; s.mv=s.mvIn-s.mvOut; s.first=i===0; s.firstDate=i===0?firstDate:null; });
+    return {S,L,lastAll,computed:L.computed};
+  }
+
+  // ---- 위: 세 칸 요약 + 잔액 흐름
+  function sumHTML(s,D){
+    const nm=s.net, mName=ymLabel(s.k,D.months);
+    return `<div class="gcards" id="g-cards" aria-label="${esc(mName)} 요약">
+      <div class="gcd i"><span class="gl">들어온 돈</span><b class="gv num">+${won(s.in)}</b><small class="num">${D.in.count}건</small></div>
+      <div class="gcd o"><span class="gl">나간 돈</span><b class="gv num">−${won(s.out)}</b><small class="num">${D.out.count}건</small></div>
+      <div class="gcd n ${nm<0?"neg":""}"><span class="gl">남은 돈 <small>들어온 돈 − 나간 돈</small></span><b class="gv num">${nm<0?"−":"+"}${won(nm)}</b>${nm<0?`<small>나간 돈이 더 많았어요</small>`:""}</div>
+    </div>`;
+  }
+  function flowHTML(s,D,M){
+    const ch=s.end-s.start, other=ch-s.net-s.mv, mName=ymLabel(s.k,D.months);
+    const startK=s.first?`처음 잔액 <small class="num">${md(s.firstDate)} 첫 거래 전</small>`:`지난달 말 잔액 <small class="num">${md(prevDay(s.k+"-01"))}</small>`;
+    const endK=s.isNow?`지금 잔액 <small class="num">${md(s.endDate)} 기준</small>`:`${esc(mName)} 끝 잔액 <small class="num">${md(s.endDate)}</small>`;
+    const sg=v=>(v<0?"−":"+")+won(v);
+    return `<section class="gtl gflow" aria-label="잔액 흐름">
+      <div class="gfh"><h2>잔액 흐름</h2><span>${esc(mName)}</span></div>
+      <div class="fr"><span class="fk">${startK}</span><b class="num">${swon(s.start)}</b></div>
+      <div class="fr ch"><span class="fk">이번 달 ${ch<0?"줄어든":"늘어난"} 돈</span><b class="num ${ch<0?"dn":"up"}">${sg(ch)}</b></div>
+      <div class="fs num"><span>남은 돈 ${sg(s.net)}</span>${s.mv?`<span class="m">옮긴 돈 ${sg(s.mv)}</span>`:""}${other?`<span>맞지 않는 돈 ${sg(other)}</span>`:""}</div>
+      <div class="fr end"><span class="fk">${endK}</span><b class="num">${swon(s.end)}</b></div>
+      <p class="gcap">${s.mv||D.moved.count?"옮긴 돈(내 통장끼리)은 들어온·나간 돈엔 안 넣지만, 통장 잔액엔 들어 있어요.":"잔액은 통장 PDF의 잔액 칸으로 셌어요."}${other?" 맞지 않는 돈은 빠진 거래가 있을 때 생겨요.":""}${M.computed?" 잔액 칸이 없는 줄은 넣은 거래로 셌어요.":""}</p>
+    </section>`;
+  }
+
+  // ---- 가운데: 날마다 누적 꺾은선 (누적 들어온 돈 · 누적 나간 돈)
+  let LN=null, lsel=null;
+  function lineModel(s,D){
+    const t0=toT(s.k+"-01"), t1=toT(s.endDate), days=[];
+    let ci=0, co=0; const by=new Map(); D.rows.forEach(r=>{ if(isMoved(r)) return; const d=r.date; if(!by.has(d)) by.set(d,{i:0,o:0}); const b=by.get(d); if(r.amt>0) b.i+=r.amt; else b.o-=r.amt; });
+    for(let t=t0;t<=t1;t+=DAY){ const d=toD(t), b=by.get(d)||{i:0,o:0}; ci+=b.i; co+=b.o; days.push({d,di:b.i,do:b.o,ci,co}); }
+    return {days,k:s.k};
+  }
+  function lineHTML(s,D){
+    return `<section class="gtl gline" aria-label="누적 꺾은선: 날마다 쌓인 들어온 돈과 나간 돈">
+      <div class="gfh"><h2>누적 들어온 돈 · 나간 돈</h2><span>${esc(ymLabel(s.k,D.months))}</span></div>
+      <div class="gtip num" id="g-ltip" aria-live="polite"></div>
+      <div class="gplot gl2" id="g-lplot" tabindex="0" aria-label="누적 꺾은선 · 왼쪽 오른쪽 화살표로 날짜 고르기"></div>
+      <div class="gleg"><span><i class="lli"></i>누적 들어온 돈</span><span><i class="llo"></i>누적 나간 돈</span><span><i class="lai"></i>들어온 게 많음</span><span><i class="lao"></i>나간 게 많음</span></div>
+      <p class="gcap">날마다 그날까지 쌓인 돈이에요. 옮긴 돈은 안 넣었어요.</p>
+    </section>`;
+  }
+  function drawLine(){
+    const P=$("g-lplot"); if(!P||!LN) return;
+    const W=Math.max(220,P.clientWidth), H=200, padL=40, padR=12, top=14, bot=H-24;
+    const ds=LN.days, n=ds.length, mx=Math.max(1,...ds.map(d=>Math.max(d.ci,d.co)));
+    const step=nice(mx/5), ymax=Math.ceil(mx*1.04/step)*step;
+    const X=i=>n<=1?(padL+W-padR)/2:padL+(W-padL-padR)*i/(n-1), Y=v=>top+(bot-top)*(1-v/ymax);
+    let grid="", ax="";
+    for(let v=0;v<=ymax+1;v+=step){ const y=Y(v).toFixed(1); grid+=`<line class="ggrid${v===0?" z":""}" x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}"/>`; ax+=`<text class="gyl" x="${padL-5}" y="${(+y+4).toFixed(1)}" text-anchor="end">${short(v)}</text>`; }
+    // 두 선 사이 색: 들어온 게 많으면 민트, 나간 게 많으면 연보라
+    let pin="", pout="";
+    const poly=(pts,pos)=>{ const d="M"+pts.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join("L")+"Z"; if(pos) pin+=d; else pout+=d; };
+    for(let i=0;i<n-1;i++){ const a=ds[i], b=ds[i+1], da=a.ci-a.co, db=b.ci-b.co, x1=X(i), x2=X(i+1);
+      if(da===0&&db===0) continue;
+      if(da*db>=0) poly([[x1,Y(a.ci)],[x2,Y(b.ci)],[x2,Y(b.co)],[x1,Y(a.co)]],da+db>0);
+      else { const t=da/(da-db), xc=x1+(x2-x1)*t, yc=Y(a.ci+(b.ci-a.ci)*t);
+        poly([[x1,Y(a.ci)],[xc,yc],[x1,Y(a.co)]],da>0); poly([[xc,yc],[x2,Y(b.ci)],[x2,Y(b.co)]],db>0); } }
+    const pl=f=>ds.map((d,i)=>`${X(i).toFixed(1)},${Y(f(d)).toFixed(1)}`).join(" ");
+    let dates=""; const lastI=n-1;
+    ds.forEach((d,i)=>{ const dd=+d.d.slice(8); if(i===0||i===lastI||(dd%7===1&&lastI-i>=3)) dates+=`<text class="gxl${i===lastI?" e":""}" x="${X(i).toFixed(1)}" y="${H-6}" text-anchor="${i===0&&n>1?"start":i===lastI&&n>1?"end":"middle"}">${i===0?md(d.d):dd}</text>`; });
+    P.innerHTML=`<svg class="gsvg" id="g-lsvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(ymLabel(LN.k,[LN.k]))} 누적 꺾은선. 끝날 누적 들어온 돈 ${esc(won(ds[lastI].ci))}, 누적 나간 돈 ${esc(won(ds[lastI].co))}">
+      ${grid}${ax}<path class="lai" d="${pin}"/><path class="lao" d="${pout}"/>
+      <line class="gselx" id="g-lselx" x1="0" x2="0" y1="${top-6}" y2="${bot}"/>
+      <polyline class="lln" points="${pl(d=>d.co)}"/><polyline class="llo" points="${pl(d=>d.co)}"/>
+      <polyline class="lln" points="${pl(d=>d.ci)}"/><polyline class="lli" points="${pl(d=>d.ci)}"/>
+      <circle class="ldi" id="g-ldi" r="5" cx="0" cy="0"/><circle class="ldo" id="g-ldo" r="5" cx="0" cy="0"/>
+      ${dates}</svg>`;
+    LN.X=X; LN.Y=Y; LN.ymax=ymax; LN.W=W;
+    if(lsel==null||lsel>=n) lsel=n-1;
+    showLine();
+  }
+  function showLine(){
+    if(!LN||!LN.X) return; const d=LN.days[lsel]; if(!d) return;
+    const x=LN.X(lsel).toFixed(1); const l=$("g-lselx"); if(!l) return; l.setAttribute("x1",x); l.setAttribute("x2",x);
+    const a=$("g-ldi"), b=$("g-ldo"); a.setAttribute("cx",x); a.setAttribute("cy",LN.Y(d.ci).toFixed(1)); b.setAttribute("cx",x); b.setAttribute("cy",LN.Y(d.co).toFixed(1));
+    const df=d.ci-d.co;
+    $("g-ltip").innerHTML=`<div class="r1"><span class="tw">${md(d.d)} (${wd(d.d)})까지 누적</span><span class="tb tday">이날 ${d.di||d.do?`${d.di?`<b class="i">+${won(d.di)}</b> `:""}${d.do?`<b>−${won(d.do)}</b>`:""}`:"거래 없음"}</span></div>
+      <div class="r2"><span class="ti">들어온 <b>+${won(d.ci)}</b></span><span class="to">나간 <b>−${won(d.co)}</b></span></div>
+      <div class="r3"><span class="tn">${df===0?"들어온 돈과 나간 돈이 같아요":df>0?`들어온 돈이 <b>${won(df)}</b> 더 많아요`:`나간 돈이 <b>${won(df)}</b> 더 많아요`}</span></div>`; squeeze($("g-ltip"));
+  }
+  function squeeze(el){ if(!el) return; el.classList.remove("sm"); if([...el.children].some(r=>r.scrollHeight>21||r.offsetHeight>21)) el.classList.add("sm"); }
+  function pickLine(clientX){ const s=$("g-lsvg"); if(!s||!LN) return; const k=s.getBoundingClientRect(), xx=clientX-k.left, n=LN.days.length;
+    let best=0,bd=1e9; for(let i=0;i<n;i++){ const dd=Math.abs(LN.X(i)-xx); if(dd<bd){bd=dd;best=i;} } if(best!==lsel){ lsel=best; showLine(); } }
+
+  // ---- 아래: 월별 폭포 (최근 12달)
+  let T=null, G=null, wsel=null; // wsel: 폭포에서 잠깐 고른 막대 (시작/끝). null이면 고른 달
+  const nice=x=>{ const p=Math.pow(10,Math.floor(Math.log10(x))), f=x/p; return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p; };
+  const short=v=>{ const a=Math.abs(v), s=v<0?"−":""; if(a>=1e8) return s+(a/1e8).toFixed(a>=1e9?0:1).replace(/\.0$/,"")+"억"; if(a>=1e4) return s+Math.round(a/1e4).toLocaleString("ko-KR")+"만"; return s+Math.round(a).toLocaleString("ko-KR"); };
+  function wfModel(D,M){
+    const ks=D.months.slice(-MAXM), ms=ks.map(k=>M.S.get(k));
+    return {ks,ms,start:ms[0].start,now:ms[ms.length-1].end,isNow:true,cut:D.months.length-ks.length,computed:M.computed};
+  }
+  function wfHTML(){
+    return `<section class="gtl gmwf" aria-label="월별 폭포: 첫 달 전 잔액에서 달마다 늘고 줄어 지금 잔액까지">
+      <div class="gfh"><h2>월별 잔액 흐름</h2><span>${T.ks.length>1?`최근 ${T.ks.length}달`:"한 달"}</span></div>
+      <div class="gtip num" id="g-tip" aria-live="polite"></div>
+      <div class="gwf"><div class="gax" id="g-ax" aria-hidden="true"></div><div class="gscr" id="g-scr" tabindex="0" aria-label="월별 폭포 · 왼쪽 오른쪽 화살표로 달 고르기"><div class="gplot" id="g-plot"></div></div></div>
+      <div class="gleg"><span><i class="le"></i>잔액</span><span><i class="li"></i>늘어남</span><span><i class="lo"></i>줄어듦</span><span><i class="lm"></i>옮긴 돈</span></div>
+      <p class="gcap" id="g-cap"></p>
+    </section>`;
+  }
+  function drawPlot(){
+    const scr=$("g-scr"), plot=$("g-plot"); if(!scr||!T) return;
+    const ms=T.ms, n=ms.length, avail=Math.max(160,scr.clientWidth);
+    const eW=n>7?34:44, padL=4, padR=6, minW=17;
+    const colW=Math.max(minW,Math.min(64,(avail-padL-padR-2*eW)/Math.max(1,n)));
+    const cols=[]; let x=padL;
+    cols.push({k:"start",x,w:eW,a:null,b:T.start}); x+=eW;
+    ms.forEach(s=>{ cols.push({k:"m",x,w:colW,a:s.start,b:s.end,S:s,m:s.k}); x+=colW; });
+    cols.push({k:"end",x,w:eW,a:null,b:T.now}); x+=eW;
+    const W=Math.round(Math.max(x+padR,avail));
+    const top=34, bot=210, H=bot+4;
+    const lv=[T.start]; ms.forEach(s=>{ lv.push(s.start+s.mv,s.end); }); let lo=Math.min(...lv), hi=Math.max(...lv);
+    let base, broken=false;
+    if(lo>0&&(hi-lo)<0.6*hi){ const st=nice(Math.max(1,(hi-lo))/3); base=Math.floor((lo-(hi-lo)*0.25-st*0.01)/st)*st; if(base<=0) base=0; else broken=true; }
+    else base=Math.min(0,lo);
+    let step=nice(Math.max(1,(hi-base))/4);
+    if(lo<0&&!broken) base=Math.floor(lo/step)*step;
+    const top2=hi+(hi-base)*0.06+1;
+    const y=v=>top+(bot-top)*(1-(v-base)/(top2-base));
+    let grid="", ticks="";
+    for(let v=base;v<=top2;v+=step){ const yy=y(v); grid+=`<line class="ggrid${v===0?" z":""}" x1="0" x2="${W}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}"/>`; ticks+=`<span style="top:${yy.toFixed(1)}px">${broken&&v===base?"≈ ":""}${short(v)}</span>`; }
+    const fl=v=>Math.max(top-2,Math.min(bot,y(v)));
+    let bars="", conn="";
+    const seg=(cls,cx,w,a,b,extra)=>{ let y1=fl(Math.max(a,b)), y2=fl(Math.min(a,b)); if(y2-y1<3){ const m=(y1+y2)/2; y1=m-1.5; y2=m+1.5; } return `<rect class="${cls}" x="${(cx-w/2).toFixed(1)}" y="${y1.toFixed(1)}" width="${w.toFixed(1)}" height="${(y2-y1).toFixed(1)}" rx="2" ${extra||""}/>`; };
+    const bw=Math.max(8,Math.min(26,colW*.62)), ebw=eW>40?28:24, baseY=bot;
+    cols.forEach((c,i)=>{ const cx=c.x+c.w/2; c.cx=cx; const on=c.k==="m"&&c.m===month;
+      if(c.k!=="m"){ const yy=fl(c.b), cls=c.k==="end"?"wend":"wstart"; const y1=Math.min(yy,baseY), h=Math.max(2,Math.abs(baseY-yy));
+        bars+=`<rect class="${cls}" x="${(cx-ebw/2).toFixed(1)}" y="${y1.toFixed(1)}" width="${ebw}" height="${h.toFixed(1)}" rx="3" data-v="${c.b}"/>`;
+        if(broken) bars+=`<path class="wbrk" d="M${(cx-ebw/2-3).toFixed(1)} ${bot-10} l6 -4 l6 4 l6 -4 l6 4 l6 -4 l6 4 M${(cx-ebw/2-3).toFixed(1)} ${bot-5} l6 -4 l6 4 l6 -4 l6 4 l6 -4 l6 4"/>`;
+      } else { const s=c.S, mv=s.mv, r=c.b-c.a-mv, mid=c.a+mv;
+        const rf=mv<0&&r>0, ra=rf?c.a:mid, rb=rf?c.a+r:c.b, ma=rf?c.a+r:c.a, mb=rf?c.b:mid, oc=on?" on":"";
+        if(r!==0||!mv) bars+=seg((r>=0?"wup":"wdn")+oc,cx,bw,ra,rb,`data-m="${c.m}"`);
+        if(mv) bars+=seg("wmv"+oc,cx,r?bw*.62:bw,ma,mb,`data-m="${c.m}"`);
+      }
+      if(i<cols.length-1){ const nx=cols[i+1], vy=fl(c.b).toFixed(1); conn+=`<line class="wcon" x1="${(cx+(c.k==="m"?bw:ebw)/2).toFixed(1)}" x2="${(nx.x+nx.w/2-(nx.k==="m"?bw:ebw)/2).toFixed(1)}" y1="${vy}" y2="${vy}"/>`; }
+    });
+    const ec=cols[cols.length-1], sc=cols[0];
+    const lab="지금 잔액 "+swon(ec.b);
+    const lw=Math.min(W-8,lab.length*7.4+18), lx=Math.max(4,ec.cx+ebw/2-lw);
+    const topIn=(x0,x1)=>Math.min(...cols.filter(c=>c.cx+bw/2>=x0&&c.cx-bw/2<=x1).map(c=>Math.min(fl(c.b),c.a==null?fl(c.b):fl(c.a),c.S?fl(c.a+c.S.mv):1e9)));
+    const ly=Math.max(2,Math.min(fl(ec.b)-30,topIn(lx,lx+lw)-30));
+    const sl=`시작 ${short(sc.b)}`, slw=sl.length*7+12, slx=Math.max(2,sc.cx-slw/2), sly=Math.max(2,Math.min(fl(sc.b)-24,topIn(slx,slx+slw)-24));
+    let dates=""; const multiY=new Set(T.ks.map(k=>k.slice(0,4))).size>1;
+    cols.forEach((c,i)=>{ let t, cls="";
+      if(c.k==="start"){ t="시작"; cls="e"; } else if(c.k==="end"){ t="지금"; cls="e"; }
+      else { const mm=+c.m.slice(5); t=colW>=34?mm+"월":String(mm); if(c.m===month) cls="on";
+        if(multiY&&(i===1||mm===1)) dates+=`<span class="y" style="left:${c.cx.toFixed(1)}px">${c.m.slice(0,4)}</span>`; }
+      dates+=`<span style="left:${c.cx.toFixed(1)}px" class="${cls}" ${c.k==="m"?`data-m="${c.m}"`:""}>${t}</span>`; });
+    plot.style.width=W+"px";
+    const sm=cols.find(c=>c.m===month)||(month<T.ks[0]?cols[0]:null);
+    plot.innerHTML=`<svg class="gsvg" id="g-wsvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(ymFull(T.ks[0]))}부터 달마다 폭포 그림. 시작 잔액 ${esc(swon(sc.b))}, ${esc(lab)}">
+      <defs><pattern id="g-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#e2ddd0"/><line x1="0" y1="0" x2="0" y2="6" stroke="#8f897b" stroke-width="2.4"/></pattern></defs>
+      ${grid}<rect class="gselm" x="${sm?sm.x.toFixed(1):0}" y="0" width="${sm?sm.w.toFixed(1):0}" height="${H}" rx="6"/><rect class="gsel" id="g-selr" x="0" y="0" width="0" height="${H}" rx="6"/>${conn}${bars}
+      <g class="gsl" transform="translate(${slx.toFixed(1)} ${sly.toFixed(1)})"><rect width="${slw}" height="20" rx="7"/><text x="${slw/2}" y="14" text-anchor="middle">${esc(sl)}</text></g>
+      <g class="gendl" transform="translate(${lx.toFixed(1)} ${ly.toFixed(1)}) rotate(-2)"><rect width="${lw.toFixed(1)}" height="24" rx="8"/><text x="${(lw/2).toFixed(1)}" y="16.5" text-anchor="middle">${esc(lab)}</text></g>
+    </svg><div class="gdates${multiY?" yr":""}" id="g-dates" style="width:${W}px">${dates}</div>`;
+    $("g-ax").innerHTML=ticks; $("g-ax").style.height=H+"px";
+    $("g-cap").textContent=[
+      `막대 하나가 한 달이에요. 앞 막대가 끝난 곳에서 시작해 늘면 민트, 줄면 살구색이에요. 막대를 누르면 그 달을 봐요.`,
+      T.ms.some(s=>s.mv)?"빗금은 옮긴 돈(내 통장끼리)이에요. 잔액엔 들어 있어서 막대에 같이 그렸어요.":"",
+      T.cut?`그보다 앞선 ${T.cut}달은 「시작」 막대에 들어 있어요.`:"",
+      broken?`작은 달도 보이게 세로 눈금을 ${short(base)}원부터 그렸어요 (≈ 물결 표시).`:"",
+      T.ks.length===1?"달이 쌓이면 달마다 막대가 늘어나요.":""].filter(Boolean).join(" ");
+    G={cols,n:cols.length,W,y:fl,bw,ebw,base,broken,top2};
+    showSel();
+    const tgt=sm?Math.max(0,Math.min(W-scr.clientWidth,sm.cx-scr.clientWidth/2)):W-scr.clientWidth;
+    scr.scrollLeft=Math.max(0,sm&&sm===cols[cols.length-2]?W-scr.clientWidth:tgt);
+  }
+  function showSel(){
+    if(!G||!T) return; let i=wsel!=null?wsel:G.cols.findIndex(c=>c.m===month); if(i<0&&month<T.ks[0]) i=0; const c=G.cols[i]; if(!c) return;
+    const r=$("g-selr"); if(r){ if(c.k!=="m"){ r.setAttribute("x",c.x.toFixed(1)); r.setAttribute("width",c.w.toFixed(1)); } else { r.setAttribute("x",0); r.setAttribute("width",0); } }
+    let h;
+    if(c.k==="start"){ const s=T.ms[0]; h=`<div class="r1"><span class="tw">시작 잔액 · ${s.first?md(s.firstDate)+" 첫 거래 전":md(prevDay(s.k+"-01"))}</span><span class="tb">잔액 <b>${swon(c.b)}</b></span></div><div class="r2"><span>${esc(ymFull(s.k))}부터 달마다 쌓여요</span></div><div class="r3">${month<T.ks[0]?`<span class="tn">${esc(ymLabel(month,D.months))}은 이 막대 안에 있어요</span>`:""}</div>`; }
+    else if(c.k==="end"){ const A=T.ms.reduce((o,s)=>(o.i+=s.in,o.o+=s.out,o.m+=s.mv,o),{i:0,o:0,m:0});
+      h=`<div class="r1"><span class="tw">지금 잔액 · ${md(T.ms[T.ms.length-1].endDate)}</span><span class="tb">잔액 <b>${swon(c.b)}</b></span></div>
+      <div class="r2"><span class="ti">${T.ks.length}달 들어온 <b>+${won(A.i)}</b></span><span class="to">나간 <b>−${won(A.o)}</b></span></div>
+      <div class="r3">${A.m?`<span class="tm">옮긴 돈 ${A.m>0?"+":"−"}${won(A.m)} <small>잔액엔 들어가요</small></span>`:""}</div>`; }
+    else { const s=c.S, d=c.b-c.a;
+      h=`<div class="r1"><span class="tw">${esc(ymLabel(s.k,T.ks))}</span><span class="tb">잔액 <b>${swon(c.b)}</b></span></div>
+      <div class="r2"><span class="ti">들어온 <b>+${won(s.in)}</b></span><span class="to">나간 <b>−${won(s.out)}</b></span></div>
+      <div class="r3"><span class="tn ${d>=0?"up":"dn"}">${d>=0?"▲":"▼"} ${won(d)} ${d>=0?"늘었어요":"줄었어요"}</span>${s.mv?` <span class="tm">· 옮긴 돈 ${s.mv>0?"+":"−"}${won(s.mv)}</span>`:""}</div>`; }
+    $("g-tip").innerHTML=h; squeeze($("g-tip"));
+  }
+  function colAt(clientX){ const p=$("g-plot"); if(!p||!G) return -1; const k=p.getBoundingClientRect(), xx=clientX-k.left; let i=G.cols.findIndex(c=>xx<c.x+c.w); return i<0?G.n-1:i; }
+  function pickCol(i){ const c=G&&G.cols[i]; if(!c) return; if(c.k==="m"){ wsel=null; if(c.m!==month) goMonth(c.m); else showSel(); } else { wsel=i; showSel(); } }
+
+  // ---- 누르기 · 끌기
+  let drag=null;
+  document.addEventListener("pointerdown",e=>{ const t=e.target.closest&&e.target.closest("#g-lsvg,#g-wsvg,#g-dates span[data-m],#g-cards,#g-months");
+    if(!t) return; drag={id:e.pointerId,x:e.clientX,y:e.clientY,t:t.id||"",line:t.id==="g-lsvg",el:t};
+    if(drag.line){ try{ t.setPointerCapture(e.pointerId); }catch(_){} pickLine(e.clientX); } });
+  document.addEventListener("pointermove",e=>{ if(!drag||e.pointerId!==drag.id) return; if(drag.line) pickLine(e.clientX); });
+  const end=e=>{ if(!drag||(e&&e.pointerId!==drag.id)) return; const d=drag; drag=null; if(!e||e.type!=="pointerup") return;
+    const dx=e.clientX-d.x, dy=e.clientY-d.y;
+    if((d.t==="g-cards"||d.t==="g-months")&&Math.abs(dx)>60&&Math.abs(dy)<40){ step2(dx<0?1:-1); return; } // 옆으로 밀면 달 바꾸기
+    if(Math.abs(dx)<10&&Math.abs(dy)<10){ if(d.t==="g-wsvg") pickCol(colAt(e.clientX)); else if(d.el.dataset&&d.el.dataset.m) goMonth(d.el.dataset.m); } };
+  document.addEventListener("pointerup",end); document.addEventListener("pointercancel",end);
+  document.addEventListener("keydown",e=>{ if(!e.target.closest) return;
+    if(e.target.closest("#g-scr")&&G&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){ e.preventDefault(); const cur=wsel!=null?wsel:G.cols.findIndex(c=>c.m===month); pickCol(Math.max(0,Math.min(G.n-1,cur+(e.key==="ArrowLeft"?-1:1)))); }
+    if(e.target.closest("#g-lplot")&&LN&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){ e.preventDefault(); lsel=Math.max(0,Math.min(LN.days.length-1,lsel+(e.key==="ArrowLeft"?-1:1))); showLine(); } });
+
+  let D=null, Mo=null, dkey="";
+  function goMonth(k){ if(!D||!D.months.includes(k)) return; const y=$("g-body").scrollTop, f=document.activeElement&&document.activeElement.id; month=k; wsel=null; lsel=null; render(); $("g-body").scrollTop=y; if(f&&$(f)&&f!=="g-body") $(f).focus({preventScroll:true}); }
+  function step2(d){ if(!D) return; const i=D.months.indexOf(month)+d; if(i>=0&&i<D.months.length) goMonth(D.months[i]); }
+  function fit(){ document.querySelectorAll("#g-cards .gv").forEach(b=>{ b.style.fontSize=""; let f=parseFloat(getComputedStyle(b).fontSize); while(b.scrollWidth>b.clientWidth+0.5&&f>11){ f-=1; b.style.fontSize=f+"px"; } }); }
   function render(){
     const root=$("g-body"); if(!root) return;
     D=data();
-    $("g-months").innerHTML=D.months.length>1?[...D.months.slice().reverse(),"all"].map(k=>`<button class="gm${k===month?" on":""}" data-m="${k}" aria-pressed="${k===month}">${k==="all"?"전체":ymLabel(k,D.months)}</button>`).join(""):
-      D.months.length?`<span class="gm on solo">${ymLabel(D.months[0],D.months)}</span>`:"";
+    const i=D.months.indexOf(month);
     $("g-months").hidden=!D.months.length;
+    $("g-months").innerHTML=D.months.length?`<button class="gar" id="g-prev" type="button" aria-label="이전 달"${i<=0?" disabled":""}>◀</button>
+      <b class="gml num" id="g-ml" aria-live="polite">${esc(ymFull(month))}</b>
+      <button class="gar" id="g-next" type="button" aria-label="다음 달"${i>=D.months.length-1?" disabled":""}>▶</button>`:"";
     if(!D.tx.length){
-      $("g-sw").hidden=true; $("g-tl").innerHTML=""; $("g-sh").hidden=true; T=null; G=null; tlKey="";
+      ["g-sum","g-flow","g-line","g-tl"].forEach(id=>{ $(id).innerHTML=""; }); $("g-sw").hidden=true; $("g-sh").hidden=true; T=null; G=null; LN=null; dkey="";
       $("g-list").innerHTML=`<div class="gempty"><div class="gecard"><span class="gestk" style="--r:-3deg">한눈에</span>
-        <b>아직 볼 게 없어요</b><p>카드 게임에서 통장 PDF를 넣으면, 날마다 들어오고 나간 돈과 지금 잔액을 그림으로 보고, 스티커를 붙이면 스티커별로도 봐요.</p>
+        <b>아직 볼 게 없어요</b><p>카드 게임에서 통장 PDF를 넣으면, 달마다 들어오고 나간 돈과 잔액이 어떻게 바뀌었는지 그림으로 봐요.</p>
         <button class="sticker" id="g-go" style="background:var(--yellow);--r:-2deg">카드 게임으로 가기 →</button></div></div>`;
       $("g-go").onclick=()=>window.__showTab&&window.__showTab("card"); return;
     }
+    const k=D.tx.length+"|"+D.tx.reduce((s,r)=>s+(r.bal||0)%9973+r.amt%7919,0)+"|"+D.tx.filter(isMoved).length;
+    if(k!==dkey||!Mo){ dkey=k; Mo=monthsModel(D); }
+    const s=Mo.S.get(month);
+    $("g-sum").innerHTML=sumHTML(s,D); fit();
+    $("g-flow").innerHTML=flowHTML(s,D,Mo);
+    LN=lineModel(s,D); $("g-line").innerHTML=lineHTML(s,D); drawLine();
+    T=wfModel(D,Mo); $("g-tl").innerHTML=wfHTML(); drawPlot();
     $("g-sw").hidden=!SHOW_STICKERS; $("g-sh").hidden=!SHOW_STICKERS;
-    const k=D.mk+"|"+D.tx.length+"|"+D.tx.reduce((s,r)=>s+(r.bal||0)%9973+r.amt%7919,0)+"|"+D.rows.filter(isMoved).length;
-    if(k!==tlKey||!$("g-scr")){ tlKey=k; sel=null; T=buckets(D); $("g-tl").innerHTML=tlHTML(T,D); drawPlot(); }
     if(SHOW_STICKERS) renderList(); else { $("g-sw").innerHTML=""; $("g-list").innerHTML=""; }
   }
-  let rz=0; window.addEventListener("resize",()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if(T&&!$("app-glance").hidden){ const s=sel; drawPlot(); if(s!=null&&G){ sel=Math.min(s,G.n-1); showSel(true); } } },150); });
+  let rz=0; window.addEventListener("resize",()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if(T&&!$("app-glance").hidden){ fit(); drawLine(); drawPlot(); } },150); });
   document.addEventListener("click",e=>{
-    const m=e.target.closest("#g-months .gm[data-m]"); if(m){ month=m.dataset.m; open=null; render(); return; }
+    if(e.target.closest("#g-prev")){ step2(-1); return; } if(e.target.closest("#g-next")){ step2(1); return; }
     const s=e.target.closest("#g-sw .gsc"); if(s){ dir=s.dataset.d; open=null; renderList(); return; }
     const keep=fn=>{ const y=$("g-body").scrollTop; fn(); renderList(); $("g-body").scrollTop=y; };
     const r=e.target.closest("#g-list .grow"); if(r){ keep(()=>{ open=open===r.dataset.k?null:r.dataset.k; }); return; }
     const f=e.target.closest("#g-fold"); if(f){ keep(()=>{ allOpen[dir]=!allOpen[dir]; if(!allOpen[dir]) open=null; }); if(!allOpen[dir]){ const sh=$("g-sh"); sh&&sh.scrollIntoView({block:"start"}); } return; }
     const t=e.target.closest("#g-list .gmore[data-tm]"); if(t){ keep(()=>{ txMore[t.dataset.tm]=!txMore[t.dataset.tm]; }); return; }
   });
-  window.__renderGlance=()=>{ const go=()=>{ try{ tlKey=""; render(); }catch(e){ console.warn("한눈에 그리기 실패",e); $("g-list").innerHTML=`<div class="gnone">화면을 그리지 못했어요. 다시 열어 주세요</div>`; } };
+  window.__renderGlance=()=>{ const go=()=>{ try{ dkey=""; render(); }catch(e){ console.warn("한눈에 그리기 실패",e); $("g-list").innerHTML=`<div class="gnone">화면을 그리지 못했어요. 다시 열어 주세요</div>`; } };
     if(V().ready&&V().ready()) go(); else { go(); (function w(){ if(V().ready&&V().ready()) go(); else setTimeout(w,80); })(); } };
-  window.__glance={set:(d,m)=>{ if(d) dir=d; if(m) month=m; open=null; tlKey=""; render(); },open:k=>{ open=k; renderList(); },
-    fold:v=>{ allOpen[dir]=v; renderList(); }, ys:v=>G&&G.y(v), sel:i=>{ sel=i; showSel(true); }, tl:()=>T&&{cols:G?G.cols.map(c=>({k:c.k,a:c.a,b:c.b,from:c.B&&c.B.from})):[],base:G&&G.base,broken:G&&G.broken,n:T.B.length,nW:T.W.length,weekly:T.weekly,start:T.start,now:T.now,end:T.B[T.B.length-1].bal,isNow:T.isNow,computed:T.computed,sel,B:T.B.map(b=>({from:b.from,to:b.to,in:b.in,out:b.out,mvIn:b.mvIn,mvOut:b.mvOut,bal:b.bal}))}};
+  window.__glance={set:(d,m)=>{ if(d) dir=d; if(m) month=m; open=null; wsel=null; lsel=null; dkey=""; render(); }, go:goMonth, step:step2,
+    lsel:i=>{ lsel=i; showLine(); }, wsel:i=>pickCol(i), ys:v=>G&&G.y(v),
+    state:()=>D&&Mo&&month&&{month,months:D.months,S:Object.fromEntries([...Mo.S].map(([k,s])=>[k,{in:s.in,out:s.out,net:s.net,mv:s.mv,start:s.start,end:s.end,endDate:s.endDate,isNow:s.isNow,first:s.first}])),
+      lastAll:Mo.lastAll,computed:Mo.computed,line:LN&&LN.days.map(d=>({d:d.d,ci:d.ci,co:d.co,di:d.di,do:d.do})),lsel,
+      wf:G&&{cols:G.cols.map(c=>({k:c.k,m:c.m||null,a:c.a,b:c.b})),base:G.base,broken:G.broken,ks:T.ks,cut:T.cut},wsel}};
 })();
 
 </script>
